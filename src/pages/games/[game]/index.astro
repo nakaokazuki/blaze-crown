@@ -1,0 +1,90 @@
+---
+import GameHubLayout from '../../../layouts/GameHubLayout.astro';
+import WikiLayout from '../../../layouts/WikiLayout.astro';
+import MediaPlaceholder from '../../../components/media/MediaPlaceholder.astro';
+import { loadGameMeta } from '../../../lib/games';
+import { getGuidesSortedByUpdate, getPopularGuides } from '../../../lib/guides';
+import { getLatestNews } from '../../../lib/latestNews';
+import LatestNewsList from '../../../components/news/LatestNewsList.astro';
+import { loadCharacters } from '../../../lib/characters';
+import CharacterGrid from '../../../components/characters/CharacterGrid.astro';
+import { WIKI_BRAND_TITLE } from '../../../lib/constants';
+export async function getStaticPaths() {
+  return [{ params: { game: 'blaze-crown' } }];
+}
+
+const { game } = Astro.params;
+const meta = loadGameMeta(game!);
+const guideItems = await getGuidesSortedByUpdate(game!);
+const rankItems = await getPopularGuides(game!, 10);
+
+const latestNewsTop = getLatestNews(game!, 5);
+const characters = loadCharacters(game!);
+
+const gameInfoParagraphs = (meta.gameInfo ?? '')
+  .split(/\n\s*\n/)
+  .map((p) => p.trim())
+  .filter(Boolean);
+---
+
+<GameHubLayout title={WIKI_BRAND_TITLE} description={meta.description}>
+  <WikiLayout rankItems={rankItems} guideItems={guideItems}>
+    <div class="wiki-hub-main wiki-stack content-panel wiki-stack-block">
+      <section id="section-top" class="wiki-stack-block wiki-hub-section">
+        <h1 class="page-title mb-2">{WIKI_BRAND_TITLE}</h1>
+        <p class="lead">{meta.description}</p>
+      </section>
+
+      <section id="section-game-info" class="wiki-stack-block wiki-hub-section">
+        <h2 class="section-title">ゲーム情報</h2>
+        <MediaPlaceholder variant="banner" class="mb-4" />
+        {
+          gameInfoParagraphs.length > 0 ? (
+            gameInfoParagraphs.map((text) => <p class="lead">{text}</p>)
+          ) : (
+            <p class="lead">ゲーム情報を準備中です。</p>
+          )
+        }
+        {
+          (meta.officialSiteUrl || meta.downloadUrl) && (
+            <ul class="wiki-game-info-links mt-4 list-none space-y-2 p-0">
+              {
+                meta.officialSiteUrl && (
+                  <li>
+                    <a
+                      href={meta.officialSiteUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="font-bold"
+                    >
+                      公式サイト
+                    </a>
+                  </li>
+                )
+              }
+              {
+                meta.downloadUrl && (
+                  <li>
+                    <a href={meta.downloadUrl} target="_blank" rel="noopener noreferrer" class="font-bold">
+                      ダウンロード（App Store / Google Play）
+                    </a>
+                  </li>
+                )
+              }
+            </ul>
+          )
+        }
+      </section>
+
+      <section id="section-news" class="wiki-stack-block wiki-hub-section">
+        <h2 class="section-title">最新情報</h2>
+        <LatestNewsList items={latestNewsTop} />
+      </section>
+
+      <section id="section-characters" class="wiki-stack-block wiki-hub-section">
+        <h2 class="section-title">キャラ一覧</h2>
+        <CharacterGrid characters={characters} game={game!} variant="compact" />
+      </section>
+    </div>
+  </WikiLayout>
+</GameHubLayout>

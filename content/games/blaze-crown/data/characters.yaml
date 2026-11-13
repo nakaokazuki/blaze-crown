@@ -1,0 +1,107 @@
+# βテストキャラ（公式Wiki・公式サイト情報に合わせて更新）
+# 参考: https://blazecrown-game.com/wiki/index.html
+
+betaSchedule:
+  startDate: 2026-11-17
+  totalCharacters: 13
+  launchCount: 10
+  additions:
+    - date: 2026-11-21
+      count: 1
+    - date: 2026-11-24
+      count: 1
+    - date: 2026-11-27
+      count: 1
+
+characters:
+  - slug: lumina
+    name: ルミナ
+    roleType: 攻撃型
+    availableFrom: 2026-11-17
+    published: true
+    rating: 初心者向け
+    detail: β開始時から使用可能。
+  - slug: dan
+    name: ダン
+    roleType: 防御型
+    availableFrom: 2026-11-17
+    published: true
+    rating: 初心者向け
+    detail: β開始時から使用可能。
+  - slug: frei
+    name: フレイ
+    roleType: 攻撃型
+    availableFrom: 2026-11-17
+    published: true
+    rating: 初心者向け
+    detail: β開始時から使用可能。
+  - slug: tsubaki
+    name: ツバキ
+    roleType: 特殊型
+    availableFrom: 2026-11-17
+    published: true
+    rating: 中級者向け
+    detail: β開始時から使用可能。
+  - slug: kagetra
+    name: カゲトラ
+    roleType: 攻撃型
+    availableFrom: 2026-11-17
+    published: true
+    rating: 初心者向け
+    detail: β開始時から使用可能。
+  - slug: murasame
+    name: ムラサメ
+    roleType: 攻撃型
+    availableFrom: 2026-11-17
+    published: true
+    rating: 初心者向け
+    detail: β開始時から使用可能。
+  - slug: noel
+    name: ノエル
+    roleType: 支援型
+    availableFrom: 2026-11-17
+    published: true
+    rating: 中級者向け
+    detail: β開始時から使用可能。
+  - slug: leonis
+    name: レオニス
+    roleType: 支援型
+    availableFrom: 2026-11-17
+    published: true
+    rating: 上級者向け
+    detail: β開始時から使用可能。
+  - slug: zaphiel
+    name: ザフィール
+    roleType: 妨害型
+    availableFrom: 2026-11-17
+    published: true
+    rating: 上級者向け
+    detail: β開始時から使用可能。
+  - slug: alfard
+    name: アルファルド
+    roleType: 召喚型
+    availableFrom: 2026-11-17
+    published: true
+    rating: 中級者向け
+    detail: β開始時から使用可能。
+  - slug: silhouette-1
+    name: ？？？
+    roleType: 追加予定のキャラクターのシルエット第1弾
+    availableFrom: 2026-11-21
+    published: false
+    rating: 未公開
+    detail: 11月21日（土）追加予定。
+  - slug: silhouette-2
+    name: ？？？
+    roleType: 追加予定のキャラクターのシルエット第2弾
+    availableFrom: 2026-11-24
+    published: false
+    rating: 未公開
+    detail: 11月24日（火）追加予定。
+  - slug: silhouette-3
+    name: ？？？
+    roleType: 追加予定のキャラクターのシルエット第3弾
+    availableFrom: 2026-11-27
+    published: false
+    rating: 未公開
+    detail: 11月27日（金）追加予定。

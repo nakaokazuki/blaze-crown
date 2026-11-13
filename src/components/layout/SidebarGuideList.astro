@@ -1,0 +1,32 @@
+---
+import type { GuideListItem } from '../../lib/guides';
+
+interface Props {
+  items: GuideListItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<aside class="wiki-side-panel wiki-side-panel-guides">
+  <p class="wiki-side-panel-head">攻略記事一覧</p>
+  <div class="wiki-side-panel-body wiki-side-panel-body-flush">
+    {
+      items.length === 0 ? (
+        <p class="wiki-side-note">記事を準備中です。</p>
+      ) : (
+        <ul class="wiki-side-guide-list">
+          {
+            items.map((item) => (
+              <li class="wiki-side-guide-item">
+                <a href={item.href} class="wiki-side-guide-link">
+                  <span class="wiki-side-guide-title">{item.title}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      )
+    }
+  </div>
+</aside>

@@ -1,0 +1,111 @@
+---
+import type { CharacterWikiEntry, WikiSkill } from '../../lib/characterWiki';
+import { formatProfileValue } from '../../lib/characterWiki';
+import CharacterSkillBlock from './CharacterSkillBlock.astro';
+
+interface Props {
+  wiki: CharacterWikiEntry;
+  characterName: string;
+}
+
+const { wiki, characterName } = Astro.props;
+const statsHeading = `${characterName}の性能`;
+
+const classLabel =
+  wiki.nameEn && wiki.job ? `${wiki.nameEn} / ${wiki.job}` : wiki.job ?? wiki.nameEn;
+---
+
+<div class="wiki-char-wiki wiki-char-wiki-full mt-8">
+  <section id="section-stats" class="not-prose wiki-char-section">
+    <h2 class="section-title">{statsHeading}</h2>
+    <dl class="wiki-char-stats">
+      {
+        classLabel && (
+          <div class="wiki-char-stat-row">
+            <dt class="wiki-char-stat-label">クラス</dt>
+            <dd class="wiki-char-stat-value">{classLabel}</dd>
+          </div>
+        )
+      }
+      {
+        Object.entries(wiki.profile).map(([label, value]) => {
+          const { main, sub } = formatProfileValue(value);
+          const isNumeric = label === 'HP' || label === 'SPD';
+          return (
+            <div class="wiki-char-stat-row">
+              <dt class="wiki-char-stat-label">{label}</dt>
+              <dd class="wiki-char-stat-value">
+                {isNumeric ? <span class="wiki-char-stat-num">{main}</span> : main}
+                {sub && <span class="wiki-char-stat-note">（{sub}）</span>}
+              </dd>
+            </div>
+          );
+        })
+      }
+    </dl>
+  </section>
+
+  {
+    wiki.role && (
+      <section id="section-role" class="wiki-char-section mt-6">
+        <h3 class="section-title">役割</h3>
+        <p class="lead">{wiki.role}</p>
+      </section>
+    )
+  }
+
+  {
+    wiki.statsNote && (
+      <p class="mt-4 text-sm text-[#666]">{wiki.statsNote}</p>
+    )
+  }
+
+  {
+    wiki.passive && (
+      <section id="section-passive" class="wiki-char-section mt-6">
+        <h3 class="section-title">固有パッシブ</h3>
+        <div class="wiki-char-wiki-passive">
+          <p class="font-bold text-[var(--g8-text)]">
+            {wiki.passive.name}
+            {wiki.passive.level && (
+              <span class="ml-2 text-sm font-normal text-[#666]">{wiki.passive.level}</span>
+            )}
+          </p>
+          {wiki.passive.description && <p class="mt-2 whitespace-pre-line">{wiki.passive.description}</p>}
+        </div>
+      </section>
+    )
+  }
+
+  {
+    wiki.skills.length > 0 && (
+      <section id="section-skills" class="wiki-char-section mt-6 not-prose">
+        <h3 class="section-title">スキルカード</h3>
+        <ul class="wiki-char-skill-list list-none space-y-6 p-0">
+          {wiki.skills.map((skill: WikiSkill) => (
+            <li>
+              <CharacterSkillBlock skill={skill} />
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  {
+    wiki.special && (
+      <section id="section-special" class="wiki-char-section mt-6 not-prose">
+        <h3 class="section-title">スペシャルスキル</h3>
+        <CharacterSkillBlock skill={wiki.special} />
+      </section>
+    )
+  }
+
+  <p class="mt-8 text-sm text-[#666]">
+    出典：
+    <a href={wiki.sourceUrl} target="_blank" rel="noopener noreferrer">
+      公式 攻略Wiki（{wiki.syncedAt ?? 'βテスト版'}時点）
+    </a>
+    （非公式サイトへの転載・整理）
+  </p>
+</div>

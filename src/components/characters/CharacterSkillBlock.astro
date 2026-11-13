@@ -1,0 +1,42 @@
+---
+import type { WikiSkill } from '../../lib/characterWiki';
+import CharacterPortrait from './CharacterPortrait.astro';
+
+interface Props {
+  skill: WikiSkill;
+}
+
+const { skill } = Astro.props;
+const portraitLabel = skill.name ?? 'スキル';
+
+function skillMeta(skill: WikiSkill): string[] {
+  const parts: string[] = [];
+  if (skill.cost != null) parts.push(`コスト ${skill.cost}`);
+  if (skill.ct != null) parts.push(`CT ${skill.ct}`);
+  if (skill.element) parts.push(skill.element);
+  if (skill.skillType) parts.push(skill.skillType);
+  if (skill.level) parts.push(skill.level);
+  return parts;
+}
+---
+
+<article class="wiki-char-skill-row">
+  <div class="wiki-char-skill-art-wrap">
+    <CharacterPortrait name={portraitLabel} imageSrc={skill.imageSrc} />
+  </div>
+  <div class="wiki-char-skill-body not-prose">
+    <p class="mb-1 font-bold text-[var(--g8-text)]">
+      {skill.kind && <span class="mr-2 text-sm font-normal text-[#666]">{skill.kind}</span>}
+      {skill.name}
+    </p>
+    <p class="mb-2 text-sm text-[#555]">{skillMeta(skill).join(' · ')}</p>
+    {skill.effect && <p class="m-0 text-[15px] leading-relaxed text-[#333]">{skill.effect}</p>}
+    {
+      skill.unlockCondition && (
+        <p class="mt-2 text-sm text-[#666]">
+          <span class="font-bold">解放条件</span> {skill.unlockCondition}
+        </p>
+      )
+    }
+  </div>
+</article>

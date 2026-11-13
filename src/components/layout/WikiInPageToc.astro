@@ -1,0 +1,40 @@
+---
+export type InPageTocItem = { label: string; href: string; children?: InPageTocItem[] };
+
+interface Props {
+  items?: InPageTocItem[];
+}
+
+const defaultItems: InPageTocItem[] = [
+  { label: 'ゲーム情報', href: '#section-game-info' },
+  { label: '最新情報', href: '#section-news' },
+  { label: 'キャラ一覧', href: '#section-characters' },
+];
+
+const { items = defaultItems } = Astro.props;
+---
+
+<nav class="toc-002 mt-3" aria-label="目次">
+  <div>目次</div>
+  <ol>
+    {
+      items.map((item) => {
+        const hasChildren = item.children && item.children.length > 0;
+        return (
+          <li>
+            <a href={item.href}>{item.label}</a>
+            {hasChildren && (
+              <ol>
+                {item.children!.map((child) => (
+                  <li>
+                    <a href={child.href}>{child.label}</a>
+                  </li>
+                ))}
+              </ol>
+            )}
+          </li>
+        );
+      })
+    }
+  </ol>
+</nav>

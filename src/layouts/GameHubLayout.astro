@@ -1,0 +1,16 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { DEFAULT_GAME } from '../lib/constants';
+
+interface Props {
+  title: string;
+  description?: string;
+  game?: string;
+}
+
+const { title, description, game = DEFAULT_GAME } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} game={game}>
+  <slot />
+</BaseLayout>

@@ -1,0 +1,33 @@
+---
+import type { Character } from '../../lib/characters';
+import type { CharacterWikiEntry } from '../../lib/characterWiki';
+import CharacterPortrait from './CharacterPortrait.astro';
+
+interface Props {
+  character: Character;
+  wiki?: CharacterWikiEntry;
+}
+
+const { character, wiki } = Astro.props;
+const heading = `${character.name}の基本情報`;
+---
+
+<section id="section-basic-info" class="wiki-char-section">
+  <h2 class="section-title">{heading}</h2>
+  <div class="wiki-char-detail">
+    <CharacterPortrait name={character.name} imageSrc={character.imageSrc} />
+    <div class="wiki-char-detail-body min-w-0 flex-1">
+      <p class="wiki-char-detail-name mb-1">{character.name}</p>
+      {(wiki?.roleType ?? character.roleType) && (
+        <p class="wiki-char-detail-type">{wiki?.roleType ?? character.roleType}</p>
+      )}
+      {
+        wiki?.lead ? (
+          <p class="wiki-char-lead">{wiki.lead}</p>
+        ) : (
+          character.detail && <p class="wiki-char-lead">{character.detail}</p>
+        )
+      }
+    </div>
+  </div>
+</section>

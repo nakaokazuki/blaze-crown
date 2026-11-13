@@ -1,0 +1,95 @@
+---
+import type { GuideListItem } from '../../lib/guides';
+
+interface Props {
+  items: GuideListItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<aside class="wiki-side-panel" data-rank-board>
+  <p class="wiki-side-panel-head">ランキング</p>
+  <div class="wiki-side-tabs" role="tablist" aria-label="サイドパネル切り替え">
+    <button
+      type="button"
+      class="wiki-side-tab is-active"
+      role="tab"
+      aria-selected="true"
+      aria-controls="panel-rank"
+      data-tab="rank"
+    >
+      人気記事
+    </button>
+    <button
+      type="button"
+      class="wiki-side-tab"
+      role="tab"
+      aria-selected="false"
+      aria-controls="panel-board"
+      data-tab="board"
+    >
+      掲示板
+    </button>
+  </div>
+
+  <div id="panel-rank" class="wiki-side-panel-body" role="tabpanel">
+    <ol class="wiki-rank-list">
+      {
+        items.length === 0 ? (
+          <li class="wiki-rank-item text-zinc-600">記事を準備中です。</li>
+        ) : (
+          items.map((item, i) => (
+            <li class="wiki-rank-item">
+              <span class="wiki-rank-num">{i + 1}</span>
+              <a href={item.href} class="wiki-rank-link">
+                {item.title}
+              </a>
+            </li>
+          ))
+        )
+      }
+    </ol>
+  </div>
+
+  <div id="panel-board" class="wiki-side-panel-body hidden" role="tabpanel" hidden>
+    <p class="wiki-side-note">掲示板機能は準備中です。</p>
+    <ul class="wiki-board-list">
+      <li>
+        <span class="font-semibold text-zinc-900">攻略の質問・編成の相談</span>
+        <p class="mt-1 text-sm text-zinc-700">各攻略記事の下部コメント欄で受け付けます（非ログインは承認制）。</p>
+      </li>
+      <li>
+        <span class="font-semibold text-zinc-900">情報提供・誤記報告</span>
+        <p class="mt-1 text-sm text-zinc-700">
+          <a href="/about/">運営者情報</a> から連絡先が公開され次第ご案内します。
+        </p>
+      </li>
+    </ul>
+  </div>
+
+  <script>
+    const root = document.querySelector('[data-rank-board]');
+    if (root) {
+      const tabs = root.querySelectorAll<HTMLButtonElement>('[data-tab]');
+      const rankPanel = root.querySelector('#panel-rank');
+      const boardPanel = root.querySelector('#panel-board');
+
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          const target = tab.dataset.tab;
+          tabs.forEach((t) => {
+            const active = t === tab;
+            t.classList.toggle('is-active', active);
+            t.setAttribute('aria-selected', String(active));
+          });
+          const showRank = target === 'rank';
+          rankPanel?.classList.toggle('hidden', !showRank);
+          boardPanel?.classList.toggle('hidden', showRank);
+          if (rankPanel) rankPanel.hidden = !showRank;
+          if (boardPanel) boardPanel.hidden = showRank;
+        });
+      });
+    }
+  </script>
+</aside>

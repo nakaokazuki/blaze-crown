@@ -1,0 +1,31 @@
+---
+import { charactersHubPath, gameHubPath, newsHubPath } from '../../lib/paths';
+
+interface Props {
+  game: string;
+  current?: 'top' | 'characters' | 'news';
+}
+
+const { game, current = 'top' } = Astro.props;
+
+const links = [
+  { id: 'top' as const, label: '攻略TOP', href: gameHubPath(game) },
+  { id: 'news' as const, label: '最新情報', href: newsHubPath(game) },
+  { id: 'characters' as const, label: 'キャラ一覧', href: charactersHubPath(game) },
+];
+---
+
+<nav class="toc-002" aria-label="目次">
+  <div>目次</div>
+  <ol>
+    {
+      links.map((link) => (
+        <li>
+          <a href={link.href} class:list={[{ 'is-current': current === link.id }]}>
+            {link.label}
+          </a>
+        </li>
+      ))
+    }
+  </ol>
+</nav>

@@ -1,0 +1,61 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import WikiLayout from './WikiLayout.astro';
+import LastUpdated from '../components/article/LastUpdated.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import CommentsSection from '../components/comments/CommentsSection';
+import Box26 from '../components/article/Box26.astro';
+import { articleId, guidesIndexPath } from '../lib/paths';
+import { getGuidesSortedByUpdate, getPopularGuides } from '../lib/guides';
+
+interface Props {
+  title: string;
+  description: string;
+  game: string;
+  slug: string;
+  updatedAt: Date;
+  publishedAt: Date;
+}
+
+const { title, description, game, slug, updatedAt, publishedAt } = Astro.props;
+const id = articleId(game, slug);
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const rankItems = await getPopularGuides(game, 10);
+const guideItems = await getGuidesSortedByUpdate(game);
+---
+
+<BaseLayout title={title} description={description} game={game}>
+  <JsonLd
+    title={title}
+    description={description}
+    url={canonical.href}
+    datePublished={publishedAt}
+    dateModified={updatedAt}
+  />
+  <WikiLayout rankItems={rankItems} guideItems={guideItems}>
+    <div class="wiki-stack">
+      <article class="content-panel wiki-stack-block">
+        <header class="mb-6 border-b border-[#ccc] pb-4">
+          <nav class="breadcrumb mb-2" aria-label="パンくず">
+            <a href={guidesIndexPath(game)}>攻略記事</a>
+            <span class="breadcrumb-sep" aria-hidden="true">&gt;</span>
+            <span class="breadcrumb-current">{title}</span>
+          </nav>
+          <h1 class="page-title">{title}</h1>
+          <LastUpdated date={updatedAt} />
+          <Box26 game={game} />
+          <p class="lead">{description}</p>
+        </header>
+
+        <div class="article-prose mt-4">
+          <slot />
+        </div>
+
+      </article>
+
+      <section class="content-panel wiki-stack-block" aria-label="コメント">
+        <CommentsSection client:visible articleId={id} />
+      </section>
+    </div>
+  </WikiLayout>
+</BaseLayout>

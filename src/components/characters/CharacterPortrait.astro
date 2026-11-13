@@ -1,0 +1,29 @@
+---
+import MediaPlaceholder from '../media/MediaPlaceholder.astro';
+
+interface Props {
+  name: string;
+  imageSrc?: string;
+  class?: string;
+}
+
+const { name, imageSrc, class: className = '' } = Astro.props;
+---
+
+<div class:list={['wiki-char-portrait', className]}>
+  {
+    imageSrc ? (
+      <img
+        src={imageSrc}
+        alt=""
+        width={160}
+        height={160}
+        class="wiki-char-portrait-img"
+        loading="lazy"
+        decoding="async"
+      />
+    ) : (
+      <MediaPlaceholder variant="square" label={`${name}の画像`} class="wiki-char-portrait-placeholder" />
+    )
+  }
+</div>

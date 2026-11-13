@@ -1,0 +1,764 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+/* Game8（パズドラ攻略）に近い配色: https://game8.jp/pazudora */
+@layer base {
+  :root {
+    --g8-bg: #ffffff;
+    --g8-page-bg: #f0f0f0;
+    --g8-surface: #ffffff;
+    --g8-text: #222222;
+    --g8-text-muted: #444444;
+    --g8-border: #cccccc;
+    --g8-border-light: #dddddd;
+    --g8-line: #222222;
+    --g8-menu: #ffb11b;
+    --g8-menu-hover: #e89b00;
+    --g8-menu-active: #ffffff;
+    --g8-menu-text: #222222;
+    --g8-heading-bg: #fff5d6;
+    --g8-heading-bar: #ff9900;
+    --g8-rank-bg: #ffb11b;
+    --g8-link: #005dc0;
+    --g8-link-hover: #003d80;
+    --g8-table-th: #e8eef5;
+    --g8-tab-bg: #f5f5f5;
+    --g8-footer-bg: #f5f5f5;
+    --wiki-side-chrome: #3a3a3a;
+    --color-focus: #0070cc;
+  }
+
+  html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--g8-page-bg);
+    color: var(--g8-text);
+    font-family:
+      'Hiragino Kaku Gothic ProN',
+      'Hiragino Sans',
+      'Yu Gothic Medium',
+      'Yu Gothic UI',
+      'Meiryo',
+      system-ui,
+      sans-serif;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a {
+    color: var(--g8-link);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  a:hover {
+    color: var(--g8-link-hover);
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background-color: #cce4ff;
+    color: var(--g8-text);
+  }
+}
+
+@layer components {
+  .site-header {
+    @apply border-b border-[var(--g8-border)] bg-white;
+  }
+
+  .site-brand {
+    @apply text-lg font-bold text-[var(--g8-text)] no-underline hover:no-underline;
+  }
+
+  .page-shell {
+    @apply mx-auto w-full max-w-3xl flex-1 px-3 py-6 sm:px-4;
+  }
+
+  .page-shell-wiki {
+    @apply w-full max-w-none bg-transparent px-4 py-4 lg:px-6;
+  }
+
+  .content-panel {
+    @apply rounded border border-[var(--g8-border)] bg-[var(--g8-surface)] p-4 shadow-sm sm:p-5;
+  }
+
+  /* 本文パネル内：見出しはタグでサイズを統一（h1 36px / h2 24px / h3 18px） */
+  .content-panel h1 {
+    @apply text-[36px] font-bold leading-snug text-[var(--g8-text)];
+  }
+
+  .content-panel h2 {
+    @apply mb-3 border-0 border-b-0 pb-0 text-2xl font-bold leading-snug text-[var(--g8-text)];
+  }
+
+  .content-panel h3 {
+    @apply mb-3 border-b border-dashed border-[var(--g8-border)] pb-2 text-lg font-bold leading-snug text-[var(--g8-text)];
+  }
+
+  .page-title {
+    @apply text-[var(--g8-text)];
+  }
+
+  .section-title {
+    @apply mb-3;
+  }
+
+  .content-panel h3.section-title {
+    @apply pb-2;
+  }
+
+  .content-panel h2.section-title {
+    @apply border-0 pb-0;
+  }
+
+  .lead {
+    @apply text-[15px] leading-relaxed text-[var(--g8-text)];
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded border border-[var(--g8-menu-hover)] bg-[var(--g8-menu)] px-4 py-2 text-sm font-bold text-[var(--g8-menu-text)] no-underline shadow-sm hover:bg-[var(--g8-menu-hover)] hover:no-underline;
+  }
+
+  .breadcrumb {
+    @apply text-sm text-[var(--g8-text-muted)];
+  }
+
+  .breadcrumb a {
+    @apply font-bold text-[var(--g8-link)];
+  }
+
+  .breadcrumb-sep {
+    @apply mx-1 text-[var(--g8-text-muted)];
+  }
+
+  .breadcrumb-current {
+    @apply font-bold text-[var(--g8-text)];
+  }
+
+  .article-prose {
+    @apply prose prose-base max-w-none;
+    @apply prose-headings:font-bold prose-headings:text-[var(--g8-text)] prose-headings:scroll-mt-28;
+    @apply prose-p:text-[#333] prose-p:leading-7;
+    @apply prose-a:text-[var(--g8-link)] prose-a:font-normal;
+    @apply prose-strong:text-[var(--g8-text)];
+    @apply prose-li:text-[#333];
+    @apply prose-th:border prose-th:border-[var(--g8-border)] prose-th:bg-[var(--g8-table-th)] prose-th:text-[var(--g8-text)];
+    @apply prose-td:border prose-td:border-[var(--g8-border-light)] prose-td:text-[#333];
+    @apply prose-code:bg-[#f5f5f5] prose-code:text-[var(--g8-text)];
+  }
+
+  /* article-prose 内の見出しもタグサイズを優先 */
+  .content-panel .article-prose h1 {
+    @apply text-[36px] leading-snug;
+  }
+
+  .content-panel .article-prose h2 {
+    @apply text-2xl leading-snug;
+  }
+
+  .content-panel .article-prose h3 {
+    @apply text-lg leading-snug;
+  }
+
+  .meta-text {
+    @apply text-sm text-[var(--g8-text-muted)];
+  }
+
+  .article-last-updated {
+    @apply mb-0 mt-1 text-xs leading-snug text-[var(--g8-text-muted)];
+  }
+
+  .article-last-updated time {
+    @apply font-semibold text-[#555];
+  }
+
+  .skip-link {
+    @apply sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-white focus:px-4 focus:py-2 focus:font-bold focus:shadow-lg;
+  }
+
+  /* --- Game8 風ヘッダー --- */
+  .game-header-wrap {
+    @apply border-b border-[var(--g8-border)] bg-white shadow-sm;
+  }
+
+  .game-header-top {
+    @apply border-b border-[var(--g8-border-light)] bg-white;
+  }
+
+  .wiki-header-inner {
+    @apply flex w-full max-w-none flex-wrap items-center justify-between gap-3 px-4 py-2 lg:px-6;
+  }
+
+  .game-header-brand {
+    @apply flex items-center gap-3 no-underline hover:no-underline;
+  }
+
+  .game-header-icon {
+    @apply h-14 w-14 shrink-0 rounded border border-[var(--g8-border)] bg-white shadow-sm;
+  }
+
+  .game-header-title {
+    @apply block text-xl font-bold text-[var(--g8-text)] md:text-[22px];
+  }
+
+  .game-header-sub {
+    @apply block text-xs font-bold text-[#888];
+  }
+
+  .game-header-utils {
+    @apply flex gap-2 text-sm font-bold;
+  }
+
+  .game-header-util-link {
+    @apply rounded border border-[var(--g8-border)] bg-[var(--g8-tab-bg)] px-3 py-1.5 text-[var(--g8-link)] no-underline hover:bg-white;
+  }
+
+  /* --- 3カラム wiki（PC: 画面幅いっぱい・1:2） --- */
+  .wiki-layout {
+    @apply grid w-full max-w-none grid-cols-1 gap-4 lg:grid-cols-[minmax(240px,1fr)_minmax(0,2fr)];
+  }
+
+  .wiki-col-left {
+    @apply min-w-0;
+  }
+
+  .wiki-col-left-stack {
+    @apply flex flex-col gap-4;
+  }
+
+  .wiki-side-panel-body-flush {
+    @apply p-0;
+  }
+
+  .wiki-side-guide-list {
+    @apply list-none p-0;
+  }
+
+  .wiki-side-guide-item {
+    @apply border-b border-[var(--g8-border-light)] last:border-0;
+  }
+
+  .wiki-side-guide-link {
+    @apply block px-3 py-2.5 text-[13px] no-underline hover:bg-[#fff9e8];
+  }
+
+  .wiki-side-guide-title {
+    @apply block font-bold leading-snug text-[var(--g8-link)];
+  }
+
+  .wiki-side-guide-desc {
+    @apply mt-1 block text-[11px] font-normal leading-snug text-[#666];
+  }
+
+  .wiki-col-right {
+    @apply min-w-0;
+  }
+
+  .wiki-col-right-stack {
+    @apply flex min-w-0 flex-col rounded-sm bg-white p-4 sm:p-5 lg:p-6;
+  }
+
+  .wiki-stack {
+    @apply flex flex-col gap-0;
+  }
+
+  .wiki-stack-block {
+    @apply w-full border-0 bg-transparent p-0 shadow-none;
+  }
+
+  .wiki-hub-main {
+    @apply bg-white;
+  }
+
+  .wiki-hub-section {
+    @apply pb-6;
+  }
+
+  .wiki-article-list-flat {
+    @apply list-none space-y-0 border-0 bg-transparent p-0;
+  }
+
+  .wiki-article-list-flat .wiki-article-row {
+    @apply border-0 border-b border-[#ddd] bg-transparent px-0 py-3 last:border-b-0;
+  }
+
+  #section-top,
+  #section-game-info,
+  #section-characters,
+  #section-news,
+  #section-basic-info,
+  #section-review,
+  #section-deck,
+  #section-tips,
+  .wiki-char-section {
+    scroll-margin-top: 7rem;
+  }
+
+  /* 記事冒頭型目次（toc-002） */
+  .toc-002 {
+    width: 50%;
+    margin-right: auto;
+    margin-bottom: 20px;
+    margin-left: auto;
+    border: 2px solid #2589d0;
+    border-radius: 3px;
+    text-align: left;
+  }
+
+  .toc-002 div {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0;
+    padding: 8px 0.75em;
+    background-color: #2589d0;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1em;
+    line-height: 1.3;
+  }
+
+  .toc-002 div::before {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    margin-right: 5px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8 4H21V6H8V4ZM3 3.5H6V6.5H3V3.5ZM3 10.5H6V13.5H3V10.5ZM3 17.5H6V20.5H3V17.5ZM8 11H21V13H8V11ZM8 18H21V20H8V18Z' fill='%23fff'%3E%3C/path%3E%3C/svg%3E");
+    content: '';
+  }
+
+  .toc-002 ol {
+    list-style-type: decimal;
+    list-style-position: outside;
+    margin: 0;
+    overflow: visible;
+  }
+
+  .toc-002 > ol {
+    padding: 0.55em 0.75em 0.65em 2.75em;
+    overflow: hidden;
+  }
+
+  .toc-002 ol ol {
+    margin-top: 3px;
+    padding-left: 2.5em;
+    overflow: visible;
+  }
+
+  .toc-002 li {
+    padding: 3px 0;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .toc-002 ol ol li {
+    padding: 2px 0;
+    font-weight: 500;
+    font-size: 0.9em;
+    line-height: 1.3;
+  }
+
+  .toc-002 a {
+    color: #333;
+    text-align: left;
+    line-height: inherit;
+    text-decoration: none;
+  }
+
+  .box26 {
+    position: relative;
+    margin: 2em 0;
+    padding: 1em;
+    border: solid 3px #95ccff;
+    border-radius: 8px;
+  }
+
+  .box26 .box-title {
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    display: inline-block;
+    padding: 0 9px;
+    font-family: Quicksand, sans-serif;
+    font-size: 19px;
+    font-weight: bold;
+    line-height: 1;
+    color: #95ccff;
+    background: #fff;
+  }
+
+  .box26 p {
+    margin: 0;
+    padding: 0;
+  }
+
+  .box26 a {
+    font-weight: bold;
+    color: var(--g8-link);
+    text-decoration: none;
+  }
+
+  .box26 a:hover {
+    text-decoration: underline;
+  }
+
+  .wiki-game-info-links a {
+    @apply text-[var(--g8-link)] no-underline hover:underline;
+  }
+
+  .media-placeholder {
+    @apply flex w-full items-center justify-center rounded border border-dashed border-[var(--g8-border)] bg-[#fafafa] px-3 py-4 text-center;
+  }
+
+  .media-placeholder-label {
+    @apply text-[11px] font-bold leading-snug text-[#888];
+  }
+
+  .media-placeholder--banner {
+    @apply min-h-[120px] sm:min-h-[160px];
+  }
+
+  .media-placeholder--sidebar {
+    @apply min-h-[100px];
+  }
+
+  .media-placeholder--square {
+    @apply aspect-square max-h-[200px] max-w-[200px];
+  }
+
+  .media-placeholder--skill-card {
+    @apply h-full w-full shrink-0 px-1 py-2;
+  }
+
+  .wiki-char-grid {
+    @apply m-0 grid list-none grid-cols-3 gap-3 p-0 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6;
+  }
+
+  .wiki-char-grid--full {
+    @apply grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3;
+  }
+
+  .wiki-char-card {
+    @apply text-center;
+  }
+
+  .wiki-char-grid--full .wiki-char-card {
+    @apply rounded border border-[var(--g8-border)] bg-white p-3 text-left;
+  }
+
+  .wiki-char-card-visual {
+    @apply mx-auto flex w-full max-w-[120px] justify-center;
+  }
+
+  .wiki-char-card-placeholder {
+    @apply h-full w-full max-h-none max-w-none;
+  }
+
+  .wiki-char-card-img {
+    @apply aspect-square w-full max-w-[120px] rounded border border-[var(--g8-border)] object-cover;
+  }
+
+  .wiki-char-card-name {
+    @apply mt-2 text-sm font-bold leading-snug text-[var(--g8-text)];
+  }
+
+  .wiki-char-card-name-link {
+    @apply mt-2 block text-sm font-bold leading-snug text-[var(--g8-link)] no-underline hover:text-[var(--g8-link-hover)] hover:underline;
+  }
+
+  .wiki-char-card-type {
+    @apply mt-0.5 text-[11px] leading-snug text-[var(--g8-text-muted)];
+  }
+
+  .wiki-char-grid--full .wiki-char-card-type {
+    @apply text-xs font-bold text-[#c45c00];
+  }
+
+  .wiki-char-card-meta {
+    @apply mt-2 space-y-1 border-t border-[var(--g8-border-light)] pt-2 text-left;
+  }
+
+  .wiki-char-card-detail {
+    @apply text-[13px] leading-relaxed text-[var(--g8-text)];
+  }
+
+  .wiki-char-card-rating {
+    @apply text-[13px] font-bold text-[var(--g8-text)];
+  }
+
+  .wiki-char-rating-value {
+    @apply text-[#c45c00];
+  }
+
+  .wiki-char-card-inner {
+    @apply block h-full;
+  }
+
+  .wiki-char-portrait {
+    @apply mx-auto flex w-full max-w-[120px] justify-center;
+  }
+
+  .wiki-char-portrait-placeholder {
+    @apply w-full max-w-[160px] max-h-none;
+  }
+
+  .wiki-char-portrait-img {
+    @apply aspect-square w-full max-w-[160px] rounded border border-[var(--g8-border)] object-cover;
+  }
+
+  .wiki-char-detail {
+    @apply flex flex-col gap-6 sm:flex-row sm:items-start;
+  }
+
+  .wiki-char-wiki-full {
+    @apply w-full min-w-0 max-w-none;
+  }
+
+  .wiki-char-detail .wiki-char-portrait {
+    @apply max-w-[160px] shrink-0;
+  }
+
+  .wiki-char-detail-name {
+    @apply break-words text-xl font-bold leading-snug text-[var(--g8-text)];
+  }
+
+  .wiki-char-detail-type {
+    @apply text-base font-bold text-[#c45c00];
+  }
+
+  .wiki-char-lead {
+    @apply mt-3 text-sm leading-relaxed text-[#555];
+  }
+
+  .wiki-char-page-intro {
+    @apply mb-0 mt-0;
+  }
+
+  .wiki-char-stats {
+    @apply mt-3 w-full max-w-lg border-b border-[#e5e5e5] p-0;
+  }
+
+  .wiki-char-stat-row {
+    @apply grid grid-cols-[5.75rem_1fr] gap-x-4 border-t border-[#e5e5e5] py-2.5 text-sm first:border-t-0;
+  }
+
+  .wiki-char-stat-label {
+    @apply m-0 font-semibold text-[#777];
+  }
+
+  .wiki-char-stat-value {
+    @apply m-0 leading-relaxed text-[#222];
+  }
+
+  .wiki-char-stat-num {
+    @apply text-base font-bold tabular-nums text-[var(--g8-text)];
+  }
+
+  .wiki-char-stat-note {
+    @apply ml-1 text-[13px] text-[#666];
+  }
+
+  .wiki-char-skill-row {
+    @apply flex flex-col gap-3 sm:flex-row sm:items-start;
+  }
+
+  .wiki-char-skill-art-wrap {
+    @apply w-[160px] shrink-0;
+  }
+
+  .wiki-char-skill-art-wrap .wiki-char-portrait {
+    @apply mx-0 w-full max-w-none;
+  }
+
+  .wiki-char-skill-body {
+    @apply min-w-0 flex-1;
+  }
+
+  .ad-slot {
+    @apply flex w-full items-center justify-center rounded border border-dashed border-[#ccc] bg-[#f5f5f5] px-3 py-4 text-center;
+  }
+
+  .ad-slot-label {
+    @apply text-[11px] font-bold leading-snug text-[#888];
+  }
+
+  .ad-slot--inline {
+    @apply min-h-[90px];
+  }
+
+  .ad-slot--leaderboard {
+    @apply min-h-[90px];
+  }
+
+  .ad-slot--sidebar {
+    @apply min-h-[250px];
+  }
+
+  .wiki-main-ad-top {
+    @apply mb-4;
+  }
+
+  .wiki-hub-ad-mid {
+    @apply my-2;
+  }
+
+  .wiki-side-panel {
+    @apply overflow-hidden rounded border border-[var(--g8-border)] bg-white;
+  }
+
+  .wiki-side-panel-head {
+    @apply border-b border-[#e5a10a] bg-[var(--wiki-side-chrome)] px-3 py-2 text-center text-sm font-bold text-white;
+  }
+
+  .wiki-side-tabs {
+    @apply grid grid-cols-2 border-b border-[var(--g8-border)];
+  }
+
+  .wiki-side-tab {
+    @apply border-b border-transparent bg-[var(--g8-tab-bg)] px-2 py-2 text-xs font-bold text-[var(--g8-text-muted)] hover:bg-white;
+  }
+
+  .wiki-side-tab.is-active {
+    @apply border-[#ff9900] bg-white text-[var(--g8-text)];
+  }
+
+  .wiki-side-panel-body {
+    @apply bg-white p-3;
+  }
+
+  .wiki-side-note {
+    @apply mb-2 text-[11px] text-[#777];
+  }
+
+  .wiki-rank-list {
+    @apply list-none p-0;
+  }
+
+  .wiki-rank-item {
+    @apply flex items-start gap-2 border-b border-[var(--g8-border-light)] py-2 text-[13px] last:border-0;
+  }
+
+  .wiki-rank-num {
+    @apply flex h-5 w-5 shrink-0 items-center justify-center rounded-sm bg-[#666] text-[11px] font-bold text-white;
+  }
+
+  .wiki-rank-item:nth-child(1) .wiki-rank-num {
+    @apply bg-[#e6b422];
+  }
+
+  .wiki-rank-item:nth-child(2) .wiki-rank-num {
+    @apply bg-[#9e9e9e];
+  }
+
+  .wiki-rank-item:nth-child(3) .wiki-rank-num {
+    @apply bg-[#b87333];
+  }
+
+  .wiki-rank-link {
+    @apply font-bold leading-snug text-[var(--g8-link)] no-underline hover:underline;
+  }
+
+  .wiki-board-list {
+    @apply list-disc space-y-2 pl-5 text-[13px] text-[#333];
+  }
+
+  .wiki-section-heading {
+    @apply mb-3 border border-[var(--g8-heading-bar)] bg-[var(--g8-heading-bg)] px-3 py-2 text-base font-bold text-[var(--g8-text)];
+  }
+
+  .wiki-article-list {
+    @apply list-none overflow-hidden rounded border border-[var(--g8-border)] bg-white p-0;
+  }
+
+  .wiki-article-row {
+    @apply block border-b border-[var(--g8-border-light)] px-3 py-2.5 no-underline last:border-0 hover:bg-[#fff9e8];
+  }
+
+  .wiki-article-row-title {
+    @apply block text-[15px] font-bold text-[var(--g8-link)];
+  }
+
+  .wiki-article-row-desc,
+  .wiki-article-row-meta {
+    @apply mt-1 block text-xs text-[#666];
+  }
+
+  .wiki-table {
+    @apply w-full border-collapse border border-[var(--g8-border)] text-[13px];
+  }
+
+  .wiki-table th {
+    @apply border border-[var(--g8-border)] bg-[var(--g8-table-th)] px-2 py-2 text-left font-bold text-[var(--g8-text)];
+  }
+
+  .wiki-table td {
+    @apply border border-[var(--g8-border-light)] bg-white px-2 py-2 text-left align-top text-[#333];
+  }
+
+  .wiki-table th[scope='row'] {
+    @apply w-[7.5rem] whitespace-nowrap bg-[#f7f9fc] px-3 py-2 text-left align-top font-bold text-[var(--g8-text)];
+  }
+
+  .wiki-recruit-table th[scope='col'] {
+    @apply px-3 py-2 text-left;
+  }
+
+  .article-prose table {
+    @apply my-4 w-full table-fixed border-collapse;
+  }
+
+  .article-prose th,
+  .article-prose td {
+    @apply align-top;
+  }
+
+  .wiki-news-list {
+    @apply list-none space-y-2 border border-[var(--g8-border)] bg-white p-3;
+  }
+
+  .wiki-news-item {
+    @apply flex flex-col gap-1 border-b border-[var(--g8-border-light)] pb-3 last:border-0 last:pb-0 sm:flex-row sm:gap-3;
+  }
+
+  .wiki-news-body {
+    @apply min-w-0 flex-1;
+  }
+
+  .wiki-news-title {
+    @apply m-0 text-sm leading-snug text-[var(--g8-text)];
+  }
+
+  .wiki-news-summary {
+    @apply mt-1 text-sm leading-relaxed text-[var(--g8-text)];
+  }
+
+  .wiki-news-date {
+    @apply shrink-0 text-sm font-bold text-[#c45c00];
+  }
+
+  .site-footer {
+    @apply mt-4 border-t border-[var(--g8-border)] bg-[var(--g8-footer-bg)] text-sm text-[#555];
+  }
+
+  .site-footer-inner {
+    @apply w-full max-w-none px-4 py-4 lg:px-6;
+  }
+
+  /* PC: ヘッダーをビューポート幅に */
+  @media (min-width: 1024px) {
+    .game-header-wrap {
+      @apply w-full;
+    }
+  }
+}

@@ -1,0 +1,50 @@
+---
+import type { Character } from '../../lib/characters';
+import { characterPath } from '../../lib/paths';
+import CharacterPortrait from './CharacterPortrait.astro';
+
+interface Props {
+  characters: Character[];
+  game: string;
+  /** TOP: 画像と名前のみ / 一覧: 詳細・評価付き */
+  variant?: 'compact' | 'full';
+}
+
+const { characters, game, variant = 'compact' } = Astro.props;
+---
+
+<ul class:list={['wiki-char-grid', { 'wiki-char-grid--full': variant === 'full' }]}>
+  {
+    characters.map((c) => {
+      const href = c.published ? characterPath(game, c.slug) : undefined;
+      return (
+        <li class="wiki-char-card">
+          <div class="wiki-char-card-inner">
+            <CharacterPortrait name={c.name} imageSrc={c.imageSrc} class="wiki-char-card-visual" />
+            {
+              href ? (
+                <a href={href} class="wiki-char-card-name-link">
+                  {c.name}
+                </a>
+              ) : (
+                <p class="wiki-char-card-name">{c.name}</p>
+              )
+            }
+            {c.roleType && <p class="wiki-char-card-type">{c.roleType}</p>}
+            {
+              variant === 'full' && (
+                <div class="wiki-char-card-meta">
+                  <p class="wiki-char-card-detail">{c.detail ?? '詳細は公開後に追記します。'}</p>
+                  <p class="wiki-char-card-rating">
+                    評価:{' '}
+                    <span class="wiki-char-rating-value">{c.rating ?? '未評価'}</span>
+                  </p>
+                </div>
+              )
+            }
+          </div>
+        </li>
+      );
+    })
+  }
+</ul>

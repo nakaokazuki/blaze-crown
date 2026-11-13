@@ -1,0 +1,80 @@
+---
+import '../styles/global.css';
+import { SITE_NAME, DEFAULT_GAME, WIKI_BRAND_TITLE } from '../lib/constants';
+interface Props {
+  title: string;
+  description?: string;
+  /** ゲーム攻略 chrome を表示（Game8 風ヘッダー） */
+  wikiChrome?: boolean;
+  game?: string;
+}
+
+const {
+  title,
+  description = 'ブレイズクラウン（BLAZE CROWN）の非公式攻略・解説サイト',
+  wikiChrome = true,
+  game = DEFAULT_GAME,
+} = Astro.props;
+const fullTitle = title === SITE_NAME ? title : `${title} | ${SITE_NAME}`;
+const iconSrc = `/games/${game}/icon.svg`;
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#ffb11b" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{fullTitle}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="flex min-h-screen flex-col">
+    <a href="#main" class="skip-link">本文へスキップ</a>
+
+    {
+      wikiChrome ? (
+        <header class="game-header-wrap sticky top-0 z-30 w-full">
+          <div class="game-header-top">
+            <div class="wiki-header-inner">
+              <a href="/" class="game-header-brand">
+                <img src={iconSrc} width="52" height="52" alt="" class="game-header-icon" decoding="async" />
+                <span class="game-header-text">
+                  <span class="game-header-title">{WIKI_BRAND_TITLE}</span>
+                  <span class="game-header-sub">【非公式】ファンサイト</span>
+                </span>
+              </a>
+            </div>
+          </div>
+        </header>
+      ) : (
+        <header class="site-header sticky top-0 z-20">
+          <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6">
+            <a href="/" class="site-brand">
+              {SITE_NAME}
+            </a>
+          </div>
+        </header>
+      )
+    }
+
+    <main id="main" class:list={['page-shell', wikiChrome && 'page-shell-wiki']}>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer-inner flex flex-wrap gap-x-5 gap-y-2">
+        <a href="/privacy/">プライバシー</a>
+        <a href="/about/">運営者情報</a>
+        <span>非公式ファンサイト</span>
+      </div>
+    </footer>
+  </body>
+</html>

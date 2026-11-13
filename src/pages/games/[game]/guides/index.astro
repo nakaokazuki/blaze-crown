@@ -1,0 +1,8 @@
+---
+export async function getStaticPaths() {
+  return [{ params: { game: 'blaze-crown' } }];
+}
+
+const { game } = Astro.params;
+return Astro.redirect(`/games/${game}/`);
+---

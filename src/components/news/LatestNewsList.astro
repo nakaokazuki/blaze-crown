@@ -1,0 +1,45 @@
+---
+import type { LatestNewsItem } from '../../lib/latestNews';
+
+interface Props {
+  items: LatestNewsItem[];
+}
+
+const { items } = Astro.props;
+
+function formatDateJa(isoDate: string): string {
+  const [y, m, d] = isoDate.split('-').map(Number);
+  if (!y || !m || !d) return isoDate;
+  return `${y}年${m}月${d}日`;
+}
+---
+
+{
+  items.length === 0 ? (
+    <p class="lead">最新情報はまだありません。</p>
+  ) : (
+    <ul class="wiki-news-list">
+      {
+        items.map((item) => (
+          <li class="wiki-news-item">
+            <time class="wiki-news-date" datetime={item.date}>
+              {formatDateJa(item.date)}
+            </time>
+            <div class="wiki-news-body">
+              <p class="wiki-news-title">
+                {item.href ? (
+                  <a href={item.href} class="font-bold no-underline hover:underline">
+                    {item.title}
+                  </a>
+                ) : (
+                  <span class="font-bold">{item.title}</span>
+                )}
+              </p>
+              {item.body && <p class="wiki-news-summary">{item.body}</p>}
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  )
+}

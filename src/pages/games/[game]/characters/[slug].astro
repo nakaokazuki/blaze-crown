@@ -1,0 +1,79 @@
+---
+import GameHubLayout from '../../../../layouts/GameHubLayout.astro';
+import WikiLayout from '../../../../layouts/WikiLayout.astro';
+import CharacterBasicInfoSection from '../../../../components/characters/CharacterBasicInfoSection.astro';
+import { loadGameMeta } from '../../../../lib/games';
+import { getCharacterPageUpdatedAt, loadCharacters } from '../../../../lib/characters';
+import { charactersHubPath } from '../../../../lib/paths';
+import { getGuidesSortedByUpdate, getPopularGuides } from '../../../../lib/guides';
+import { loadCharacterWiki } from '../../../../lib/characterWiki';
+import CharacterWikiBody from '../../../../components/characters/CharacterWikiBody.astro';
+import CharacterEvaluationSections from '../../../../components/characters/CharacterEvaluationSections.astro';
+import WikiInPageToc from '../../../../components/layout/WikiInPageToc.astro';
+import Box26 from '../../../../components/article/Box26.astro';
+import LastUpdated from '../../../../components/article/LastUpdated.astro';
+import { buildCharacterPageToc } from '../../../../lib/characterPageToc';
+import { WIKI_BRAND_TITLE } from '../../../../lib/constants';
+
+export async function getStaticPaths() {
+  const game = 'blaze-crown';
+  const characters = loadCharacters(game).filter((c) => c.published);
+  return characters.map((c) => ({
+    params: { game, slug: c.slug },
+  }));
+}
+
+const { game, slug } = Astro.params;
+const meta = loadGameMeta(game!);
+const rankItems = await getPopularGuides(game!, 10);
+const guideItems = await getGuidesSortedByUpdate(game!);
+
+const characters = loadCharacters(game!);
+const character = characters.find((c) => c.slug === slug);
+
+if (!character || !character.published) {
+  return Astro.redirect(charactersHubPath(game!));
+}
+
+const pageTitle = `${character.name}の評価と性能`;
+const wiki = loadCharacterWiki(slug!);
+const metaDescription =
+  wiki?.lead ?? `${character.name}のタイプ・向け・スキル情報（非公式・公式Wikiより）`;
+const tocItems = buildCharacterPageToc(character.name, wiki);
+const pageUpdatedAt = getCharacterPageUpdatedAt(character, wiki?.syncedAt);
+---
+
+<GameHubLayout title={pageTitle} description={metaDescription}>
+  <WikiLayout rankItems={rankItems} guideItems={guideItems}>
+    <article class="wiki-stack content-panel wiki-stack-block">
+      <header class="mb-0 pb-0">
+        <p class="breadcrumb">
+          <a href={charactersHubPath(game!)}>キャラ一覧</a>
+          <span aria-hidden="true"> › </span>
+          <span class="text-[#222]">{character.name}</span>
+        </p>
+        <h1 class="page-title mt-2 mb-0">{pageTitle}</h1>
+        <LastUpdated date={pageUpdatedAt} />
+        <Box26 game={game!} />
+      </header>
+
+      <p class="lead wiki-char-page-intro">
+        {WIKI_BRAND_TITLE}の{character.name}の評価と性能です。{character.name}の基本情報と実際にプレイして分かった情報をまとめています。最新情報は随時更新していきます。
+      </p>
+
+      <WikiInPageToc items={tocItems} />
+
+      <CharacterBasicInfoSection character={character} wiki={wiki} />
+
+      <CharacterEvaluationSections characterName={character.name} />
+
+      {
+        wiki ? (
+          <CharacterWikiBody wiki={wiki} characterName={character.name} />
+        ) : (
+          <p class="mt-6 text-sm text-[#666]">公式Wikiのデータ取得前です。</p>
+        )
+      }
+    </article>
+  </WikiLayout>
+</GameHubLayout>

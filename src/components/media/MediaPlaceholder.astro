@@ -1,0 +1,23 @@
+---
+interface Props {
+  variant?: 'banner' | 'sidebar' | 'square' | 'skill-card';
+  label?: string;
+  class?: string;
+}
+
+const { variant = 'banner', label, class: className = '' } = Astro.props;
+
+const defaultLabel: Record<'banner' | 'sidebar' | 'square' | 'skill-card', string> = {
+  banner: '画像枠（キービジュアル・16:9想定）',
+  sidebar: '画像枠（サイドバー）',
+  square: '画像枠（サムネイル・1:1想定）',
+  'skill-card': '画像枠（スキルカード）',
+};
+---
+
+<div
+  class:list={['media-placeholder', `media-placeholder--${variant}`, className]}
+  data-media-placeholder={variant}
+>
+  <span class="media-placeholder-label">{label ?? defaultLabel[variant]}</span>
+</div>

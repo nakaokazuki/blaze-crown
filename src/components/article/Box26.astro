@@ -1,0 +1,20 @@
+---
+import { DEFAULT_GAME } from '../../lib/constants';
+import { guidePath } from '../../lib/paths';
+
+interface Props {
+  title?: string;
+  game?: string;
+}
+
+const { title = '重要情報', game = DEFAULT_GAME } = Astro.props;
+const betaGuideHref = guidePath(game, 'beta-test-guide');
+const betaGuideLabel = 'βテストガイド（日程・ルール・注意点）';
+---
+
+<div class="box26">
+  <span class="box-title">{title}</span>
+  <p>
+    <a href={betaGuideHref}>{betaGuideLabel}</a>
+  </p>
+</div>

@@ -1,0 +1,26 @@
+---
+interface Props {
+  slot?: 'top' | 'bottom' | 'sidebar' | 'in-article';
+  /** inline=90px / sidebar=300x250想定 / leaderboard=横長 */
+  variant?: 'inline' | 'sidebar' | 'leaderboard';
+  class?: string;
+}
+
+const { slot = 'top', variant = 'inline', class: className = '' } = Astro.props;
+
+const slotNote: Record<typeof slot, string> = {
+  top: '記事上',
+  bottom: '記事下',
+  sidebar: 'サイドバー',
+  'in-article': '記事中',
+};
+---
+
+<div
+  class:list={['ad-slot', `ad-slot--${variant}`, className]}
+  data-ad-slot={slot}
+  role="complementary"
+  aria-label={`広告枠（${slotNote[slot]}・審査後に設置）`}
+>
+  <span class="ad-slot-label">広告枠（{slotNote[slot]}・AdSense審査後に設置）</span>
+</div>

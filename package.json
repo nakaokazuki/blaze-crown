@@ -1,0 +1,36 @@
+{
+  "name": "blaze-crown",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build && pagefind --site dist",
+    "preview": "astro preview",
+    "astro": "astro",
+    "wiki:sync-characters": "node scripts/sync-official-character-wiki.mjs"
+  },
+  "dependencies": {
+    "@astrojs/markdown-satteri": "^0.4.9",
+    "@astrojs/mdx": "^8.1.5",
+    "@astrojs/react": "^7.1.8",
+    "@astrojs/sitemap": "^3.7.4",
+    "@supabase/supabase-js": "^2.119.0",
+    "@tailwindcss/typography": "^0.5.20",
+    "@tailwindcss/vite": "^4.3.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "astro": "^7.4.11",
+    "js-yaml": "^5.5.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "tailwindcss": "^4.3.5",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "pagefind": "^1.6.0"
+  }
+}

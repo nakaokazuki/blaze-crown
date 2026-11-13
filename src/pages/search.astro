@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="サイト内検索" description="ブレイズクラウン【非公式】攻略記事の検索">
+  <div class="content-panel">
+    <h1 class="page-title mb-4">サイト内検索</h1>
+    <p class="lead mb-6">
+      本番ビルド後、Pagefind で記事を検索できます（<code class="rounded bg-zinc-100 px-1.5 py-0.5 text-base text-zinc-900">npm run build</code> 実行後）。
+    </p>
+    <div id="search" class="min-h-[220px]"></div>
+  </div>
+  <link href="/pagefind/pagefind-ui.css" rel="stylesheet" />
+  <script is:inline>
+    if (typeof window !== 'undefined') {
+      const s = document.createElement('script');
+      s.src = '/pagefind/pagefind-ui.js';
+      s.onload = () => {
+        if (window.PagefindUI) new window.PagefindUI({ element: '#search', showSubResults: true });
+      };
+      s.onerror = () => {
+        const el = document.getElementById('search');
+        if (el) {
+          el.innerHTML =
+            '<p class="text-base font-medium text-zinc-700">検索インデックスがありません。npm run build を実行してください。</p>';
+        }
+      };
+      document.body.appendChild(s);
+    }
+  </script>
+</BaseLayout>

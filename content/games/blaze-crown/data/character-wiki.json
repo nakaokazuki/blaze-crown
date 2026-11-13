@@ -1,0 +1,776 @@
+{
+  "source": "https://blazecrown-game.com/wiki/",
+  "note": "βテスト版の情報。数値はキャラLv.10・スキルLv.3・スペシャルLv.2・パッシブLv.2想定（各ページ表記に準拠）。",
+  "characters": [
+    {
+      "slug": "lumina",
+      "officialSlug": "lumina",
+      "sourceUrl": "https://blazecrown-game.com/wiki/chara/lumina.html",
+      "lead": "大鎌を振るう、王女を目指す少女。陣形を無視して、後ろに隠れた敵まで狙えるアタッカー。",
+      "nameEn": "Lumina",
+      "job": "フォーチュンテラー",
+      "roleType": "攻撃型",
+      "targetLevel": "初心者向け",
+      "profile": {
+        "出身": "炎の国アヴァロニア",
+        "チーム": "チームルミナ",
+        "HP": {
+          "value": "630",
+          "note": "パッシブ込み 660"
+        },
+        "SPD": "100"
+      },
+      "role": "陣形を無視して、後ろに隠れた敵まで攻撃できるアタッカー。",
+      "statsNote": "数値はβテストの状態（キャラLv.10・スキルLv.3・スペシャルLv.2・パッシブLv.2）で計算しています。",
+      "passive": {
+        "name": "ラッキースター",
+        "level": "パッシブLv.2",
+        "description": "・HP+30 / ・スペシャルスキルを引くたびにエナジー+1（味方の分もカウント）"
+      },
+      "skills": [
+        {
+          "kind": "スキル1",
+          "name": "スラッシュカッター",
+          "cost": "1",
+          "ct": "0",
+          "element": "闇",
+          "skillType": "攻撃",
+          "level": "スキルLv.3",
+          "effect": "敵単体 陣形を無視して72ダメージ"
+        },
+        {
+          "kind": "スキル2",
+          "name": "サイドスラッシュ",
+          "cost": "2",
+          "ct": "1",
+          "element": "闇",
+          "skillType": "攻撃",
+          "level": "スキルLv.3",
+          "effect": "敵横一列 陣形を無視して101ダメージ"
+        },
+        {
+          "kind": "スキル3",
+          "name": "アンラッキーサークル",
+          "cost": "3",
+          "ct": "1",
+          "element": "闇",
+          "skillType": "攻撃",
+          "level": "スキルLv.3",
+          "effect": "敵縦一列 202ダメージ"
+        },
+        {
+          "kind": "スキル4",
+          "name": "フォーチュンカード",
+          "cost": "0",
+          "ct": "3",
+          "element": "無",
+          "skillType": "特殊",
+          "level": "スキルLv.3",
+          "effect": "自分自身 エナジーを1獲得 / 自分自身 次の攻撃で与えるダメージがターン数×12増加"
+        }
+      ],
+      "special": {
+        "kind": "スペシャル",
+        "name": "カラミティウィール",
+        "cost": "3",
+        "element": "闇",
+        "skillType": "攻撃",
+        "level": "SPLv.2",
+        "effect": "敵全体 210ダメージ",
+        "unlockCondition": "4ターン経過する"
+      },
+      "syncedAt": "2026-11-13"
+    },
+    {
+      "slug": "dan",
+      "officialSlug": "dan",
+      "sourceUrl": "https://blazecrown-game.com/wiki/chara/dan.html",
+      "lead": "ルミナとフレイを見守る、頼れるおっちゃん。シールドとかばうで味方を守る盾役。",
+      "nameEn": "Dan",
+      "job": "ヴァンガード",
+      "roleType": "防御型",
+      "targetLevel": "初心者向け",
+      "profile": {
+        "出身": "炎の国アヴァロニア",
+        "チーム": "チームルミナ",
+        "HP": "812",
+        "SPD": "120"
+      },
+      "role": "シールドと「かばう」で味方を守る盾役。",
+      "statsNote": "数値はβテストの状態（キャラLv.10・スキルLv.3・スペシャルLv.2・パッシブLv.2）で計算しています。",
+      "passive": {
+        "name": "献身の心",
+        "level": "パッシブLv.2",
+        "description": "・自身の行動後、自身の半分のシールド値をHP35%以下の全ての味方に付与する"
+      },
+      "skills": [
+        {
+          "kind": "スキル1",
+          "name": "パワースマッシュ",
+          "cost": "2",
+          "ct": "0",
+          "element": "無",
+          "skillType": "攻撃",
+          "level": "スキルLv.3",
+          "effect": "敵単体 130ダメージ / 敵単体 次のターン、SPD30%低下を付与"
+        },
+        {
+          "kind": "スキル2",
+          "name": "ドーム",
+          "cost": "1",
+          "ct": "1",
+          "element": "無",
+          "skillType": "特殊",
+          "level": "スキルLv.3",
+          "effect": "自分自身 このターン、173 シールド を付与"
+        },
+        {
+          "kind": "スキル3",
+          "name": "マグネットアーマー",
+          "cost": "1",
+          "ct": "1",
+          "element": "無",
+          "skillType": "特殊",
+          "level": "スキルLv.3",
+          "effect": "自分自身 このターン、 かばう 状態を付与 / 自分自身 このターン、116 シールド を付与"
+        },
+        {
+          "kind": "スキル4",
+          "name": "リトルキャノン",
+          "cost": "1",
+          "ct": "2",
+          "element": "無",
+          "skillType": "召喚",
+          "level": "スキルLv.3",
+          "effect": "自陣 空きマスに「 リトルキャノン 」を召喚 / リトルキャノン：HP100 / 攻撃力87 / 最も近い対象を攻撃"
+        }
+      ],
+      "special": {
+        "kind": "スペシャル",
+        "name": "ガーディアンドーム",
+        "cost": "3",
+        "element": "無",
+        "skillType": "特殊",
+        "level": "SPLv.2",
+        "effect": "迅速 最初に行動 / 自分自身 最もHPが低い味方の前に移動 / 自分自身 このターン、 かばう 状態を付与 / 自分自身 このターン、810 シールド を付与"
+      },
+      "syncedAt": "2026-11-13"
+    },
+    {
+      "slug": "frei",
+      "officialSlug": "frey",
+      "sourceUrl": "https://blazecrown-game.com/wiki/chara/frey.html",
+      "lead": "世界中の強者との戦いを求める剣士。追い込まれるほど強くなるアタッカー。",
+      "nameEn": "Frey",
+      "job": "ブレイカー",
+      "roleType": "攻撃型",
+      "targetLevel": "初心者向け",
+      "profile": {
+        "出身": "炎の国アヴァロニア",
+        "チーム": "チームルミナ",
+        "HP": "560",
+        "SPD": "80"
+      },
+      "role": "HPが減るほど、味方が倒れるほど強くなる、逆転型のアタッカー。",
+      "statsNote": "数値はβテストの状態（キャラLv.10・スキルLv.3・スペシャルLv.2・パッシブLv.2）で計算しています。",
+      "passive": {
+        "name": "背水の陣",
+        "level": "パッシブLv.2",
+        "description": "・HPが30%以下になると敵に与えるダメージが25%アップ"
+      },
+      "skills": [
+        {
+          "kind": "スキル1",
+          "name": "リベンジソード",
+          "cost": "2",
+          "ct": "0",
+          "element": "無",
+          "skillType": "攻撃",
+          "level": "スキルLv.3",
+          "effect": "敵単体 130ダメージ / ・倒された味方キャラ数×50ダメージを追加"
+        },
+        {
+          "kind": "スキル2",
+          "name": "ジャイアントブレイド",
+          "cost": "3",
+          "ct": "1",
+          "element": "無",
+          "skillType": "攻撃",
+          "level": "スキルLv.3",
+          "effect": "敵縦一列 159ダメージ"
+        },
+        {
+          "kind": "スキル3",
+          "name": "クラッシュバスター",
+          "cost": "4",
+          "ct": "1",
+          "element": "地",
+          "skillType": "攻撃",
+          "level": "スキルLv.3",
+          "effect": "敵全体 144ダメージ / ・対象が召喚キャラの場合、ダメージは2倍"
+        },
+        {
+          "kind": "スキル4",
+          "name": "オーバーリミット",
+          "cost": "1",
+          "ct": "5",
+          "element": "無",
+          "skillType": "特殊",
+          "level": "性能固定",
+          "effect": "自分自身 HPを全回復 / 自分自身 次のターン、SPD30上昇を付与"
+        }
+      ],
+      "special": {
+        "kind": "スペシャル",
+        "name": "アベンジャー",
+        "cost": "4",
+        "element": "無",
+        "skillType": "攻撃",
+        "level": "SPLv.2",
+        "effect": "敵全体 270ダメージ / ・倒された味方キャラ数×50ダメージを追加",
+        "unlockCondition": "ターン終了時、自身がHP30%以下"
+      },
+      "syncedAt": "2026-11-13"
+    },
+    {
+      "slug": "tsubaki",
+      "officialSlug": "tsubaki",
+      "sourceUrl": "https://blazecrown-game.com/wiki/chara/tsubaki.html",
+      "lead": "和の国の忍び。最速クラスのSPDと多彩な術で敵をかき乱す。",
+      "nameEn": "Tsubaki",
+      "job": "ファントム",
+      "roleType": "特殊型",
+      "targetLevel": "中級者向け",
+      "profile": {
+        "出身": "和の国シンエン",
+        "チーム": "シンエン剣客衆",
+        "HP": "602",
+        "SPD": {
+          "value": "132",
+          "note": "パッシブ込み 141"
+        }
+      },
+      "role": "最速クラスのSPDで先に動き、連続攻撃と状態異常で敵をかき乱す。",
+      "statsNote": "数値はβテストの状態（キャラLv.10・スキルLv.3・スペシャルLv.2・パッシブLv.2）で計算しています。",
+      "passive": {
+        "name": "SPDアップ",
+        "level": "パッシブLv.2",
+        "description": "・SPDが9アップする"
+      },
+      "skills": [
+        {
+          "kind": "スキル1",
+          "name": "連続突き",
+          "cost": "1",
+          "ct": "0",
+          "element": "無",
+          "skillType": "攻撃",
+          "level": "スキルLv.3",
+          "effect": "敵単体 29ダメージ x 2回"
+        },
+        {
+          "kind": "スキル2",
+          "name": "乱れ手裏剣",
+          "cost": "2",
+          "ct": "1",
+          "element": "無",
+          "skillType": "攻撃",
+          "level": "スキルLv.3",
+          "effect": "敵単体 87ダメージ x 手札の枚数 / ・スペシャルスキル以外の手札をすべて捨てる"
+        },
+        {
+          "kind": "スキル3",
+          "name": "激流の術",
+          "cost": "2",
+          "ct": "2",
+          "element": "水",
+          "skillType": "攻撃",
+          "level": "スキルLv.3",
+          "effect": "敵単体 58ダメージ / 対象の前後左右にいる敵 このターン、 スタン を付与"
+        },
+        {
+          "kind": "スキル4",
+          "name": "猛炎の術",
+          "cost": "2",
+          "ct": "1",
+          "element": "火",
+          "skillType": "攻撃",
+          "level": "スキルLv.3",
+          "effect": "敵単体 101ダメージ / 敵単体 3ターン、 火傷 を付与 / ・このカードより後にセットするスキルカードのコストが1減少"
+        }
+      ],
+      "special": {
+        "kind": "スペシャル",
+        "name": "天照",
+        "cost": "3",
+        "element": "光",
+        "skillType": "攻撃",
+        "level": "SPLv.2",
+        "effect": "迅速 最初に行動 / 敵全体 120ダメージ / 敵全体 このターン、 スタン を付与",
+        "unlockCondition": "自身の攻撃スキルで合計9回ダメージを与える"
+      },
+      "syncedAt": "2026-11-13"
+    },
+    {
+      "slug": "kagetra",
+      "officialSlug": "kagetora",
+      "sourceUrl": "https://blazecrown-game.com/wiki/chara/kagetora.html",
+      "lead": "和の国シンエンの剣豪。クリティカルと敵の弱体化で戦うアタッカー。",
+      "nameEn": "Kagetora",
+      "job": "ソードマスター",
+      "roleType": "攻撃型",
+      "targetLevel": "初心者向け",
+      "profile": {
+        "出身": "和の国シンエン",
+        "チーム": "シンエン剣客衆",
+        "HP": "784",
+        "SPD": "84"
+      },
+      "role": "クリティカルと、敵の攻撃力を下げる技を持つアタッカー。",
+      "statsNote": "数値はβテストの状態（キャラLv.10・スキルLv.3・スペシャルLv.2・パッシブLv.2）で計算しています。",
+      "passive": {
+        "name": "必殺強化",
+        "level": "パッシブLv.2",
+        "description": "・スペシャルスキルで与えるダメージが16%アップ"
+      },
+      "skills": [
+        {
+          "kind": "スキル1",
+          "name": "居合斬り",
+          "cost": "1",
+          "ct": "0",
+          "element": "無",
+          "skillType": "攻撃",
+          "level": "スキルLv.3",
+          "effect": "敵横一列 陣形を無視して58ダメージ / ・対象が最前列の場合、 クリティカル になる"
+        },
+        {
+          "kind": "スキル2",
+          "name": "牙折り",
+          "cost": "2",
+          "ct": "1",
+          "element": "無",
+          "skillType": "攻撃",
+          "level": "スキルLv.3",
+          "effect": "敵単体 130ダメージ / 敵単体 2ターン、与ダメージ70%低下を付与"
+        },
+        {
+          "kind": "スキル3",
+          "name": "十文字斬り",
+          "cost": "3",
+          "ct": "0",
+          "element": "無",
+          "skillType": "攻撃",
+          "level": "スキルLv.3",
+          "effect": "敵十字 159ダメージ"
+        },
+        {
+          "kind": "スキル4",
+          "name": "瞑想",
+          "cost": "1",
+          "ct": "2",
+          "element": "無",
+          "skillType": "特殊",
+          "level": "スキルLv.3",
+          "effect": "自分自身 次のターン、与ダメージ24%上昇を付与 / ・このカードより後にセットされた自身のスキルカードは発動しない"
+        }
+      ],
+      "special": {
+        "kind": "スペシャル",
+        "name": "斬鉄剣",
+        "cost": "4",
+        "element": "無",
+        "skillType": "攻撃",
+        "level": "SPLv.2",
+        "effect": "自分自身 感電 ・ 凍結 を解除 / 敵単体 陣形を無視して540 クリティカル ダメージ",
+        "unlockCondition": "ターン終了時、自身がHP40%以下"
+      },
+      "syncedAt": "2026-11-13"
+    },
+    {
+      "slug": "murasame",
+      "officialSlug": "murasame",
+      "sourceUrl": "https://blazecrown-game.com/wiki/chara/murasame.html",
+      "lead": "妖刀を操る剣士。低コストの技を連打して攻め続けるアタッカー。",
+      "nameEn": "Murasame",
+      "job": "デーモンスレイヤー",
+      "roleType": "攻撃型",
+      "targetLevel": "初心者向け",
+      "profile": {
+        "出身": "和の国シンエン",
+        "チーム": "シンエン剣客衆",
+        "HP": "742",
+        "SPD": {
+          "value": "88",
+          "note": "パッシブ込み 92"
+        }
+      },
+      "role": "低コストの技を次々に撃って、陣形を無視して攻め続けるアタッカー。",
+      "statsNote": "数値はβテストの状態（キャラLv.10・スキルLv.3・スペシャルLv.2・パッシブLv.2）で計算しています。",
+      "passive": {
+        "name": "神速",
+        "level": "パッシブLv.2",
+        "description": "・SPD+4 / ・2コスト以下のスキルで与えるダメージが9%アップ"
+      },
+      "skills": [
+        {
+          "kind": "スキル1",
+          "name": "鬼哭",
+          "cost": "1",
+          "ct": "0",
+          "element": "無",
+          "skillType": "攻撃",
+          "level": "スキルLv.3",
+          "effect": "敵単体 陣形を無視して72ダメージ / 対象の背後にいる敵 50%のダメージ"
+        },
+        {
+          "kind": "スキル2",
+          "name": "神断",
+          "cost": "2",
+          "ct": "1",
+          "element": "無",
+          "skillType": "攻撃",
+          "level": "スキルLv.3",
+          "effect": "敵単体 陣形を無視して130ダメージ / 対象の左右にいる敵 50%のダメージ"
+        },
+        {
+          "kind": "スキル3",
+          "name": "乱刃",
+          "cost": "2",
+          "ct": "2",
+          "element": "無",
+          "skillType": "攻撃",
+          "level": "スキルLv.3",
+          "effect": "敵単体 130ダメージ x 2回"
+        },
+        {
+          "kind": "スキル4",
+          "name": "舞花",
+          "cost": "2",
+          "ct": "2",
+          "element": "無",
+          "skillType": "攻撃",
+          "level": "スキルLv.3",
+          "effect": "敵全体 72ダメージ"
+        }
+      ],
+      "special": {
+        "kind": "スペシャル",
+        "name": "鬼神乱舞",
+        "cost": "4",
+        "element": "無",
+        "skillType": "攻撃",
+        "level": "性能固定",
+        "effect": "迅速 最初に行動 / 敵単体 鬼哭、神断、乱刃、舞花で攻撃する",
+        "unlockCondition": "自身が攻撃を6回受ける"
+      },
+      "syncedAt": "2026-11-13"
+    },
+    {
+      "slug": "noel",
+      "officialSlug": "noel",
+      "sourceUrl": "https://blazecrown-game.com/wiki/chara/noel.html",
+      "lead": "王国の聖職者。味方全体をシールドで守り、敵の強化を打ち消す支援役。",
+      "nameEn": "Noel",
+      "job": "フェイスキーパー",
+      "roleType": "支援型",
+      "targetLevel": "中級者向け",
+      "profile": {
+        "出身": "炎の国アヴァロニア",
+        "チーム": "王子と従者たち",
+        "HP": "784",
+        "SPD": "119"
+      },
+      "role": "味方全体へのシールドと、敵のバフ解除で支える支援役。",
+      "statsNote": "数値はβテストの状態（キャラLv.10・スキルLv.3・スペシャルLv.2・パッシブLv.2）で計算しています。",
+      "passive": {
+        "name": "光の加護",
+        "level": "パッシブLv.2",
+        "description": "・ターン終了時、HPが5%回復"
+      },
+      "skills": [
+        {
+          "kind": "スキル1",
+          "name": "ホーリークロス",
+          "cost": "2",
+          "ct": "1",
+          "element": "光",
+          "skillType": "攻撃",
+          "level": "スキルLv.3",
+          "effect": "敵単体 130ダメージ / 敵単体 バフ効果 をすべて解除"
+        },
+        {
+          "kind": "スキル2",
+          "name": "ディバインフラッシュ",
+          "cost": "3",
+          "ct": "2",
+          "element": "光",
+          "skillType": "攻撃",
+          "level": "スキルLv.3",
+          "effect": "敵全体 101ダメージ / 敵全体 バフ効果 をすべて解除"
+        },
+        {
+          "kind": "スキル3",
+          "name": "ビッグドーム",
+          "cost": "2",
+          "ct": "2",
+          "element": "無",
+          "skillType": "特殊",
+          "level": "スキルLv.3",
+          "effect": "味方全体 このターン、72 シールド を付与"
+        },
+        {
+          "kind": "スキル4",
+          "name": "プロテクトコート",
+          "cost": "1",
+          "ct": "1",
+          "element": "無",
+          "skillType": "特殊",
+          "level": "スキルLv.3",
+          "effect": "味方全体 シールド の耐久値を116上昇"
+        }
+      ],
+      "special": {
+        "kind": "スペシャル",
+        "name": "ホーリードーム",
+        "cost": "3",
+        "element": "光",
+        "skillType": "特殊",
+        "level": "SPLv.2",
+        "effect": "自身&隣接 このターン、300 シールド を付与 / ・ターン終了時、残り シールド 分、HPを回復",
+        "unlockCondition": "ターン終了時、エナジーが6以上"
+      },
+      "syncedAt": "2026-11-13"
+    },
+    {
+      "slug": "leonis",
+      "officialSlug": "leonis",
+      "sourceUrl": "https://blazecrown-game.com/wiki/chara/leonis.html",
+      "lead": "王国の騎士。強力だが扱いの難しい技を持つ、上級者向けの支援・攻撃役。",
+      "nameEn": "Leonis",
+      "job": "ナイトロード",
+      "roleType": "支援型",
+      "targetLevel": "上級者向け",
+      "profile": {
+        "出身": "炎の国アヴァロニア",
+        "チーム": "王子と従者たち",
+        "HP": {
+          "value": "728",
+          "note": "パッシブ込み 778"
+        },
+        "SPD": "107"
+      },
+      "role": "回復と感電、強力な横一列攻撃を持つ、上級者向けの万能役。",
+      "statsNote": "数値はβテストの状態（キャラLv.10・スキルLv.3・スペシャルLv.2・パッシブLv.2）で計算しています。",
+      "passive": {
+        "name": "覚醒",
+        "level": "パッシブLv.2",
+        "description": "・HP+50 / ・3ターン毎にエナジー+1（3、6、9ターン目に獲得）"
+      },
+      "skills": [
+        {
+          "kind": "スキル1",
+          "name": "ライトニングスラッシュ",
+          "cost": "1",
+          "ct": "0",
+          "element": "雷",
+          "skillType": "攻撃",
+          "level": "スキルLv.3",
+          "effect": "敵単体 58ダメージ / 敵単体 3ターン、 感電 を付与"
+        },
+        {
+          "kind": "スキル2",
+          "name": "パリィングソード",
+          "cost": "2",
+          "ct": "2",
+          "element": "無",
+          "skillType": "攻撃",
+          "level": "スキルLv.3",
+          "effect": "敵単体 130ダメージ / 自分自身 このターン、受けるダメージ1回無効"
+        },
+        {
+          "kind": "スキル3",
+          "name": "セイクリッドピアース",
+          "cost": "5",
+          "ct": "2",
+          "element": "光",
+          "skillType": "攻撃",
+          "level": "スキルLv.3",
+          "effect": "敵横一列 246ダメージ / ・他のスキルカードとセット時、コスト-3"
+        },
+        {
+          "kind": "スキル4",
+          "name": "ロイヤルヒール",
+          "cost": "2",
+          "ct": "1",
+          "element": "光",
+          "skillType": "特殊",
+          "level": "スキルLv.3",
+          "effect": "自身&隣接 HPを173回復"
+        }
+      ],
+      "special": {
+        "kind": "スペシャル",
+        "name": "エクスカリバー",
+        "cost": "4",
+        "element": "光",
+        "skillType": "攻撃",
+        "level": "SPLv.2",
+        "effect": "鈍足 最後に行動 / 敵横一列 240+現在HPダメージ / 自分自身 使用後、HPが1になる"
+      },
+      "syncedAt": "2026-11-13"
+    },
+    {
+      "slug": "zaphiel",
+      "officialSlug": "zaphiel",
+      "sourceUrl": "https://blazecrown-game.com/wiki/chara/zaphiel.html",
+      "lead": "砂の王国の傭兵。エナジーを奪い、相手のやりたいことをさせない妨害役。",
+      "nameEn": "Zaphiel",
+      "job": "デザートブレード",
+      "roleType": "妨害型",
+      "targetLevel": "上級者向け",
+      "profile": {
+        "出身": "砂の王国ナジュラーム",
+        "チーム": "ザフィール傭兵団",
+        "HP": "784",
+        "SPD": "72"
+      },
+      "role": "敵のエナジーを奪って、相手の動きを縛る妨害役。",
+      "statsNote": "数値はβテストの状態（キャラLv.10・スキルLv.3・スペシャルLv.2・パッシブLv.2）で計算しています。",
+      "passive": {
+        "name": "見切り",
+        "level": "パッシブLv.2",
+        "description": "・ターン中に複数回攻撃を受ける時、2回目以降のダメージを15%軽減"
+      },
+      "skills": [
+        {
+          "kind": "スキル1",
+          "name": "サンドバイパー",
+          "cost": "1",
+          "ct": "1",
+          "element": "地",
+          "skillType": "攻撃",
+          "level": "スキルLv.3",
+          "effect": "敵単体 72ダメージ / 敵単体 エナジーを1減少"
+        },
+        {
+          "kind": "スキル2",
+          "name": "ゴールドシャワー",
+          "cost": "3",
+          "ct": "2",
+          "element": "光",
+          "skillType": "攻撃",
+          "level": "スキルLv.3",
+          "effect": "敵全体 87ダメージ / 味方全体 与ダメージ30%上昇を付与"
+        },
+        {
+          "kind": "スキル3",
+          "name": "スコーピオンテイル",
+          "cost": "6",
+          "ct": "3",
+          "element": "地",
+          "skillType": "攻撃",
+          "level": "スキルLv.3",
+          "effect": "敵単体 陣形を無視して318+自身の減少HPダメージ"
+        },
+        {
+          "kind": "スキル4",
+          "name": "ボディガード",
+          "cost": "2",
+          "ct": "3",
+          "element": "無",
+          "skillType": "召喚",
+          "level": "スキルLv.3",
+          "effect": "自陣 自身の正面と左右のマスに「 ボディガード 」を召喚 / ボディガード：HP150 / 攻撃力72 / 最も近い対象を攻撃"
+        }
+      ],
+      "special": {
+        "kind": "スペシャル",
+        "name": "グランドバジェット",
+        "cost": "4",
+        "element": "光",
+        "skillType": "特殊",
+        "level": "性能固定",
+        "effect": "敵全体 エナジーをすべて奪う / 自分自身 エナジーを上限まで獲得",
+        "unlockCondition": "対戦相手がスペシャルスキルを2枚獲得する"
+      },
+      "syncedAt": "2026-11-13"
+    },
+    {
+      "slug": "alfard",
+      "officialSlug": "alphard",
+      "sourceUrl": "https://blazecrown-game.com/wiki/chara/alphard.html",
+      "lead": "ならず者の国の海賊船長。手下の海賊を呼び出して数で押す召喚役。",
+      "nameEn": "Alphard",
+      "job": "キャプテン",
+      "roleType": "召喚型",
+      "targetLevel": "中級者向け",
+      "profile": {
+        "出身": "ならず者の国リベリウム",
+        "チーム": "アルファルド海賊団",
+        "HP": "756",
+        "SPD": "85"
+      },
+      "role": "海賊を召喚して数で押す召喚役。",
+      "statsNote": "数値はβテストの状態（キャラLv.10・スキルLv.3・スペシャルLv.2・パッシブLv.2）で計算しています。",
+      "passive": {
+        "name": "召喚攻撃強化",
+        "level": "パッシブLv.2",
+        "description": "・召喚キャラが与えるダメージが15%増加する"
+      },
+      "skills": [
+        {
+          "kind": "スキル1",
+          "name": "ダーティスラッシュ",
+          "cost": "3",
+          "ct": "1",
+          "element": "無",
+          "skillType": "攻撃",
+          "level": "スキルLv.3",
+          "effect": "敵縦一列 最も近い敵の列に144ダメージ / 敵縦一列 このターン、 スタン を付与"
+        },
+        {
+          "kind": "スキル2",
+          "name": "パイレーツホイッスル",
+          "cost": "1",
+          "ct": "2",
+          "element": "無",
+          "skillType": "召喚",
+          "level": "スキルLv.3",
+          "effect": "自陣 「 見習い海賊 」を召喚 / 見習い海賊：HP117 / 攻撃力58 / 最も近い対象を攻撃"
+        },
+        {
+          "kind": "スキル3",
+          "name": "ボーディングパーティ",
+          "cost": "3",
+          "ct": "3",
+          "element": "無",
+          "skillType": "召喚",
+          "level": "スキルLv.3",
+          "effect": "自陣 自身と同じ縦列の空きマス全てに「 ベテラン海賊 」を召喚 / ベテラン海賊：HP200 / 攻撃力72 / 最も近い縦一列を攻撃"
+        },
+        {
+          "kind": "スキル4",
+          "name": "ラム・ブースト",
+          "cost": "1",
+          "ct": "2",
+          "element": "無",
+          "skillType": "攻撃",
+          "level": "スキルLv.3",
+          "effect": "味方全体 このターン、与ダメージ58増加を付与"
+        }
+      ],
+      "special": {
+        "kind": "スペシャル",
+        "name": "オールハンズレイド",
+        "cost": "3",
+        "element": "無",
+        "skillType": "攻撃",
+        "level": "SPLv.2",
+        "effect": "敵単体 105ダメージを[場にいる味方の数]回行う",
+        "unlockCondition": "ターン終了時、自陣のユニットが6体以上"
+      },
+      "syncedAt": "2026-11-13"
+    }
+  ]
+}
