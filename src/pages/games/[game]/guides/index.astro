@@ -6,5 +6,5 @@ export async function getStaticPaths() {
 }
 
 const { game } = Astro.params;
-return Astro.redirect(gameHubPath(game!));
+return Astro.redirect(`${gameHubPath(game!)}#section-guides`);
 ---

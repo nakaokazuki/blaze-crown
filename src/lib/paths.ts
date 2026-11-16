@@ -17,8 +17,9 @@ export function newsHubPath(game: string): string {
   return `${gameHubPath(game)}#section-news`;
 }
 
+/** パンくず「攻略記事」用（TOP の攻略記事セクションへ） */
 export function guidesIndexPath(game: string): string {
-  return `/games/${game}/guides/`;
+  return `${gameHubPath(game)}#section-guides`;
 }
 
 export function guidePath(game: string, slug: string): string {
