@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { GUIDE_NOTES_API_PATH } from '../../lib/commentsApi';
+import { guideNotesListUrl } from '../../lib/commentsApi';
 
 export type Comment = {
   id: string;
@@ -25,9 +25,7 @@ export function useComments(articleId: string) {
       if (!articleId) {
         throw new Error('記事 ID が不明です');
       }
-      const url = new URL(GUIDE_NOTES_API_PATH, window.location.origin);
-      url.searchParams.set('article_id', articleId);
-      const res = await fetch(url, {
+      const res = await fetch(guideNotesListUrl(articleId), {
         cache: 'no-store',
         signal: controller.signal,
       });

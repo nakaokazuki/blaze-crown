@@ -12,23 +12,13 @@ export function buildCharacterPageToc(characterName: string, wiki?: CharacterWik
     {
       label: `${characterName}の評価`,
       href: '#section-review',
-      children: [
-        { label: 'おすすめデッキ', href: '#section-deck' },
-        { label: '使い方のコツ', href: '#section-tips' },
-      ],
     },
   ];
 
   if (wiki) {
-    const children: TocItem[] = [];
-    if (wiki.role) children.push({ label: '役割', href: '#section-role' });
-    if (wiki.passive) children.push({ label: '固有パッシブ', href: '#section-passive' });
-    if (wiki.skills.length > 0) children.push({ label: 'スキルカード', href: '#section-skills' });
-    if (wiki.special) children.push({ label: 'スペシャルスキル', href: '#section-special' });
     items.push({
       label: statsLabel,
       href: '#section-stats',
-      ...(children.length > 0 ? { children } : {}),
     });
   }
 

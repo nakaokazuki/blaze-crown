@@ -18,23 +18,11 @@ const { items = defaultItems } = Astro.props;
   <div>目次</div>
   <ol>
     {
-      items.map((item) => {
-        const hasChildren = item.children && item.children.length > 0;
-        return (
-          <li>
-            <a href={item.href}>{item.label}</a>
-            {hasChildren && (
-              <ol>
-                {item.children!.map((child) => (
-                  <li>
-                    <a href={child.href}>{child.label}</a>
-                  </li>
-                ))}
-              </ol>
-            )}
-          </li>
-        );
-      })
+      items.map((item) => (
+        <li>
+          <a href={item.href}>{item.label}</a>
+        </li>
+      ))
     }
   </ol>
 </nav>
