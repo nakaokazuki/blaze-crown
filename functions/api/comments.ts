@@ -28,6 +28,15 @@ async function verifyTurnstile(token: string, secret: string, ip: string): Promi
   return Boolean(data.success);
 }
 
+const RATE_LIMIT_MS = 60_000;
+
+async function hashIp(ip: string): Promise<string> {
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(`comment-rate:${ip}`));
+  return Array.from(new Uint8Array(digest))
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('');
+}
+
 function adminClient(env: Env) {
   if (!env.PUBLIC_SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY) return null;
   return createClient(env.PUBLIC_SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY, {
@@ -113,7 +122,39 @@ export async function onRequestPost(context: {
     if (!error && data.user) userId = data.user.id;
   }
 
-  const status = userId ? 'approved' : 'pending';
+  const since = new Date(Date.now() - RATE_LIMIT_MS).toISOString();
+  const ipHash = await hashIp(ip);
+
+  if (userId) {
+    const { data: recent, error: rateError } = await supabase
+      .from('comments')
+      .select('id')
+      .eq('user_id', userId)
+      .gte('created_at', since)
+      .limit(1);
+    if (rateError) return Response.json({ error: rateError.message }, { status: 500 });
+    if (recent?.length) {
+      return Response.json(
+        { error: '1分以内に再度投稿できません。しばらく待ってからお試しください。' },
+        { status: 429 },
+      );
+    }
+  } else {
+    const { data: recent, error: rateError } = await supabase
+      .from('comments')
+      .select('id')
+      .eq('ip_hash', ipHash)
+      .gte('created_at', since)
+      .limit(1);
+    if (rateError) return Response.json({ error: rateError.message }, { status: 500 });
+    if (recent?.length) {
+      return Response.json(
+        { error: '1分以内に再度投稿できません。しばらく待ってからお試しください。' },
+        { status: 429 },
+      );
+    }
+  }
+
   const guestName = userId ? null : (body.guest_name?.slice(0, 32) ?? 'ゲスト');
 
   const { error: insertError } = await supabase.from('comments').insert({
@@ -121,17 +162,13 @@ export async function onRequestPost(context: {
     user_id: userId,
     guest_name: guestName,
     body: text,
-    status,
+    status: 'approved',
+    ip_hash: ipHash,
   });
 
   if (insertError) {
     return Response.json({ error: insertError.message }, { status: 500 });
   }
 
-  const message =
-    status === 'approved'
-      ? 'コメントを投稿しました。'
-      : 'コメントを受け付けました。承認後に表示されます。';
-
-  return Response.json({ ok: true, message });
+  return Response.json({ ok: true, message: 'コメントを投稿しました。' });
 }

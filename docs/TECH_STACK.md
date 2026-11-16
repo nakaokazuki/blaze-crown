@@ -42,8 +42,8 @@ Astro（SSG）で攻略 MDX を静的公開する。コメントは Supabase と
 
 | 投稿者 | 入力 | DB `status` | 公開 |
 |--------|------|-------------|------|
-| 非ログイン | 表示名 + 本文 + Turnstile | `pending` | Supabase Dashboard で承認後 |
-| Google ログイン | 本文 + Turnstile | `approved` | 即時 |
+| 非ログイン | 表示名 + 本文 + Turnstile | `approved` | 即時（IP ごとに1分1回） |
+| Google ログイン | 本文 + Turnstile | `approved` | 即時（ユーザーごとに1分1回） |
 | 参照 | `GET /api/comments?article_id=...` | — | `approved` のみ |
 
 - 書き込み: ブラウザ → Pages Function → Turnstile 検証 → Supabase（service role）
