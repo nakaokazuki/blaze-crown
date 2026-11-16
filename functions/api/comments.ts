@@ -70,7 +70,14 @@ export async function onRequestGet(context: {
     return Response.json({ error: error.message }, { status: 500 });
   }
 
-  return Response.json({ comments: (data ?? []) as CommentRow[] });
+  return Response.json(
+    { comments: (data ?? []) as CommentRow[] },
+    {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate',
+      },
+    },
+  );
 }
 
 export async function onRequestPost(context: {
@@ -170,5 +177,12 @@ export async function onRequestPost(context: {
     return Response.json({ error: insertError.message }, { status: 500 });
   }
 
-  return Response.json({ ok: true, message: 'コメントを投稿しました。' });
+  return Response.json(
+    { ok: true, message: 'コメントを投稿しました。' },
+    {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate',
+      },
+    },
+  );
 }

@@ -58,7 +58,7 @@ const guideItems = await getGuidesSortedByUpdate(game);
       </article>
 
       <section class="content-panel wiki-stack-block" aria-label="コメント">
-        <CommentsSection client:visible articleId={id} />
+        <CommentsSection client:load articleId={id} />
       </section>
     </div>
   </WikiLayout>

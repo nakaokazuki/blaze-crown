@@ -60,6 +60,7 @@ export function CommentForm({ articleId, onSubmitted }: Props) {
       setBody('');
       setMessage(data.message ?? '投稿しました。');
       onSubmitted();
+      window.setTimeout(() => onSubmitted(), 400);
     } catch (err) {
       setMessage(err instanceof Error ? err.message : '投稿に失敗しました');
     } finally {
