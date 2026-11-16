@@ -5,3 +5,9 @@ export const SITE_NAME_EN = 'BLAZE CROWN';
 export const DEFAULT_GAME = 'blaze-crown';
 /** 協力者募集・お問い合わせ */
 export const SITE_CONTACT_EMAIL = 'contact.work0804@gmail.com';
+
+/** 公式攻略Wiki（サイト表記・出典ラベル） */
+export const OFFICIAL_GUIDE_WIKI_NAME = 'ブレイズクラウン 攻略Wiki';
+export const OFFICIAL_WIKI_INDEX_URL = 'https://blazecrown-game.com/wiki/index.html';
+export const OFFICIAL_WIKI_BEGINNER_URL =
+  'https://blazecrown-game.com/wiki/guide/beginner.html';

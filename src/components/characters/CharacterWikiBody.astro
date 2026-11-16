@@ -1,6 +1,7 @@
 ---
 import type { CharacterWikiEntry, WikiSkill } from '../../lib/characterWiki';
 import { formatProfileValue } from '../../lib/characterWiki';
+import { OFFICIAL_GUIDE_WIKI_NAME } from '../../lib/constants';
 import CharacterSkillBlock from './CharacterSkillBlock.astro';
 
 interface Props {
@@ -104,8 +105,7 @@ const classLabel =
   <p class="mt-8 text-sm text-[#666]">
     出典：
     <a href={wiki.sourceUrl} target="_blank" rel="noopener noreferrer">
-      公式 攻略Wiki（{wiki.syncedAt ?? 'βテスト版'}時点）
+      {OFFICIAL_GUIDE_WIKI_NAME}
     </a>
-    （非公式サイトへの転載・整理）
   </p>
 </div>

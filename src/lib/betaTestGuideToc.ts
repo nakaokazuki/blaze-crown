@@ -18,7 +18,6 @@ export const BETA_TEST_GUIDE_TOC: InPageTocItem[] = [
     ],
   },
   { label: 'キャラクターの追加スケジュール', href: '#キャラクターの追加スケジュール' },
-  { label: '遊べるモードのイメージ', href: '#遊べるモードのイメージ' },
   { label: 'βに参加していない人向け', href: '#βに参加していない人向け' },
   { label: '対応端末の目安', href: '#対応端末の目安' },
   { label: 'ランキング賞品', href: '#ランキング賞品' },
