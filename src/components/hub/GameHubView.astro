@@ -80,29 +80,5 @@ const gameInfoParagraphs = (meta.gameInfo ?? '')
       <h2 class="section-title">キャラ一覧</h2>
       <CharacterGrid characters={characters} game={game} variant="compact" />
     </section>
-
-    <section id="section-guides" class="wiki-stack-block wiki-hub-section">
-      <h2 class="section-title">攻略記事</h2>
-      {
-        guideItems.length === 0 ? (
-          <p class="text-sm text-[#666]">記事を準備中です。</p>
-        ) : (
-          <ul class="mt-2 list-none space-y-2 p-0">
-            {
-              guideItems.map((item) => (
-                <li>
-                  <a href={item.href} class="font-bold text-[var(--g8-link)] no-underline hover:underline">
-                    {item.title}
-                  </a>
-                  {item.description && (
-                    <p class="mt-0.5 text-xs leading-snug text-[#666]">{item.description}</p>
-                  )}
-                </li>
-              ))
-            }
-          </ul>
-        )
-      }
-    </section>
   </div>
 </WikiLayout>
