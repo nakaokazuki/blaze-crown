@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { getSupabaseBrowserClient } from '../../lib/supabase/client';
+import { GUIDE_NOTES_API_PATH } from '../../lib/commentsApi';
 
 type Props = {
   articleId: string;
@@ -15,44 +15,23 @@ export function CommentForm({ articleId, onSubmitted }: Props) {
   const [message, setMessage] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
-  const supabase = getSupabaseBrowserClient();
   const turnstileKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY as string | undefined;
 
-  async function handleGoogleLogin() {
-    if (!supabase) {
-      setMessage('Supabase の環境変数が未設定です。');
-      return;
-    }
-    const redirectTo = window.location.href;
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: { redirectTo },
-    });
-    if (error) setMessage(error.message);
-  }
-
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!body.trim()) return;
     setSubmitting(true);
     setMessage(null);
 
-    let accessToken: string | undefined;
-    if (supabase) {
-      const { data } = await supabase.auth.getSession();
-      accessToken = data.session?.access_token;
-    }
-
     try {
-      const res = await fetch('/api/comments', {
+      const res = await fetch(GUIDE_NOTES_API_PATH, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           article_id: articleId,
           body: body.trim(),
-          guest_name: accessToken ? undefined : guestName.trim() || 'ゲスト',
+          guest_name: guestName.trim() || 'ゲスト',
           turnstile_token: turnstileKey ? 'dev-bypass' : undefined,
-          access_token: accessToken,
         }),
       });
       const data = (await res.json()) as { ok?: boolean; message?: string; error?: string };
@@ -70,19 +49,9 @@ export function CommentForm({ articleId, onSubmitted }: Props) {
 
   return (
     <div className="space-y-3">
-      {supabase && (
-        <button
-          type="button"
-          onClick={() => void handleGoogleLogin()}
-          className="rounded border border-[#ccc] bg-[#f5f5f5] px-3 py-2 text-sm font-bold text-[#005dc0]"
-        >
-          Google でログインしてコメント
-        </button>
-      )}
-
       <form onSubmit={(e) => void handleSubmit(e)} className="space-y-3">
         <label className="block text-sm font-bold text-[#222]">
-          表示名（ゲスト時）
+          表示名
           <input
             className={fieldClass}
             value={guestName}
@@ -101,9 +70,6 @@ export function CommentForm({ articleId, onSubmitted }: Props) {
             maxLength={2000}
           />
         </label>
-        {!turnstileKey && (
-          <p className="text-xs text-[#666]">Turnstile 未設定時は本番 API で検証されます。</p>
-        )}
         <button
           type="submit"
           disabled={submitting}

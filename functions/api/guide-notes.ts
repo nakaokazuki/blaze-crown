@@ -64,19 +64,23 @@ export async function onRequestGet(context: {
     .select('id, article_id, guest_name, body, created_at')
     .eq('article_id', articleId)
     .eq('status', 'approved')
-    .order('created_at', { ascending: true });
+    .order('created_at', { ascending: false });
+
+  const jsonHeaders = {
+    'Cache-Control': 'no-store, no-cache, must-revalidate',
+    'Content-Type': 'application/json; charset=utf-8',
+  };
 
   if (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+    return Response.json(
+      { comments: [], warning: error.message },
+      { headers: jsonHeaders },
+    );
   }
 
   return Response.json(
     { comments: (data ?? []) as CommentRow[] },
-    {
-      headers: {
-        'Cache-Control': 'no-store, no-cache, must-revalidate',
-      },
-    },
+    { headers: jsonHeaders },
   );
 }
 

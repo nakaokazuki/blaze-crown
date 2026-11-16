@@ -41,7 +41,7 @@ blaze-crown/
 │
 ├── functions/
 │   └── api/
-│       └── comments.ts
+│       └── guide-notes.ts
 │
 ├── src/
 │   ├── pages/

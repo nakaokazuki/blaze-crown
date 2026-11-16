@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { GUIDE_NOTES_API_PATH } from '../../lib/commentsApi';
 
 export type Comment = {
   id: string;
@@ -21,13 +22,32 @@ export function useComments(articleId: string) {
     const controller = new AbortController();
     const timeoutId = window.setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
     try {
-      const res = await fetch(`/api/comments?article_id=${encodeURIComponent(articleId)}`, {
+      if (!articleId) {
+        throw new Error('記事 ID が不明です');
+      }
+      const url = new URL(GUIDE_NOTES_API_PATH, window.location.origin);
+      url.searchParams.set('article_id', articleId);
+      const res = await fetch(url, {
         cache: 'no-store',
         signal: controller.signal,
       });
-      if (!res.ok) throw new Error('コメントを読み込めませんでした');
-      const data = (await res.json()) as { comments: Comment[] };
+      const data = (await res.json()) as {
+        comments?: Comment[];
+        error?: string;
+        warning?: string;
+      };
+      if (!res.ok) {
+        const detail = data.error ?? data.warning;
+        throw new Error(
+          detail
+            ? `${detail}（HTTP ${res.status}）`
+            : `コメントを読み込めませんでした（HTTP ${res.status}）`,
+        );
+      }
       setComments(data.comments ?? []);
+      if (data.warning && !(data.comments?.length)) {
+        setError(data.warning);
+      }
     } catch (e) {
       if (e instanceof Error && e.name === 'AbortError') {
         setError('コメントの読み込みがタイムアウトしました。再読み込みしてください。');
