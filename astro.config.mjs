@@ -8,7 +8,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://blaze-crown.pages.dev',
+  site: 'https://blaze-crown.com',
   integrations: [react(), mdx(), sitemap()],
   vite: {
     plugins: [tailwindcss()],

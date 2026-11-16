@@ -1,3 +1,13 @@
 ---
-return Astro.redirect('/games/blaze-crown/');
+import GameHubLayout from '../layouts/GameHubLayout.astro';
+import GameHubView from '../components/hub/GameHubView.astro';
+import { DEFAULT_GAME, WIKI_BRAND_TITLE } from '../lib/constants';
+import { loadGameMeta } from '../lib/games';
+
+const game = DEFAULT_GAME;
+const meta = loadGameMeta(game);
 ---
+
+<GameHubLayout title={WIKI_BRAND_TITLE} description={meta.description}>
+  <GameHubView game={game} />
+</GameHubLayout>

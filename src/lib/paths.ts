@@ -1,4 +1,7 @@
+import { DEFAULT_GAME } from './constants';
+
 export function gameHubPath(game: string): string {
+  if (game === DEFAULT_GAME) return '/';
   return `/games/${game}/`;
 }
 
