@@ -38,6 +38,7 @@ supabase db push
 
 - [docs/TECH_STACK.md](./docs/TECH_STACK.md)
 - [docs/FOLDER_STRUCTURE.md](./docs/FOLDER_STRUCTURE.md)
+- [docs/SEO優先順位.md](./docs/SEO優先順位.md) — 施策一覧・進捗チェック
 
 ## デプロイ
 

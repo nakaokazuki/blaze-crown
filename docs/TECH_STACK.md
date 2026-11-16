@@ -81,6 +81,7 @@ Git → Cloudflare Pages（Astro ビルド）
 - 攻略 URL はすべて静的生成
 - `title` / `description` / `updatedAt` を frontmatter で統一
 - サイトマップ、canonical、パンくず、Article 構造化データ
+- 施策の優先順位・進捗: [SEO優先順位.md](./SEO優先順位.md)
 
 ---
 

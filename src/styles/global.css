@@ -253,8 +253,16 @@
     @apply block px-3 py-2.5 text-[13px] no-underline hover:bg-[#fff9e8];
   }
 
+  .wiki-side-guide-row {
+    @apply flex items-baseline justify-between gap-2;
+  }
+
   .wiki-side-guide-title {
-    @apply block font-bold leading-snug text-[var(--g8-link)];
+    @apply min-w-0 flex-1 font-bold leading-snug text-[var(--g8-link)];
+  }
+
+  .wiki-side-guide-date {
+    @apply shrink-0 text-[10px] font-normal leading-none text-[#888];
   }
 
   .wiki-side-guide-pager {
@@ -305,6 +313,7 @@
     @apply border-0 border-b border-[#ddd] bg-transparent px-0 py-3 last:border-b-0;
   }
 
+  #section-guide-list,
   #section-top,
   #section-game-info,
   #section-characters,

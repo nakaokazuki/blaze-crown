@@ -6,6 +6,7 @@ export type GuideListItem = {
   slug: string;
   title: string;
   href: string;
+  publishedAt: Date;
   updatedAt: Date;
   description?: string;
 };
@@ -15,6 +16,7 @@ function toListItem(g: Awaited<ReturnType<typeof getCollection<'guides'>>>[numbe
     slug: g.id,
     title: g.data.title,
     href: guidePath(g.data.game, g.id),
+    publishedAt: g.data.publishedAt,
     updatedAt: g.data.updatedAt,
     description: g.data.description,
   };
@@ -22,11 +24,13 @@ function toListItem(g: Awaited<ReturnType<typeof getCollection<'guides'>>>[numbe
 
 function characterToListItem(game: string, c: Character): GuideListItem {
   const title = `${c.name}の評価と性能`;
+  const publishedAt = new Date(c.availableFrom);
   return {
     slug: `character-${c.slug}`,
     title,
     href: characterPath(game, c.slug),
-    updatedAt: new Date(c.availableFrom),
+    publishedAt,
+    updatedAt: publishedAt,
     description: c.detail,
   };
 }
