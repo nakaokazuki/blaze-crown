@@ -230,7 +230,7 @@
   }
 
   .wiki-col-left {
-    @apply min-w-0;
+    @apply min-w-0 lg:col-start-1 lg:row-start-1;
   }
 
   .wiki-col-left-stack {
@@ -262,7 +262,7 @@
   }
 
   .wiki-col-right {
-    @apply min-w-0;
+    @apply min-w-0 lg:col-start-2 lg:row-start-1;
   }
 
   .wiki-col-right-stack {
@@ -712,6 +712,111 @@
 
   .wiki-recruit-table th[scope='col'] {
     @apply px-3 py-2 text-left;
+  }
+
+  .wiki-recruit-template-select {
+    @apply border border-[var(--g8-border)] bg-white px-3 py-2 text-[var(--g8-text)];
+  }
+
+  .wiki-recruit-template-body {
+    @apply min-h-[12rem] resize-y border border-[var(--g8-border)] bg-[#fafafa] p-3 text-[#333] focus:border-[var(--g8-brand)] focus:bg-white focus:outline-none;
+  }
+
+  .wiki-recruit-template-copy {
+    @apply cursor-pointer border border-[var(--g8-border)] bg-[var(--g8-brand)] px-4 py-2 text-sm font-bold text-[#222] hover:opacity-90;
+  }
+
+  .wiki-ranking-prizes {
+    @apply my-4;
+  }
+
+  .wiki-ranking-prizes-lead {
+    @apply mb-3 text-sm leading-relaxed text-[#333];
+  }
+
+  .wiki-ranking-prizes-list {
+    @apply m-0 list-none space-y-2 p-0;
+  }
+
+  .wiki-ranking-prize {
+    @apply flex flex-wrap items-center gap-2 rounded border border-[var(--g8-border)] bg-white px-3 py-2.5 sm:gap-3;
+  }
+
+  .wiki-ranking-prize--gold {
+    @apply border-[#e5a10a] bg-[#fff9e8];
+  }
+
+  .wiki-ranking-prize--silver {
+    @apply border-[#9aa3ad] bg-[#f5f7f9];
+  }
+
+  .wiki-ranking-prize--bronze {
+    @apply border-[#c9a227] bg-[#fffdf8];
+  }
+
+  .wiki-ranking-prize-rank {
+    @apply inline-flex min-w-[3.25rem] shrink-0 items-center justify-center text-base font-bold text-[var(--g8-text)];
+  }
+
+  .wiki-ranking-prize--gold .wiki-ranking-prize-rank {
+    @apply text-[#b8860b];
+  }
+
+  .wiki-ranking-prize-amount {
+    @apply min-w-0 flex-1 text-sm font-bold text-[var(--g8-text)] sm:text-base;
+  }
+
+  .wiki-ranking-prizes-note {
+    @apply mt-3 text-sm leading-relaxed text-[#555];
+  }
+
+  .wiki-deck-top5-detail {
+    @apply my-4 space-y-8;
+  }
+
+  .wiki-deck-top5-detail .wiki-deck-top5-rank {
+    @apply mb-2;
+  }
+
+  .wiki-deck-top5-rank {
+    @apply border border-[var(--g8-border)] bg-[#fafcfe] p-4;
+    scroll-margin-top: 7rem;
+  }
+
+  .wiki-deck-top5-rank-title {
+    @apply m-0 mb-3 flex flex-wrap items-baseline gap-2 border-b border-[var(--g8-border-light)] pb-3 text-lg font-bold text-[var(--g8-text)];
+  }
+
+  .wiki-deck-top5-rank-num {
+    @apply inline-flex min-w-[3rem] items-center justify-center bg-[var(--g8-brand)] px-2 py-0.5 text-base text-[#222];
+  }
+
+  .wiki-deck-top5-rank-name {
+    @apply text-[var(--g8-text)];
+  }
+
+  .wiki-deck-top5-rank-level {
+    @apply text-xs font-bold leading-snug text-[#c45c00];
+  }
+
+  .wiki-deck-top5-roster.wiki-char-grid {
+    @apply grid-cols-3 gap-2 sm:grid-cols-3 sm:gap-3 md:grid-cols-3 lg:grid-cols-3;
+  }
+
+  .wiki-deck-top5-char-link {
+    @apply block text-center text-inherit;
+  }
+
+  .wiki-deck-top5-char-link .wiki-char-card-name {
+    @apply text-[var(--g8-text)];
+  }
+
+  .wiki-deck-top5-char-link:hover .wiki-char-card-name {
+    @apply text-[var(--g8-link)] underline;
+  }
+
+  .wiki-deck-top5-credit {
+    @apply mt-2 border-t border-[var(--g8-border-light)] pt-3;
   }
 
   .article-prose table {

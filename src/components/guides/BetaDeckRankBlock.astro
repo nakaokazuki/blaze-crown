@@ -1,0 +1,46 @@
+---
+import CharacterPortrait from '../characters/CharacterPortrait.astro';
+import { loadCharacters } from '../../lib/characters';
+import { BETA_DECK_TOP5 } from '../../lib/betaDeckTop5';
+import { characterPath } from '../../lib/paths';
+
+interface Props {
+  rank: number;
+}
+
+const { rank } = Astro.props;
+const game = 'blaze-crown';
+const deck = BETA_DECK_TOP5.find((d) => d.rank === rank);
+if (!deck) {
+  throw new Error(`Unknown deck rank: ${rank}`);
+}
+
+const bySlug = new Map(loadCharacters(game).map((c) => [c.slug, c]));
+---
+
+<section class="wiki-deck-top5-rank" aria-labelledby={deck.detailAnchor}>
+  <h3 id={deck.detailAnchor} class="wiki-deck-top5-rank-title">
+    <span class="wiki-deck-top5-rank-num">{deck.rank}位</span>
+    <span class="wiki-deck-top5-rank-name">{deck.deckName}</span>
+    <span class="wiki-deck-top5-rank-level">{deck.targetLevel}</span>
+  </h3>
+  <ul class="wiki-char-grid wiki-deck-top5-roster">
+    {
+      deck.slugs.map((slug) => {
+        const c = bySlug.get(slug);
+        const name = c?.name ?? slug;
+        const roleType = c?.roleType ?? '—';
+        const href = c?.published ? characterPath(game, slug) : undefined;
+        return (
+          <li class="wiki-char-card wiki-deck-top5-char">
+            <a href={href ?? `#${deck.detailAnchor}`} class="wiki-char-card-inner wiki-deck-top5-char-link no-underline hover:no-underline">
+              <CharacterPortrait name={name} imageSrc={c?.imageSrc} class="wiki-char-card-visual" />
+              <p class="wiki-char-card-name">{name}</p>
+              <p class="wiki-char-card-type">{roleType}</p>
+            </a>
+          </li>
+        );
+      })
+    }
+  </ul>
+</section>

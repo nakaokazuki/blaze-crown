@@ -1,0 +1,18 @@
+---
+description: チャットの /push ・ /blazecrown 等は .cursor/commands と docs/コマンド.md に従う
+alwaysApply: true
+---
+
+# プロジェクト独自コマンド
+
+ユーザーがチャットで **`/push`**、`**/blazecrown**`、または `docs/コマンド.md` のコマンド名を送ったときは、対応する `.cursor/commands/*.md` の手順を**そのまま実行**する（説明だけで終わらない）。
+
+| 入力例 | 実行 |
+|--------|------|
+| `/push`（メッセージ任意） | `npm run push` または `npm run push -- "メッセージ"` |
+| `/blazecrown` | `npm run blazecrown` |
+| `/blazecrown --sync` | `npm run blazecrown -- --sync` |
+| Wiki同期 | `npm run wiki:sync-characters` |
+| ローカル起動 | `npm run dev`（未起動時） |
+
+一覧の説明は `docs/コマンド.md` を参照。

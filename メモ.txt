@@ -1,0 +1,33 @@
+# blaze-crown.com / Cloudflare 設定メモ（更新: 2026-11-16）
+
+## ここまで完了したこと
+
+1. Cloudflare でドメイン接続（Connect a domain）→ `blaze-crown.com`
+2. DNS レビュー: 取り込みレコード40件を削除し、0件のまま「あとで追加（Add records later）」で進行（Pages 専用・メール未使用）
+3. プラン: Free
+4. お名前.com でネームサーバーを変更・保存済み
+   - 変更先: `evelyn.ns.cloudflare.com` / `gordon.ns.cloudflare.com`
+   - 削除: `dns1.onamae.com` / `dns2.onamae.com`
+   - 手順: ネームサーバーの変更 →「その他のサービスのネームサーバーを設定」
+5. Cloudflare で「I've updated my nameservers」相当のボタンを押して完了報告済み
+6. ゾーン `blaze-crown.com` の Overview 表示:
+   - 状態: **Waiting for your registrar to propagate your new nameservers**（NS 伝播待ち）
+   - 目安: 1〜2時間（最大24時間程度）
+
+## まだやっていないこと（Active 後）
+
+1. Workers & Pages → プロジェクト `blaze-crown` → **Domains** で `blaze-crown.com`（必要なら `www`）を追加 → DNS 自動付与
+2. **Deployments** で Latest build failed があればビルド修正
+3. （任意）`astro.config.mjs` の `site` を `https://blaze-crown.com` に変更して再デプロイ
+4. （任意）Google Search Console に本番ドメイン追加
+
+## 注意
+
+- Account home の「Domains → Add a domain」と、Pages プロジェクト内の「Domains」は別物
+- メールはこのドメインでは未使用のため MX/SPF は削除済み。今後メールを使うときは DNS に MX/TXT を追加
+- Origin のファイアウォール案内（Cloudflare IP のみ許可）は Pages のみ運用のため不要
+
+## Pages プロジェクト
+
+- GitHub: `nakaokazuki/blaze-crown`
+- 以前の表示: No URLs enabled / Latest build failed（要確認）

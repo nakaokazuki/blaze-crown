@@ -10,7 +10,9 @@
     "build": "astro build && pagefind --site dist",
     "preview": "astro preview",
     "astro": "astro",
-    "wiki:sync-characters": "node scripts/sync-official-character-wiki.mjs"
+    "wiki:sync-characters": "node scripts/sync-official-character-wiki.mjs",
+    "push": "bash scripts/push.sh",
+    "blazecrown": "bash scripts/blazecrown.sh"
   },
   "dependencies": {
     "@astrojs/markdown-satteri": "^0.4.9",

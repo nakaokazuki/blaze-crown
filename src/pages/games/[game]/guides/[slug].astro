@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import ArticleLayout from '../../../../layouts/ArticleLayout.astro';
+import { BETA_TEST_GUIDE_TOC } from '../../../../lib/betaTestGuideToc';
 
 export async function getStaticPaths() {
   const guides = await getCollection('guides');
@@ -12,6 +13,7 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
+const inPageToc = entry.id === 'beta-test-guide' ? BETA_TEST_GUIDE_TOC : undefined;
 ---
 
 <ArticleLayout
@@ -21,6 +23,7 @@ const { Content } = await render(entry);
   slug={entry.id}
   updatedAt={entry.data.updatedAt}
   publishedAt={entry.data.publishedAt}
+  inPageToc={inPageToc}
 >
   <Content />
 </ArticleLayout>

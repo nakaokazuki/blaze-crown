@@ -1,0 +1,29 @@
+---
+/** CBT トロフィーランキング賞品（公式X告知の要約。細則は公式投稿を参照） */
+const prizes = [
+  { rank: 1, label: '1位', amount: 'Amazonギフトコード 5万円分', tier: 'gold' },
+  { rank: 2, label: '2位', amount: 'Amazonギフトコード 2万円分', tier: 'silver' },
+  { rank: 3, label: '3位', amount: 'Amazonギフトコード 1万円分', tier: 'bronze' },
+  { rank: 4, label: '4位', amount: 'Amazonギフトコード 1万円分', tier: 'bronze' },
+  { rank: 5, label: '5位', amount: 'Amazonギフトコード 1万円分', tier: 'bronze' },
+];
+---
+
+<div class="wiki-ranking-prizes not-prose">
+  <p class="wiki-ranking-prizes-lead">
+    公式Xの CBT 募集告知では、期間中の <strong>トロフィーランキング上位</strong> への賞品が案内されていました（例は下表）。
+  </p>
+  <ol class="wiki-ranking-prizes-list">
+    {
+      prizes.map((p) => (
+        <li class:list={['wiki-ranking-prize', `wiki-ranking-prize--${p.tier}`]} aria-label={`${p.label} ${p.amount}`}>
+          <span class="wiki-ranking-prize-rank">{p.label}</span>
+          <span class="wiki-ranking-prize-amount">{p.amount}</span>
+        </li>
+      ))
+    }
+  </ol>
+  <p class="wiki-ranking-prizes-note">
+    <strong>参加条件・不正時の失格・同一条件</strong> の細則は公式投稿の全文を必ず確認してください。本ページは要約であり、賞品額や対象は変更される可能性があります。
+  </p>
+</div>

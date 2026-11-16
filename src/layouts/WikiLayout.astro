@@ -11,11 +11,11 @@ const { rankItems, guideItems = [] } = Astro.props;
 ---
 
 <div class="wiki-layout">
+  <div class="wiki-col-right wiki-col-right-stack">
+    <slot />
+  </div>
   <div class="wiki-col-left wiki-col-left-stack">
     <SidebarRankBoard items={rankItems} />
     <SidebarGuideList items={guideItems} />
-  </div>
-  <div class="wiki-col-right wiki-col-right-stack">
-    <slot />
   </div>
 </div>

@@ -7,6 +7,8 @@ import CommentsSection from '../components/comments/CommentsSection';
 import Box26 from '../components/article/Box26.astro';
 import { articleId, guidesIndexPath } from '../lib/paths';
 import { getGuidesSortedByUpdate, getPopularGuides } from '../lib/guides';
+import WikiInPageToc from '../components/layout/WikiInPageToc.astro';
+import type { InPageTocItem } from '../components/layout/WikiInPageToc.astro';
 
 interface Props {
   title: string;
@@ -15,9 +17,10 @@ interface Props {
   slug: string;
   updatedAt: Date;
   publishedAt: Date;
+  inPageToc?: InPageTocItem[];
 }
 
-const { title, description, game, slug, updatedAt, publishedAt } = Astro.props;
+const { title, description, game, slug, updatedAt, publishedAt, inPageToc } = Astro.props;
 const id = articleId(game, slug);
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const rankItems = await getPopularGuides(game, 10);
@@ -48,6 +51,7 @@ const guideItems = await getGuidesSortedByUpdate(game);
         </header>
 
         <div class="article-prose mt-4">
+          {inPageToc && inPageToc.length > 0 && <WikiInPageToc items={inPageToc} />}
           <slot />
         </div>
 
