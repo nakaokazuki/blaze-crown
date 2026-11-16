@@ -1,4 +1,6 @@
 ---
+import { OFFICIAL_X_CBT_RANKING_POST_URL } from '../../lib/constants';
+
 /** CBT トロフィーランキング賞品（公式X告知の要約。細則は公式投稿を参照） */
 const prizes = [
   { rank: 1, label: '1位', amount: 'Amazonギフトコード 5万円分', tier: 'gold' },
@@ -11,7 +13,7 @@ const prizes = [
 
 <div class="wiki-ranking-prizes not-prose">
   <p class="wiki-ranking-prizes-lead">
-    公式Xの CBT 募集告知では、期間中の <strong>トロフィーランキング上位</strong> への賞品が案内されていました（例は下表）。
+    期間中の <strong>トロフィーランキング上位</strong> への賞品は、公式XのCBT募集告知で案内されています。
   </p>
   <ol class="wiki-ranking-prizes-list">
     {
@@ -23,7 +25,12 @@ const prizes = [
       ))
     }
   </ol>
+  <p class="wiki-ranking-prizes-source">
+    <a href={OFFICIAL_X_CBT_RANKING_POST_URL} target="_blank" rel="noopener noreferrer">
+      公式X（@BLAZECROWN_JP）のCBT募集・ランキング賞品の告知
+    </a>
+  </p>
   <p class="wiki-ranking-prizes-note">
-    <strong>参加条件・不正時の失格・同一条件</strong> の細則は公式投稿の全文を必ず確認してください。本ページは要約であり、賞品額や対象は変更される可能性があります。
+    <strong>参加条件・不正時の失格・同一条件</strong> の細則は上記投稿の全文を必ず確認してください。賞品額や対象は変更される可能性があります。
   </p>
 </div>

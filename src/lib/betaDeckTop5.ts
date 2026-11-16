@@ -12,7 +12,7 @@ export type BetaDeckTop5Entry = {
 export const BETA_DECK_TOP5: BetaDeckTop5Entry[] = [
   {
     rank: 1,
-    deckName: '王女護衛・エナジー循環',
+    deckName: '王女護衛',
     slugs: ['lumina', 'dan', 'noel'],
     targetLevel: '初心者向け',
     summaryAnchor: 'deck-summary-rank-1',
@@ -20,7 +20,7 @@ export const BETA_DECK_TOP5: BetaDeckTop5Entry[] = [
   },
   {
     rank: 2,
-    deckName: 'シンエン先制コンボ',
+    deckName: 'シンエン先制',
     slugs: ['tsubaki', 'murasame', 'kagetra'],
     targetLevel: '中級者向け',
     summaryAnchor: 'deck-summary-rank-2',
@@ -36,7 +36,7 @@ export const BETA_DECK_TOP5: BetaDeckTop5Entry[] = [
   },
   {
     rank: 4,
-    deckName: '傭兵団・頭数オーバーロード',
+    deckName: '傭兵頭数',
     slugs: ['alfard', 'zaphiel', 'dan'],
     targetLevel: '上級者向け',
     summaryAnchor: 'deck-summary-rank-4',

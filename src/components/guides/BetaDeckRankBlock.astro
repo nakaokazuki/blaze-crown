@@ -2,25 +2,38 @@
 import CharacterPortrait from '../characters/CharacterPortrait.astro';
 import { loadCharacters } from '../../lib/characters';
 import { BETA_DECK_TOP5 } from '../../lib/betaDeckTop5';
+import { BETA_DECK_HONORABLE } from '../../lib/betaDeckHonorable';
 import { characterPath } from '../../lib/paths';
 
 interface Props {
-  rank: number;
+  rank?: number;
+  honorable?: number;
 }
 
-const { rank } = Astro.props;
+const { rank, honorable } = Astro.props;
 const game = 'blaze-crown';
-const deck = BETA_DECK_TOP5.find((d) => d.rank === rank);
+
+const deck =
+  rank != null
+    ? BETA_DECK_TOP5.find((d) => d.rank === rank)
+    : honorable != null
+      ? BETA_DECK_HONORABLE[honorable]
+      : undefined;
+
 if (!deck) {
-  throw new Error(`Unknown deck rank: ${rank}`);
+  throw new Error(
+    rank != null ? `Unknown deck rank: ${rank}` : `Unknown honorable index: ${honorable}`,
+  );
 }
+
+const rankBadge = rank != null ? `${rank}位` : '有力';
 
 const bySlug = new Map(loadCharacters(game).map((c) => [c.slug, c]));
 ---
 
 <section class="wiki-deck-top5-rank" aria-labelledby={deck.detailAnchor}>
   <h3 id={deck.detailAnchor} class="wiki-deck-top5-rank-title">
-    <span class="wiki-deck-top5-rank-num">{deck.rank}位</span>
+    <span class="wiki-deck-top5-rank-num">{rankBadge}</span>
     <span class="wiki-deck-top5-rank-name">{deck.deckName}</span>
     <span class="wiki-deck-top5-rank-level">{deck.targetLevel}</span>
   </h3>

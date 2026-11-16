@@ -750,6 +750,18 @@
     @apply w-[7.5rem] whitespace-nowrap bg-[#f7f9fc] px-3 py-2 text-left align-top font-bold text-[var(--g8-text)];
   }
 
+  .wiki-table-premise {
+    @apply w-full max-w-xl;
+  }
+
+  .wiki-table-premise th[scope='row'] {
+    @apply w-[5.5rem] px-2.5 py-2.5 text-[13px] sm:w-28 sm:px-3;
+  }
+
+  .wiki-table-premise td {
+    @apply py-2.5 pl-2.5 pr-2.5 text-[13px] leading-relaxed sm:pl-3 sm:pr-3;
+  }
+
   .wiki-recruit-table th[scope='col'] {
     @apply px-3 py-2 text-left;
   }
@@ -806,8 +818,16 @@
     @apply min-w-0 flex-1 text-sm font-bold text-[var(--g8-text)] sm:text-base;
   }
 
+  .wiki-ranking-prizes-source {
+    @apply mt-3 text-sm font-bold leading-relaxed;
+  }
+
+  .wiki-ranking-prizes-source a {
+    @apply font-bold text-[var(--g8-link)];
+  }
+
   .wiki-ranking-prizes-note {
-    @apply mt-3 text-sm leading-relaxed text-[#555];
+    @apply mt-2 text-sm leading-relaxed text-[#555];
   }
 
   .wiki-deck-top5-detail {
@@ -825,18 +845,21 @@
 
   .wiki-deck-top5-rank-title {
     @apply m-0 mb-3 flex flex-wrap items-baseline gap-2 border-b border-[var(--g8-border-light)] pb-3 text-lg font-bold text-[var(--g8-text)];
+    @apply max-sm:flex-nowrap max-sm:gap-1.5 max-sm:text-[15px] max-sm:leading-tight;
   }
 
   .wiki-deck-top5-rank-num {
-    @apply inline-flex min-w-[3rem] items-center justify-center bg-[var(--g8-brand)] px-2 py-0.5 text-base text-[#222];
+    @apply inline-flex min-w-[3rem] shrink-0 items-center justify-center bg-[var(--g8-brand)] px-2 py-0.5 text-base text-[#222];
+    @apply max-sm:min-w-[2.5rem] max-sm:px-1.5 max-sm:text-sm;
   }
 
   .wiki-deck-top5-rank-name {
-    @apply text-[var(--g8-text)];
+    @apply min-w-0 text-[var(--g8-text)];
   }
 
   .wiki-deck-top5-rank-level {
-    @apply text-xs font-bold leading-snug text-[#c45c00];
+    @apply shrink-0 whitespace-nowrap text-xs font-bold leading-snug text-[#c45c00];
+    @apply max-sm:text-[11px];
   }
 
   .wiki-deck-top5-roster.wiki-char-grid {
@@ -860,7 +883,11 @@
   }
 
   .article-prose table {
-    @apply my-4 w-full table-fixed border-collapse;
+    @apply my-4 w-full border-collapse;
+  }
+
+  .article-prose table.wiki-table-premise {
+    @apply table-auto max-w-xl;
   }
 
   .article-prose th,

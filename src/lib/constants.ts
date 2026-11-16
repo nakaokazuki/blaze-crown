@@ -11,3 +11,6 @@ export const OFFICIAL_GUIDE_WIKI_NAME = 'ブレイズクラウン 攻略Wiki';
 export const OFFICIAL_WIKI_INDEX_URL = 'https://blazecrown-game.com/wiki/index.html';
 export const OFFICIAL_WIKI_BEGINNER_URL =
   'https://blazecrown-game.com/wiki/guide/beginner.html';
+/** CBT募集告知（トロフィーランキング賞品・参加条件の一次情報） */
+export const OFFICIAL_X_CBT_RANKING_POST_URL =
+  'https://x.com/BLAZECROWN_JP/status/2118307463124705469';
