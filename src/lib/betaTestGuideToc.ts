@@ -2,8 +2,8 @@ import type { InPageTocItem } from '../components/layout/WikiInPageToc.astro';
 
 /** βテストガイド MDX 見出しの自動 id（ビルド出力と一致） */
 export const BETA_TEST_GUIDE_TOC: InPageTocItem[] = [
-  { label: 'このβテストとは', href: '#このβテストとは' },
-  { label: 'βのポイント', href: '#βのポイント' },
+  { label: 'βテストとは', href: '#βテストとは' },
+  { label: 'βテストのポイント', href: '#βテストのポイント' },
   { label: 'バトル・デッキの前提', href: '#バトルデッキの前提' },
   {
     label: '最強デッキTOP5',

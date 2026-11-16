@@ -1,6 +1,5 @@
 ---
 import type { GuideListItem } from '../../lib/guides';
-import { SITE_CONTACT_EMAIL } from '../../lib/constants';
 
 interface Props {
   items: GuideListItem[];
@@ -54,20 +53,7 @@ const { items } = Astro.props;
   </div>
 
   <div id="panel-board" class="wiki-side-panel-body hidden" role="tabpanel" hidden>
-    <p class="wiki-side-note">掲示板機能は準備中です。</p>
-    <ul class="wiki-board-list">
-      <li>
-        <span class="font-semibold text-zinc-900">攻略の質問・編成の相談</span>
-        <p class="mt-1 text-sm text-zinc-700">各攻略記事の下部コメント欄で受け付けます（非ログインは承認制）。</p>
-      </li>
-      <li>
-        <span class="font-semibold text-zinc-900">情報提供・誤記報告</span>
-        <p class="mt-1 text-sm text-zinc-700">
-          <a href={`mailto:${SITE_CONTACT_EMAIL}`}>{SITE_CONTACT_EMAIL}</a> または
-          <a href="/about/">運営者情報</a> からご連絡ください。
-        </p>
-      </li>
-    </ul>
+    <p class="wiki-side-note">準備中です。</p>
   </div>
 
   <script>

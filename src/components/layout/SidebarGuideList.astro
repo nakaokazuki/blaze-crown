@@ -6,27 +6,91 @@ interface Props {
 }
 
 const { items } = Astro.props;
+const PAGE_SIZE = 10;
+const pageCount = Math.ceil(items.length / PAGE_SIZE);
+const hasPager = items.length > PAGE_SIZE;
 ---
 
-<aside class="wiki-side-panel wiki-side-panel-guides">
+<aside class="wiki-side-panel wiki-side-panel-guides" data-guide-list>
   <p class="wiki-side-panel-head">攻略記事一覧</p>
   <div class="wiki-side-panel-body wiki-side-panel-body-flush">
     {
       items.length === 0 ? (
         <p class="wiki-side-note">記事を準備中です。</p>
       ) : (
-        <ul class="wiki-side-guide-list">
+        <>
+          <ul class="wiki-side-guide-list">
+            {
+              items.map((item, index) => {
+                const page = Math.floor(index / PAGE_SIZE);
+                return (
+                  <li
+                    class="wiki-side-guide-item"
+                    data-guide-page={hasPager ? page : undefined}
+                    hidden={hasPager && page !== 0}
+                  >
+                    <a href={item.href} class="wiki-side-guide-link">
+                      <span class="wiki-side-guide-title">{item.title}</span>
+                    </a>
+                  </li>
+                );
+              })
+            }
+          </ul>
           {
-            items.map((item) => (
-              <li class="wiki-side-guide-item">
-                <a href={item.href} class="wiki-side-guide-link">
-                  <span class="wiki-side-guide-title">{item.title}</span>
-                </a>
-              </li>
-            ))
+            hasPager && (
+              <nav class="wiki-side-guide-pager" aria-label="攻略記事一覧のページ">
+                {
+                  Array.from({ length: pageCount }, (_, page) => (
+                    <button
+                      type="button"
+                      class:list={[
+                        'wiki-side-guide-pager-btn',
+                        { 'is-active': page === 0 },
+                      ]}
+                      data-guide-pager={page}
+                      aria-current={page === 0 ? 'page' : undefined}
+                    >
+                      {page + 1}
+                    </button>
+                  ))
+                }
+              </nav>
+            )
           }
-        </ul>
+        </>
       )
     }
   </div>
 </aside>
+
+{
+  hasPager && (
+    <script>
+      const root = document.querySelector('[data-guide-list]');
+      if (root) {
+        const rows = root.querySelectorAll('[data-guide-page]');
+        const buttons = root.querySelectorAll('[data-guide-pager]');
+
+        const showPage = (page: number) => {
+          rows.forEach((el) => {
+            el.hidden = Number(el.getAttribute('data-guide-page')) !== page;
+          });
+          buttons.forEach((btn) => {
+            const p = Number(btn.getAttribute('data-guide-pager'));
+            const active = p === page;
+            btn.classList.toggle('is-active', active);
+            if (active) btn.setAttribute('aria-current', 'page');
+            else btn.removeAttribute('aria-current');
+          });
+        };
+
+        buttons.forEach((btn) => {
+          btn.addEventListener('click', () => {
+            showPage(Number(btn.getAttribute('data-guide-pager')));
+          });
+        });
+      }
+    </script>
+  )
+}

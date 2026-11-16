@@ -7,8 +7,6 @@ import { getLatestNews } from '../../lib/latestNews';
 import LatestNewsList from '../news/LatestNewsList.astro';
 import { loadCharacters } from '../../lib/characters';
 import CharacterGrid from '../characters/CharacterGrid.astro';
-import { WIKI_BRAND_TITLE } from '../../lib/constants';
-
 interface Props {
   game: string;
 }
@@ -29,7 +27,6 @@ const gameInfoParagraphs = (meta.gameInfo ?? '')
 <WikiLayout rankItems={rankItems} guideItems={guideItems}>
   <div class="wiki-hub-main wiki-stack content-panel wiki-stack-block">
     <section id="section-top" class="wiki-stack-block wiki-hub-section">
-      <h1 class="page-title mb-2">{WIKI_BRAND_TITLE}</h1>
       <p class="lead">{meta.description}</p>
     </section>
 

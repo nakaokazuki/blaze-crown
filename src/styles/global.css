@@ -257,6 +257,18 @@
     @apply block font-bold leading-snug text-[var(--g8-link)];
   }
 
+  .wiki-side-guide-pager {
+    @apply flex flex-wrap items-center justify-center gap-1 border-t border-[var(--g8-border-light)] px-2 py-2;
+  }
+
+  .wiki-side-guide-pager-btn {
+    @apply min-w-8 cursor-pointer rounded-sm border border-[var(--g8-border-light)] bg-white px-2 py-1 text-[13px] font-bold text-[var(--g8-link)] hover:bg-[#fff9e8];
+  }
+
+  .wiki-side-guide-pager-btn.is-active {
+    @apply border-[var(--g8-link)] bg-[var(--g8-link)] text-white hover:bg-[var(--g8-link)];
+  }
+
   .wiki-side-guide-desc {
     @apply mt-1 block text-[11px] font-normal leading-snug text-[#666];
   }
