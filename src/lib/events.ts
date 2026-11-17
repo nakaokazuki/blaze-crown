@@ -24,7 +24,7 @@ export type EventSubmissionStatus = 'pending' | 'approved' | 'rejected';
 export const EVENT_CONFIG = {
   slug: DEFAULT_EVENT_SLUG,
   /** ヒーロー上の小さな見出し */
-  seriesLabel: '第１回非公式イベント',
+  seriesLabel: '第０回非公式イベント',
   title: 'βテスト開始記念',
   /** トップ告知など（イベントヒーローには出さない） */
   teaserBody: 'PayPay 1,500円 × 2名 — ミッション達成者を抽選',
@@ -34,7 +34,7 @@ export const EVENT_CONFIG = {
   prizeFootnote: '※達成者から抽選',
   /** ランディング用 meta description（検索スニペット・約120字目安） */
   metaDescription:
-    '第１回非公式イベント「βテスト開始記念」。PayPay 1,500円×2名をミッション達成者から抽選。11/17〜12/1予定。ブレイズクラウン非公式ファンサイト主催（公式とは無関係）。',
+    '第０回非公式イベント「βテスト開始記念」。PayPay 1,500円×2名をミッション達成者から抽選。11/17〜12/1予定。ブレイズクラウン非公式ファンサイト主催（公式とは無関係）。',
 } as const;
 
 export function eventPath(game: string, slug: string): string {
