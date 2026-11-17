@@ -46,6 +46,7 @@
       sans-serif;
     line-height: 1.7;
     -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
   }
 
   a {
@@ -86,7 +87,8 @@
   }
 
   .page-shell-wiki {
-    @apply w-full max-w-none bg-transparent px-4 py-4 lg:px-6;
+    @apply w-full max-w-none min-w-0 bg-transparent px-4 py-4 lg:px-6;
+    padding-bottom: max(1rem, env(safe-area-inset-bottom, 0px));
   }
 
   .content-panel {
@@ -326,6 +328,38 @@
     scroll-margin-top: 7rem;
   }
 
+  @media (max-width: 1023px) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    #section-guide-list {
+      scroll-margin-top: calc(4.75rem + env(safe-area-inset-top, 0px));
+    }
+
+    .wiki-layout {
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .article-prose {
+      max-width: 100%;
+      overflow-x: clip;
+    }
+
+    .article-prose :where(pre, img, video, iframe) {
+      max-width: 100%;
+    }
+
+    .article-prose table {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+
   /* 記事冒頭型目次（toc-002） */
   .toc-002 {
     @apply mb-5 w-full border-2 border-[#2589d0] rounded-sm text-left;
@@ -363,7 +397,7 @@
 
   .toc-002 > ol {
     padding: 0.35em 0.65em 0.5em 2.25em;
-    overflow: hidden;
+    overflow: visible;
   }
 
   @media (min-width: 768px) {
@@ -847,6 +881,10 @@
     box-shadow: 0 4px 12px rgba(255, 153, 0, 0.2);
   }
 
+  .wiki-event-teaser--hub-top {
+    margin-bottom: 1.25rem;
+  }
+
   .wiki-event-teaser-kicker {
     margin: 0;
     font-size: 0.75rem;
@@ -978,6 +1016,7 @@
 
   .site-footer-inner {
     @apply w-full max-w-none px-4 py-4 lg:px-6;
+    padding-bottom: max(1rem, env(safe-area-inset-bottom, 0px));
   }
 
   /* PC: ヘッダーをビューポート幅に */

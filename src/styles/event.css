@@ -175,9 +175,18 @@ body:has(.event-page) {
   text-underline-offset: 2px;
 }
 
-.event-play-intro {
-  margin-top: 0;
-  margin-bottom: 1.25rem;
+.event-play-flow-after-login {
+  margin-top: 1.25rem;
+  padding-top: 1.15rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: left;
+}
+
+.event-play-flow-title {
+  margin: 0 0 0.65rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffb11b;
 }
 
 .event-play-flow {

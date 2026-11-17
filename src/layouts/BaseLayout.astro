@@ -27,7 +27,7 @@ const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     <meta name="theme-color" content="#ffb11b" />
@@ -87,5 +87,51 @@ const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
         <span>非公式ファンサイト</span>
       </div>
     </footer>
+    {
+      wikiChrome && (
+        <script is:inline>
+          {`(function () {
+            if ('scrollRestoration' in history) {
+              history.scrollRestoration = 'manual';
+            }
+
+            var HEADER_OFFSET = 72;
+
+            function scrollToHash() {
+              var hash = window.location.hash;
+              if (!hash) return false;
+              var el = document.querySelector(hash);
+              if (!el) return false;
+              var top = el.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET;
+              window.scrollTo({ top: Math.max(0, top), left: 0, behavior: 'auto' });
+              return true;
+            }
+
+            function onPageEnter() {
+              if (window.location.hash) {
+                var tries = 0;
+                (function retry() {
+                  scrollToHash();
+                  tries += 1;
+                  if (tries < 5) setTimeout(retry, tries * 100);
+                })();
+                return;
+              }
+              window.scrollTo(0, 0);
+            }
+
+            window.addEventListener('pageshow', function (ev) {
+              if (ev.persisted) onPageEnter();
+            });
+
+            if (document.readyState === 'loading') {
+              document.addEventListener('DOMContentLoaded', onPageEnter);
+            } else {
+              onPageEnter();
+            }
+          })();`}
+        </script>
+      )
+    }
   </body>
 </html>
