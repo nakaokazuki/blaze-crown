@@ -27,6 +27,7 @@ type Submission = {
   status: string;
   rejection_reason: string | null;
   created_at: string;
+  image_url: string | null;
   profile: { display_name: string; x_handle: string | null; game_id: string | null } | null;
 };
 
@@ -38,7 +39,6 @@ export default function EventAdminApp({ slug }: Props) {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [filter, setFilter] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [rejectReason, setRejectReason] = useState<Record<string, string>>({});
 
   const api = eventApiBase(slug);
@@ -77,16 +77,6 @@ export default function EventAdminApp({ slug }: Props) {
       await load();
     } catch (e) {
       setError(e instanceof Error ? e.message : '更新失敗');
-    }
-  }
-
-  async function openImage(id: string) {
-    if (!accessToken) return;
-    try {
-      const data = await apiFetch<{ url: string }>(`${api}/submissions/${id}/image`, { accessToken });
-      setPreviewUrl(data.url);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : '画像取得失敗');
     }
   }
 
@@ -151,9 +141,11 @@ export default function EventAdminApp({ slug }: Props) {
                   <span>{missionKindLabel(s.kind as EventMissionKind)}</span>
                   <time>{new Date(s.created_at).toLocaleString('ja-JP')}</time>
                 </div>
-                <button type="button" className="event-btn event-btn--secondary" onClick={() => void openImage(s.id)}>
-                  画像を見る
-                </button>
+                {s.image_url ? (
+                  <img src={s.image_url} alt="" className="event-review-image" loading="lazy" decoding="async" />
+                ) : (
+                  <p className="event-muted">画像を読み込めませんでした（更新してください）</p>
+                )}
                 <div className="event-review-actions">
                   <button
                     type="button"
@@ -237,18 +229,6 @@ export default function EventAdminApp({ slug }: Props) {
           </table>
         </div>
       </section>
-
-      {previewUrl && (
-        <hr />
-      )}
-      {previewUrl && (
-        <div className="event-modal" role="dialog">
-          <button type="button" className="event-modal-close" onClick={() => setPreviewUrl(null)}>
-            閉じる
-          </button>
-          <img src={previewUrl} alt="提出画像" className="event-modal-img" />
-        </div>
-      )}
     </div>
   );
 }

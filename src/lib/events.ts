@@ -66,6 +66,25 @@ export function missionKindLabel(
 }
 
 /** ミッション2/3用（割当キャラ名入り） */
+/** ミッションごとの勝利数目標（証拠画像で申告・運営が目視確認） */
+export const MISSION_WIN_TARGETS = {
+  mission_1: 5,
+  mission_2: 2,
+  mission_3: 2,
+} as const;
+
+export type EventMissionId = keyof typeof MISSION_WIN_TARGETS;
+
+/** 表示用の勝利数（未提出・差し戻しは 0、審査中・承認済みは目標到達として表示） */
+export function missionWinProgress(
+  mission: EventMissionId,
+  state: EventSubmissionStatus | 'none',
+): { current: number; target: number } {
+  const target = MISSION_WIN_TARGETS[mission];
+  const current = state === 'approved' || state === 'pending' ? target : 0;
+  return { current, target };
+}
+
 export function missionCharWinPhrase(charName: string | null | undefined): string {
   const name = charName?.trim();
   if (!name) return '指定キャラを編成に含め2勝';

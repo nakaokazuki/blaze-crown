@@ -29,7 +29,17 @@ export async function onRequestGet(context: { request: Request; env: EventEnv; p
         .eq('event_slug', slug)
         .eq('user_id', row.user_id)
         .maybeSingle();
-      return { ...row, profile: prof };
+
+      let image_url: string | null = null;
+      if (row.storage_path) {
+        const { data: signed } = await supabase.storage
+          .from('event-submissions')
+          .createSignedUrl(row.storage_path, 3600);
+        image_url = signed?.signedUrl ?? null;
+      }
+
+      const { storage_path: _storagePath, ...publicRow } = row;
+      return { ...publicRow, profile: prof, image_url };
     }),
   );
 

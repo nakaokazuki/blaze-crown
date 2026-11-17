@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { apiFetch, eventApiBase } from '../../lib/eventApi';
-import { missionKindLabel, type EventMissionKind } from '../../lib/events';
+import { missionKindLabel, missionWinProgress, type EventMissionKind } from '../../lib/events';
 import { statusClass, statusLabel } from './statusLabels';
 import { useEventSession } from './useEventSession';
 
@@ -226,24 +226,29 @@ export default function EventPlayApp({ slug }: Props) {
       </div>
 
       <div className="event-play-grid">
-      <div className="event-panel">
+      <div className="event-panel event-panel--wide">
         <h2 className="event-panel-title">ミッション進捗</h2>
         {loading && !me ? <p className="event-muted">同期中…</p> : null}
         {error && <p className="event-error">{error}</p>}
         {me && (
           <ul className="event-mission-list">
-            <li>
-              <span>{missionKindLabel('mission_1')}</span>
-              <span className={statusClass(me.missionState.mission_1)}>{statusLabel(me.missionState.mission_1)}</span>
-            </li>
-            <li>
-              <span>{missionKindLabel('mission_2', me.profile)}</span>
-              <span className={statusClass(me.missionState.mission_2)}>{statusLabel(me.missionState.mission_2)}</span>
-            </li>
-            <li>
-              <span>{missionKindLabel('mission_3', me.profile)}</span>
-              <span className={statusClass(me.missionState.mission_3)}>{statusLabel(me.missionState.mission_3)}</span>
-            </li>
+            {(['mission_1', 'mission_2', 'mission_3'] as const).map((missionId) => {
+              const state = me.missionState[missionId];
+              const { current, target } = missionWinProgress(missionId, state);
+              return (
+                <li key={missionId} className="event-mission-card">
+                  <div className="event-mission-card-head">
+                    <span className="event-mission-card-title">
+                      {missionKindLabel(missionId, me.profile)}
+                    </span>
+                    <span className="event-mission-card-progress" aria-label={`勝利数 ${current} / ${target}`}>
+                      {current}/{target}
+                    </span>
+                  </div>
+                  <span className={statusClass(state)}>{statusLabel(state)}</span>
+                </li>
+              );
+            })}
           </ul>
         )}
         {me?.allMissionsCleared && (
