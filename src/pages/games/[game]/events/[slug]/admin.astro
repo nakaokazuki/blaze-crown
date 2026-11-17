@@ -1,0 +1,20 @@
+---
+import EventLayout from '../../../../../layouts/EventLayout.astro';
+import EventAdminApp from '../../../../../components/events/EventAdminApp';
+import { DEFAULT_EVENT_SLUG, DEFAULT_GAME_FOR_EVENTS, EVENT_CONFIG } from '../../../../../lib/events';
+
+export function getStaticPaths() {
+  return [{ params: { game: DEFAULT_GAME_FOR_EVENTS, slug: DEFAULT_EVENT_SLUG } }];
+}
+
+const { game, slug } = Astro.params;
+---
+
+<EventLayout
+  title={`${EVENT_CONFIG.title} — 運営`}
+  description="参加者一覧・画像承認"
+  game={game!}
+  noindex={true}
+>
+  <EventAdminApp client:load slug={slug!} />
+</EventLayout>

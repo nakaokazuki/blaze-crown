@@ -1,0 +1,20 @@
+---
+import EventLayout from '../../../../../layouts/EventLayout.astro';
+import EventPlayApp from '../../../../../components/events/EventPlayApp';
+import { DEFAULT_EVENT_SLUG, DEFAULT_GAME_FOR_EVENTS, EVENT_CONFIG } from '../../../../../lib/events';
+import { eventPath } from '../../../../../lib/paths';
+
+export function getStaticPaths() {
+  return [{ params: { game: DEFAULT_GAME_FOR_EVENTS, slug: DEFAULT_EVENT_SLUG } }];
+}
+
+const { game, slug } = Astro.params;
+const landingHref = eventPath(game!, slug!);
+---
+
+<EventLayout title={`${EVENT_CONFIG.title} — 参加`} description="ミッション進捗・証拠提出" game={game!}>
+  <p class="event-muted" style="margin:0 0 1rem">
+    <a href={landingHref} style="color:#ffd86a">イベント概要に戻る</a>
+  </p>
+  <EventPlayApp client:load slug={slug!} />
+</EventLayout>

@@ -1,0 +1,35 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  game: string;
+  noindex?: boolean;
+}
+
+const { title, description, game, noindex = false } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} wikiChrome={true} game={game} noindex={noindex}>
+  <div class="event-page">
+    <div class="event-aurora" aria-hidden="true"></div>
+    <header class="event-hero">
+      {description && description !== title ? (
+        <>
+          <h1 class="event-hero-title">{title}</h1>
+          <p class="event-hero-desc">{description}</p>
+        </>
+      ) : (
+        <h1 class="event-hero-title event-hero-title--solo">{title}</h1>
+      )}
+    </header>
+    <div class="event-shell">
+      <slot />
+    </div>
+  </div>
+</BaseLayout>
+
+<style is:global>
+  @import '../styles/event.css';
+</style>

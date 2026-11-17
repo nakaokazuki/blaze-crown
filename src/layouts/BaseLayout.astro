@@ -7,6 +7,7 @@ interface Props {
   /** ゲーム攻略 chrome を表示（Game8 風ヘッダー） */
   wikiChrome?: boolean;
   game?: string;
+  noindex?: boolean;
 }
 
 const {
@@ -14,6 +15,7 @@ const {
   description = 'ブレイズクラウン（BLAZE CROWN）の非公式攻略・解説サイト',
   wikiChrome = true,
   game = DEFAULT_GAME,
+  noindex = false,
 } = Astro.props;
 const fullTitle = title === SITE_NAME ? title : `${title} | ${SITE_NAME}`;
 const iconSrc = `/games/${game}/icon.svg`;
@@ -27,6 +29,7 @@ const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <meta name="theme-color" content="#ffb11b" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />

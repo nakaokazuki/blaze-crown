@@ -839,6 +839,50 @@
     @apply mt-2 text-sm leading-relaxed text-[#555];
   }
 
+  .wiki-event-teaser {
+    padding: 1rem 1.15rem;
+    border-radius: 10px;
+    border: 2px solid #ff9900;
+    background: linear-gradient(135deg, #fff8e8 0%, #ffe8b8 100%);
+    box-shadow: 0 4px 12px rgba(255, 153, 0, 0.2);
+  }
+
+  .wiki-event-teaser-kicker {
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: #b35c00;
+  }
+
+  .wiki-event-teaser-title {
+    margin: 0.35rem 0 0;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #222;
+  }
+
+  .wiki-event-teaser-body {
+    margin: 0.35rem 0 0.75rem;
+    font-size: 0.9rem;
+    color: #444;
+  }
+
+  .wiki-event-teaser-link {
+    display: inline-block;
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    background: #ffb11b;
+    color: #222 !important;
+    font-weight: 700;
+    text-decoration: none !important;
+  }
+
+  .wiki-event-teaser-link:hover {
+    background: #e89b00;
+    color: #111 !important;
+  }
+
   .wiki-deck-top5-detail {
     @apply my-4 space-y-8;
   }

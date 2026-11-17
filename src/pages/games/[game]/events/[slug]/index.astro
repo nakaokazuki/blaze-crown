@@ -1,0 +1,47 @@
+---
+import EventLayout from '../../../../../layouts/EventLayout.astro';
+import { DEFAULT_EVENT_SLUG, DEFAULT_GAME_FOR_EVENTS, EVENT_CONFIG } from '../../../../../lib/events';
+import { eventPlayPath } from '../../../../../lib/paths';
+
+export function getStaticPaths() {
+  return [{ params: { game: DEFAULT_GAME_FOR_EVENTS, slug: DEFAULT_EVENT_SLUG } }];
+}
+
+const { game, slug } = Astro.params;
+const playHref = eventPlayPath(game!, slug!);
+---
+
+<EventLayout title={EVENT_CONFIG.title} game={game!}>
+  <div class="event-prize-card">
+    <p class="event-prize-card-heading">景品</p>
+    <p class="event-prize-card-amount">
+      <strong>{EVENT_CONFIG.prizeLabel}</strong>
+    </p>
+    <p class="event-muted event-prize-card-period">{EVENT_CONFIG.periodLabel}</p>
+  </div>
+
+  <div class="event-cta-row">
+    <a class="event-btn event-btn--primary" href={playHref}>参加する（プレイヤーページ）</a>
+  </div>
+
+  <section class="event-rules">
+    <h2>ルール</h2>
+    <ul>
+      <li>表示された3つのミッションをクリアする。</li>
+      <li>画像を規定の部分から提出し、運営が確認後、ミッションにカウントする。</li>
+      <li>同じ画像を複数回、提出してはいけない。</li>
+      <li>
+        ミッションすべてクリア後、対戦結果（勝敗・引き分け問わず）を追加提出できます。1枚ごとに景品の当選率が<strong>1%</strong>上昇します。
+      </li>
+    </ul>
+  </section>
+
+  <section class="event-rules" style="margin-top:1rem">
+    <h2>注意</h2>
+    <ul>
+      <li>当サイト主催の<strong>非公式</strong>イベントです。ゲーム公式・運営会社とは関係ありません</li>
+      <li>達成確認はスクショ提出と運営の目視審査です</li>
+      <li>ルールの最終解釈は主催者（当サイト運営）に帰属します</li>
+    </ul>
+  </section>
+</EventLayout>

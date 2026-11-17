@@ -30,3 +30,5 @@ export function guidePath(game: string, slug: string): string {
 export function articleId(game: string, slug: string): string {
   return `${game}/guides/${slug}`;
 }
+
+export { eventPath, eventPlayPath, eventAdminPath } from './events';

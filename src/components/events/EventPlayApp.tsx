@@ -1,0 +1,265 @@
+import { useCallback, useEffect, useState } from 'react';
+import { apiFetch, eventApiBase } from '../../lib/eventApi';
+import { missionKindLabel, type EventMissionKind } from '../../lib/events';
+import { statusClass, statusLabel } from './statusLabels';
+import { useEventSession } from './useEventSession';
+
+type MeResponse = {
+  profile: {
+    display_name: string;
+    x_handle: string | null;
+    game_id: string | null;
+    assigned_char_a: string;
+    assigned_char_b: string;
+  } | null;
+  missionState: Record<'mission_1' | 'mission_2' | 'mission_3', 'pending' | 'approved' | 'rejected' | 'none'>;
+  allMissionsCleared: boolean;
+  lotteryWeight: number;
+  approvedBonusCount: number;
+  submissions: {
+    id: string;
+    kind: string;
+    status: string;
+    rejection_reason: string | null;
+    created_at: string;
+  }[];
+  email?: string;
+};
+
+type Props = {
+  slug: string;
+};
+
+export default function EventPlayApp({ slug }: Props) {
+  const { session, accessToken, loading: authLoading, signInWithGoogle, signOut, supabase } = useEventSession();
+  const [me, setMe] = useState<MeResponse | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
+
+  const [displayName, setDisplayName] = useState('');
+  const [xHandle, setXHandle] = useState('');
+  const [gameId, setGameId] = useState('');
+  const [submitKind, setSubmitKind] = useState<EventMissionKind>('mission_1');
+  const [file, setFile] = useState<File | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+
+  const api = eventApiBase(slug);
+
+  const refresh = useCallback(async () => {
+    if (!accessToken) return;
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await apiFetch<MeResponse>(`${api}/me`, { accessToken });
+      setMe(data);
+      if (data.profile) {
+        setDisplayName(data.profile.display_name);
+        setXHandle(data.profile.x_handle ?? '');
+        setGameId(data.profile.game_id ?? '');
+      }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : '取得に失敗しました');
+    } finally {
+      setLoading(false);
+    }
+  }, [accessToken, api]);
+
+  useEffect(() => {
+    if (accessToken) void refresh();
+  }, [accessToken, refresh]);
+
+  async function saveProfile(e: React.FormEvent) {
+    e.preventDefault();
+    if (!accessToken) return;
+    try {
+      await apiFetch(`${api}/profile`, {
+        method: 'POST',
+        accessToken,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          display_name: displayName.trim(),
+          x_handle: xHandle.trim() || null,
+          game_id: gameId.trim() || null,
+        }),
+      });
+      setMessage('プロフィールを保存しました');
+      await refresh();
+    } catch (err) {
+      setMessage(err instanceof Error ? err.message : '保存に失敗しました');
+    }
+  }
+
+  async function submitEvidence(e: React.FormEvent) {
+    e.preventDefault();
+    if (!accessToken || !file) return;
+    setSubmitting(true);
+    setMessage(null);
+    try {
+      const fd = new FormData();
+      fd.append('kind', submitKind);
+      fd.append('image', file);
+      fd.append('turnstile_token', import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ? 'dev-bypass' : 'dev-bypass');
+      const res = await fetch(`${api}/submissions`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${accessToken}` },
+        body: fd,
+      });
+      const data = (await res.json()) as { ok?: boolean; message?: string; error?: string };
+      if (!res.ok) throw new Error(data.error ?? '提出に失敗しました');
+      setMessage(data.message ?? '提出しました');
+      setFile(null);
+      await refresh();
+    } catch (err) {
+      setMessage(err instanceof Error ? err.message : '提出に失敗しました');
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  if (!supabase) {
+    return (
+      <div className="event-panel">
+        <p>イベント API を使うには Supabase の環境変数を設定してください。</p>
+      </div>
+    );
+  }
+
+  if (authLoading) {
+    return <p className="event-muted">読み込み中…</p>;
+  }
+
+  if (!session) {
+    return (
+      <div className="event-panel event-panel--hero">
+        <h2 className="event-panel-title">参加者ログイン</h2>
+        <p className="event-lead">Google アカウントでログインしてミッションに参加できます。</p>
+        <button type="button" className="event-btn event-btn--primary" onClick={() => void signInWithGoogle()}>
+          Google でログイン
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="event-play-grid">
+      <div className="event-panel">
+        <div className="event-panel-head">
+          <h2 className="event-panel-title">マイプロフィール</h2>
+          <button type="button" className="event-btn event-btn--ghost" onClick={() => void signOut()}>
+            ログアウト
+          </button>
+        </div>
+        <form className="event-form" onSubmit={(e) => void saveProfile(e)}>
+          <label>
+            表示名（必須）
+            <input value={displayName} onChange={(e) => setDisplayName(e.target.value)} required maxLength={32} />
+          </label>
+          <label>
+            X（任意）
+            <input value={xHandle} onChange={(e) => setXHandle(e.target.value)} placeholder="@なしでも可" />
+          </label>
+          <label>
+            ゲーム内 ID（任意）
+            <input value={gameId} onChange={(e) => setGameId(e.target.value)} />
+          </label>
+          <button type="submit" className="event-btn event-btn--secondary">
+            保存
+          </button>
+        </form>
+        {me?.profile && (
+          <p className="event-muted event-assign">
+            割当キャラ: <strong>{me.profile.assigned_char_a}</strong>（ミッション2）／{' '}
+            <strong>{me.profile.assigned_char_b}</strong>（ミッション3）
+          </p>
+        )}
+      </div>
+
+      <div className="event-panel">
+        <h2 className="event-panel-title">ミッション進捗</h2>
+        {loading && !me ? <p className="event-muted">同期中…</p> : null}
+        {error && <p className="event-error">{error}</p>}
+        {me && (
+          <ul className="event-mission-list">
+            <li>
+              <span>ミッション1: 累計5勝</span>
+              <span className={statusClass(me.missionState.mission_1)}>{statusLabel(me.missionState.mission_1)}</span>
+            </li>
+            <li>
+              <span>
+                ミッション2: {me.profile?.assigned_char_a ?? '—'} で2勝
+              </span>
+              <span className={statusClass(me.missionState.mission_2)}>{statusLabel(me.missionState.mission_2)}</span>
+            </li>
+            <li>
+              <span>
+                ミッション3: {me.profile?.assigned_char_b ?? '—'} で2勝
+              </span>
+              <span className={statusClass(me.missionState.mission_3)}>{statusLabel(me.missionState.mission_3)}</span>
+            </li>
+          </ul>
+        )}
+        {me?.allMissionsCleared && (
+          <div className="event-weight-box">
+            <p className="event-weight-label">抽選当選比重</p>
+            <p className="event-weight-value">{me.lotteryWeight.toFixed(2)}</p>
+            <p className="event-muted">追加対戦（承認済み {me.approvedBonusCount} 枚）で +0.01 ずつ上昇</p>
+          </div>
+        )}
+      </div>
+
+      <div className="event-panel event-panel--wide">
+        <h2 className="event-panel-title">証拠画像の提出</h2>
+        {!me?.profile ? (
+          <p className="event-muted">先にプロフィールを保存してください。</p>
+        ) : (
+          <form className="event-form" onSubmit={(e) => void submitEvidence(e)}>
+            <label>
+              種別
+              <select value={submitKind} onChange={(e) => setSubmitKind(e.target.value as EventMissionKind)}>
+                <option value="mission_1">{missionKindLabel('mission_1')}</option>
+                <option value="mission_2">{missionKindLabel('mission_2')}</option>
+                <option value="mission_3">{missionKindLabel('mission_3')}</option>
+                <option value="bonus_battle" disabled={!me.allMissionsCleared}>
+                  {missionKindLabel('bonus_battle')}
+                  {!me.allMissionsCleared ? '（全ミッション承認後）' : ''}
+                </option>
+              </select>
+            </label>
+            <label>
+              スクショ（5MB以下）
+              <input
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+                required
+              />
+            </label>
+            <button type="submit" className="event-btn event-btn--primary" disabled={submitting || !file}>
+              {submitting ? '送信中…' : '提出する'}
+            </button>
+          </form>
+        )}
+        {message && <p className="event-message">{message}</p>}
+      </div>
+
+      {me && me.submissions.length > 0 && (
+        <div className="event-panel event-panel--wide">
+          <h2 className="event-panel-title">提出履歴</h2>
+          <ul className="event-history">
+            {me.submissions.map((s) => (
+              <li key={s.id}>
+                <span>{missionKindLabel(s.kind as EventMissionKind)}</span>
+                <span className={statusClass(s.status as 'pending' | 'approved' | 'rejected')}>
+                  {statusLabel(s.status as 'pending' | 'approved' | 'rejected')}
+                </span>
+                <time>{new Date(s.created_at).toLocaleString('ja-JP')}</time>
+                {s.rejection_reason && <span className="event-reject-reason">理由: {s.rejection_reason}</span>}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+}

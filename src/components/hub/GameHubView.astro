@@ -7,6 +7,8 @@ import { getLatestNews } from '../../lib/latestNews';
 import LatestNewsList from '../news/LatestNewsList.astro';
 import { loadCharacters } from '../../lib/characters';
 import CharacterGrid from '../characters/CharacterGrid.astro';
+import { DEFAULT_EVENT_SLUG, EVENT_CONFIG } from '../../lib/events';
+import { eventPath } from '../../lib/paths';
 interface Props {
   game: string;
 }
@@ -17,6 +19,7 @@ const guideItems = await getGuidesSortedByUpdate(game);
 const rankItems = await getPopularGuides(game, 10);
 const latestNewsTop = getLatestNews(game, 5);
 const characters = loadCharacters(game);
+const eventHref = eventPath(game, DEFAULT_EVENT_SLUG);
 
 const gameInfoParagraphs = (meta.gameInfo ?? '')
   .split(/\n\s*\n/)
@@ -28,6 +31,11 @@ const gameInfoParagraphs = (meta.gameInfo ?? '')
   <div class="wiki-hub-main wiki-stack content-panel wiki-stack-block">
     <section id="section-top" class="wiki-stack-block wiki-hub-section">
       <p class="lead">{meta.description}</p>
+      <aside class="wiki-event-teaser mt-4">
+        <p class="wiki-event-teaser-title">{EVENT_CONFIG.title}</p>
+        <p class="wiki-event-teaser-body">{EVENT_CONFIG.teaserBody}</p>
+        <a href={eventHref} class="wiki-event-teaser-link">イベント詳細を見る</a>
+      </aside>
     </section>
 
     <section id="section-game-info" class="wiki-stack-block wiki-hub-section">

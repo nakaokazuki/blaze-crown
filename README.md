@@ -9,7 +9,9 @@ npm install
 npm run dev
 ```
 
-http://localhost:4321 で静的ページを確認できます。コメント API は **Cloudflare Pages Functions**（`/api/guide-notes`）のため、`npm run dev` だけではコメントの読み書きは動きません。
+http://localhost:4321 で静的ページを確認できます。コメント・**イベント API** は **Cloudflare Pages Functions**（`/api/guide-notes`, `/api/events/...`）のため、`npm run dev` だけでは読み書きは動きません。
+
+イベント: `/games/blaze-crown/events/cbt-paypay-2026-11/`（運営は `EVENT_ADMIN_EMAILS` を Cloudflare に設定）
 
 本番同等の API 確認:
 
