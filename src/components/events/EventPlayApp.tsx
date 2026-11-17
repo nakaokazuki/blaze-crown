@@ -236,8 +236,11 @@ export default function EventPlayApp({ slug, landingHref }: Props) {
       <div className="event-play-wrap">
         {playToolbar}
         <div className="event-panel event-panel--hero">
-          <h2 className="event-panel-title">参加者ログイン</h2>
-          <p className="event-lead">Google アカウントでログインしてミッションに参加できます。</p>
+          <p className="event-lead event-login-lead">
+            Google アカウントでログインして
+            <br />
+            ミッションに参加できます。
+          </p>
           <button type="button" className="event-btn event-btn--primary" onClick={() => void signInWithGoogle()}>
             Google でログイン
           </button>

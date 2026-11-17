@@ -475,6 +475,12 @@ a.event-btn {
   color: #ccc;
 }
 
+.event-login-lead {
+  margin: 0 0 1.25rem;
+  text-align: center;
+  line-height: 1.65;
+}
+
 .event-mission-list {
   list-style: none;
   margin: 0;
