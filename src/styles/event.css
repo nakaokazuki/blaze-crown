@@ -175,35 +175,6 @@ body:has(.event-page) {
   text-underline-offset: 2px;
 }
 
-.event-play-flow-after-login {
-  margin-top: 1.25rem;
-  padding-top: 1.15rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  text-align: left;
-}
-
-.event-play-flow-title {
-  margin: 0 0 0.65rem;
-  font-size: 1rem;
-  font-weight: 700;
-  color: #ffb11b;
-}
-
-.event-play-flow {
-  margin: 0;
-  padding-left: 1.25rem;
-  color: #ccc4b8;
-  font-size: 0.9rem;
-}
-
-.event-play-flow li {
-  margin-bottom: 0.45rem;
-}
-
-.event-play-flow a {
-  color: #ffb11b;
-}
-
 .event-leaderboard-list {
   margin: 0;
   padding: 0;

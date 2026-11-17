@@ -241,19 +241,6 @@ export default function EventPlayApp({ slug, landingHref }: Props) {
           <button type="button" className="event-btn event-btn--primary" onClick={() => void signInWithGoogle()}>
             Google でログイン
           </button>
-          <section className="event-play-flow-after-login" aria-labelledby="event-play-flow-heading">
-            <h3 id="event-play-flow-heading" className="event-play-flow-title">
-              参加の流れ
-            </h3>
-            <ol className="event-play-flow">
-              <li>表示名などを<strong>プロフィール</strong>に保存する。</li>
-              <li>割り当てられた3ミッションの勝利条件に沿ってプレイする。</li>
-              <li>
-                <strong>対戦結果画面</strong>のスクショを種別を選んで提出する（運営承認後に進捗へ反映）。
-              </li>
-              <li>全ミッション承認後は、追加対戦結果の提出で当選率を上げられる。</li>
-            </ol>
-          </section>
         </div>
       </div>
     );
