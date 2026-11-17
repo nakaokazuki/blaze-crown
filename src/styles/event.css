@@ -38,6 +38,14 @@ body:has(.event-page) {
   padding: 0 1rem 2rem;
 }
 
+.event-page--no-hero {
+  padding-top: 0.75rem;
+}
+
+.event-page--no-hero .event-shell {
+  padding-top: 0.25rem;
+}
+
 .event-hero {
   position: relative;
   z-index: 1;
@@ -230,10 +238,38 @@ body:has(.event-page) {
 
 .event-play-topbar {
   display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.event-play-topbar-actions {
+  display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 0.5rem;
-  margin-bottom: 1rem;
+}
+
+.event-ranking-lock-msg {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #ffaa66;
+}
+
+.event-btn--locked {
+  cursor: not-allowed;
+  opacity: 0.5;
+  color: #888;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid #444;
+  box-shadow: none;
+}
+
+.event-btn--locked:hover,
+.event-btn--locked:active {
+  transform: none;
+  box-shadow: none;
 }
 
 .event-profile-dialog {
@@ -563,19 +599,35 @@ a.event-btn {
 .event-review-meta-col {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: center;
-  gap: 0.2rem;
+  gap: 0.25rem;
   min-width: 0;
-  text-align: right;
+  text-align: left;
   color: #ccc;
 }
 
+.event-review-name-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.85rem;
+  width: 100%;
+  max-width: 100%;
+}
+
 .event-review-user {
-  display: block;
   margin: 0;
   font-size: 0.95rem;
   color: #f8f4e8;
+}
+
+.event-review-time {
+  color: #9a9488;
+  font-size: 0.8rem;
+  font-weight: 400;
+  white-space: nowrap;
+  line-height: 1.3;
 }
 
 .event-review-thumb-col {
@@ -589,13 +641,6 @@ a.event-btn {
 .event-review-kind {
   color: #e8e0d4;
   line-height: 1.4;
-}
-
-.event-review-meta-col time {
-  color: #9a9488;
-  font-size: 0.8rem;
-  white-space: nowrap;
-  line-height: 1.3;
 }
 
 .event-review-thumb-link {

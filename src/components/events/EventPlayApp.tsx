@@ -52,6 +52,7 @@ export default function EventPlayApp({ slug }: Props) {
   const [submitting, setSubmitting] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [leaderboardOpen, setLeaderboardOpen] = useState(false);
+  const [rankingLockMessage, setRankingLockMessage] = useState<string | null>(null);
   const [profileMessage, setProfileMessage] = useState<string | null>(null);
 
   const api = eventApiBase(slug);
@@ -78,6 +79,10 @@ export default function EventPlayApp({ slug }: Props) {
   useEffect(() => {
     if (accessToken) void refresh();
   }, [accessToken, refresh]);
+
+  useEffect(() => {
+    if (me?.allMissionsCleared) setRankingLockMessage(null);
+  }, [me?.allMissionsCleared]);
 
   useEffect(() => {
     if (!profileOpen) return;
@@ -161,6 +166,17 @@ export default function EventPlayApp({ slug }: Props) {
     );
   }
 
+  const rankingUnlocked = Boolean(me?.allMissionsCleared);
+
+  function openRanking() {
+    if (!rankingUnlocked) {
+      setRankingLockMessage('ミッション達成後に解放されます');
+      return;
+    }
+    setRankingLockMessage(null);
+    setLeaderboardOpen(true);
+  }
+
   const profileDialog = profileOpen ? (
     <div
       className="event-modal"
@@ -228,12 +244,20 @@ export default function EventPlayApp({ slug }: Props) {
       {profileDialog}
       <EventLeaderboard slug={slug} open={leaderboardOpen} onClose={() => setLeaderboardOpen(false)} />
       <div className="event-play-topbar">
-        <button type="button" className="event-btn event-btn--secondary" onClick={() => setLeaderboardOpen(true)}>
-          ランキング
-        </button>
-        <button type="button" className="event-btn event-btn--secondary" onClick={() => setProfileOpen(true)}>
-          プロフィール
-        </button>
+        <div className="event-play-topbar-actions">
+          <button
+            type="button"
+            className={`event-btn event-btn--secondary${rankingUnlocked ? '' : ' event-btn--locked'}`}
+            onClick={openRanking}
+            aria-disabled={!rankingUnlocked}
+          >
+            ランキング
+          </button>
+          <button type="button" className="event-btn event-btn--secondary" onClick={() => setProfileOpen(true)}>
+            プロフィール
+          </button>
+        </div>
+        {rankingLockMessage && <p className="event-ranking-lock-msg">{rankingLockMessage}</p>}
       </div>
 
       <div className="event-play-grid">

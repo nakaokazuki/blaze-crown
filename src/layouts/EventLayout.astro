@@ -6,24 +6,30 @@ interface Props {
   description?: string;
   game: string;
   noindex?: boolean;
+  /** 画面上のイベントヒーロー（h1）を出さない（ブラウザタブの title は維持） */
+  hideHero?: boolean;
 }
 
-const { title, description, game, noindex = false } = Astro.props;
+const { title, description, game, noindex = false, hideHero = false } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description} wikiChrome={true} game={game} noindex={noindex}>
-  <div class="event-page">
+  <div class:list={['event-page', hideHero && 'event-page--no-hero']}>
     <div class="event-aurora" aria-hidden="true"></div>
-    <header class="event-hero">
-      {description && description !== title ? (
-        <>
-          <h1 class="event-hero-title">{title}</h1>
-          <p class="event-hero-desc">{description}</p>
-        </>
-      ) : (
-        <h1 class="event-hero-title event-hero-title--solo">{title}</h1>
-      )}
-    </header>
+  {
+      !hideHero && (
+        <header class="event-hero">
+          {description && description !== title ? (
+            <>
+              <h1 class="event-hero-title">{title}</h1>
+              <p class="event-hero-desc">{description}</p>
+            </>
+          ) : (
+            <h1 class="event-hero-title event-hero-title--solo">{title}</h1>
+          )}
+        </header>
+      )
+    }
     <div class="event-shell">
       <slot />
     </div>

@@ -33,6 +33,15 @@ type Submission = {
 
 type Props = { slug: string };
 
+function formatSubmissionShort(iso: string): string {
+  const d = new Date(iso);
+  const m = d.getMonth() + 1;
+  const day = d.getDate();
+  const h = d.getHours();
+  const min = String(d.getMinutes()).padStart(2, '0');
+  return `${m}/${day} ${h}:${min}`;
+}
+
 export default function EventAdminApp({ slug }: Props) {
   const { session, accessToken, loading: authLoading, signInWithGoogle, supabase } = useEventSession();
   const [participants, setParticipants] = useState<Participant[]>([]);
@@ -138,9 +147,13 @@ export default function EventAdminApp({ slug }: Props) {
               <li key={s.id} className="event-review-card">
                 <div className="event-review-row">
                   <div className="event-review-meta-col">
-                    <strong className="event-review-user">{s.profile?.display_name ?? s.user_id}</strong>
+                    <div className="event-review-name-row">
+                      <strong className="event-review-user">{s.profile?.display_name ?? s.user_id}</strong>
+                      <time className="event-review-time" dateTime={s.created_at}>
+                        {formatSubmissionShort(s.created_at)}
+                      </time>
+                    </div>
                     <span className="event-review-kind">{missionKindLabel(s.kind as EventMissionKind)}</span>
-                    <time>{new Date(s.created_at).toLocaleString('ja-JP')}</time>
                   </div>
                   <div className="event-review-thumb-col">
                     {s.image_url ? (
