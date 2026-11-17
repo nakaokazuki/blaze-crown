@@ -205,12 +205,9 @@ export default function EventPlayApp({ slug }: Props) {
           閉じる
         </button>
         <p className="event-notice-kicker">お知らせ</p>
-        <p className="event-notice-body" id="event-ranking-lock-title">
+        <p className="event-notice-body event-notice-body--solo" id="event-ranking-lock-title">
           ミッション達成後に解放されます
         </p>
-        <button type="button" className="event-btn event-btn--secondary event-notice-ok" onClick={() => setRankingLockOpen(false)}>
-          OK
-        </button>
       </div>
     </div>
   ) : null;
@@ -325,7 +322,6 @@ export default function EventPlayApp({ slug }: Props) {
                       className={`event-mission-progress-fill event-mission-progress-fill--${state}`}
                       style={{ width: `${fillPct}%` }}
                     />
-                    <span className={`event-mission-status-label ${statusClass(state)}`}>{statusLabel(state)}</span>
                   </div>
                 </li>
               );

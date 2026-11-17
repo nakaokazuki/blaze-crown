@@ -277,8 +277,8 @@ body:has(.event-page) {
   color: #f0ebe0;
 }
 
-.event-notice-ok {
-  min-width: 6rem;
+.event-notice-body--solo {
+  margin-bottom: 0;
 }
 
 .event-btn--locked {
@@ -487,8 +487,8 @@ a.event-btn {
 .event-mission-progress-track {
   position: relative;
   width: 100%;
-  min-height: 1.65rem;
-  border-radius: 6px;
+  height: 0.55rem;
+  border-radius: 999px;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.08);
   overflow: hidden;
@@ -500,7 +500,7 @@ a.event-btn {
   top: 0;
   bottom: 0;
   min-width: 0;
-  border-radius: 5px 0 0 5px;
+  border-radius: 999px 0 0 999px;
   transition: width 0.3s ease;
   pointer-events: none;
 }
@@ -524,13 +524,6 @@ a.event-btn {
 .event-mission-progress-fill--none {
   width: 0 !important;
   background: transparent;
-}
-
-.event-mission-status-label {
-  position: relative;
-  z-index: 1;
-  display: inline-block;
-  margin: 0.22rem 0.55rem;
 }
 
 .event-badge {
