@@ -163,6 +163,38 @@ body:has(.event-page) {
   left: 0;
 }
 
+.event-related-guides {
+  margin: 1rem 0 0;
+  font-size: 0.88rem;
+  color: #ccc4b8;
+}
+
+.event-related-guides a {
+  color: #ffb11b;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.event-play-intro {
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+}
+
+.event-play-flow {
+  margin: 0;
+  padding-left: 1.25rem;
+  color: #ccc4b8;
+  font-size: 0.9rem;
+}
+
+.event-play-flow li {
+  margin-bottom: 0.45rem;
+}
+
+.event-play-flow a {
+  color: #ffb11b;
+}
+
 .event-leaderboard-list {
   margin: 0;
   padding: 0;
@@ -644,6 +676,31 @@ a.event-btn {
 .event-history-status {
   flex-shrink: 0;
   margin-left: auto;
+}
+
+.event-history-pager.wiki-side-guide-pager {
+  margin-top: 0.5rem;
+  border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+.event-history-pager .wiki-side-guide-pager-btn {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.25);
+  color: #ffb11b;
+}
+
+.event-history-pager .wiki-side-guide-pager-btn:hover {
+  background: rgba(255, 177, 27, 0.15);
+}
+
+.event-history-pager .wiki-side-guide-pager-btn.is-active {
+  border-color: #ffb11b;
+  background: #ffb11b;
+  color: #1a1408;
+}
+
+.event-history-pager .wiki-side-guide-pager-btn.is-active:hover {
+  background: #ffb11b;
 }
 
 .event-reject-reason {

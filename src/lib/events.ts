@@ -32,6 +32,9 @@ export const EVENT_CONFIG = {
   prizeLabel: 'PayPay 1,500円 × 2名',
   /** 景品直下の注釈（期間と同じサイズ） */
   prizeFootnote: '※達成者から抽選',
+  /** ランディング用 meta description（検索スニペット・約120字目安） */
+  metaDescription:
+    '第１回非公式イベント「βテスト開始記念」。PayPay 1,500円×2名をミッション達成者から抽選。11/17〜12/1予定。ブレイズクラウン非公式ファンサイト主催（公式とは無関係）。',
 } as const;
 
 export function eventPath(game: string, slug: string): string {

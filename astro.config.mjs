@@ -13,7 +13,11 @@ export default defineConfig({
     react(),
     mdx(),
     sitemap({
-      filter: (page) => !page.includes('/search'),
+      filter: (page) => {
+        if (page.includes('/search')) return false;
+        if (page.includes('/events/') && page.includes('/admin')) return false;
+        return true;
+      },
     }),
   ],
   vite: {

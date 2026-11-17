@@ -3,7 +3,10 @@ import BaseLayout from './BaseLayout.astro';
 
 interface Props {
   title: string;
+  /** ヒーロー直下の短い説明（省略可） */
   description?: string;
+  /** head の meta description（省略時は description を使用） */
+  metaDescription?: string;
   /** ヒーロー見出しの上に小さく表示（例: 第１回非公式イベント） */
   kicker?: string;
   game: string;
@@ -12,10 +15,19 @@ interface Props {
   hideHero?: boolean;
 }
 
-const { title, description, kicker, game, noindex = false, hideHero = false } = Astro.props;
+const {
+  title,
+  description,
+  metaDescription,
+  kicker,
+  game,
+  noindex = false,
+  hideHero = false,
+} = Astro.props;
+const headDescription = metaDescription ?? description;
 ---
 
-<BaseLayout title={title} description={description} wikiChrome={true} game={game} noindex={noindex}>
+<BaseLayout title={title} description={headDescription} wikiChrome={true} game={game} noindex={noindex}>
   <div class:list={['event-page', hideHero && 'event-page--no-hero']}>
     <div class="event-aurora" aria-hidden="true"></div>
   {

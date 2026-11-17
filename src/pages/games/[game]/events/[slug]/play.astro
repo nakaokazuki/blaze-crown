@@ -12,6 +12,22 @@ const { game, slug } = Astro.params;
 const landingHref = eventPath(game!, slug!);
 ---
 
-<EventLayout title={`${EVENT_CONFIG.title} — 参加`} game={game!} hideHero={true}>
+<EventLayout title={`${EVENT_CONFIG.title} — 参加`} game={game!} hideHero={true} noindex={true}>
+  <section class="event-rules event-play-intro" aria-labelledby="event-play-flow-heading">
+    <h2 id="event-play-flow-heading">参加の流れ</h2>
+    <ol class="event-play-flow">
+      <li>
+        <a href={landingHref}>イベント概要</a>でルールを確認する（未読の場合）。
+      </li>
+      <li>Google アカウントでログインする。</li>
+      <li>表示名などを<strong>プロフィール</strong>に保存する。</li>
+      <li>割り当てられた3ミッションの勝利条件に沿ってプレイする。</li>
+      <li>
+        <strong>対戦結果画面</strong>のスクショを種別を選んで提出する（運営承認後に進捗へ反映）。
+      </li>
+      <li>全ミッション承認後は、追加対戦結果の提出で当選率を上げられる。</li>
+    </ol>
+    <p class="event-muted">以下からログイン・提出・進捗確認ができます。</p>
+  </section>
   <EventPlayApp client:load slug={slug!} landingHref={landingHref} />
 </EventLayout>

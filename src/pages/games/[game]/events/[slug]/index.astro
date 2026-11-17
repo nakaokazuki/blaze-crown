@@ -1,7 +1,7 @@
 ---
 import EventLayout from '../../../../../layouts/EventLayout.astro';
 import { DEFAULT_EVENT_SLUG, DEFAULT_GAME_FOR_EVENTS, EVENT_CONFIG } from '../../../../../lib/events';
-import { eventPlayPath } from '../../../../../lib/paths';
+import { eventPlayPath, guidePath } from '../../../../../lib/paths';
 
 export function getStaticPaths() {
   return [{ params: { game: DEFAULT_GAME_FOR_EVENTS, slug: DEFAULT_EVENT_SLUG } }];
@@ -9,9 +9,16 @@ export function getStaticPaths() {
 
 const { game, slug } = Astro.params;
 const playHref = eventPlayPath(game!, slug!);
+const betaGuideHref = guidePath(game!, 'beta-test-guide');
+const guidesHref = `/games/${game!}/guides/`;
 ---
 
-<EventLayout title={EVENT_CONFIG.title} kicker={EVENT_CONFIG.seriesLabel} game={game!}>
+<EventLayout
+  title={EVENT_CONFIG.title}
+  metaDescription={EVENT_CONFIG.metaDescription}
+  kicker={EVENT_CONFIG.seriesLabel}
+  game={game!}
+>
   <div class="event-prize-card">
     <p class="event-prize-card-heading">景品</p>
     <p class="event-prize-card-amount">
@@ -35,6 +42,12 @@ const playHref = eventPlayPath(game!, slug!);
         ミッションすべてクリア後、対戦結果（勝敗・引き分け問わず）を追加提出できます。1枚ごとに景品の当選率が<strong>1%</strong>上昇します。
       </li>
     </ul>
+    <p class="event-related-guides">
+      ミッション達成の参考:
+      <a href={betaGuideHref}>βテスト攻略ガイド</a>
+      ・
+      <a href={guidesHref}>攻略一覧</a>
+    </p>
   </section>
 
   <section class="event-rules" style="margin-top:1rem">

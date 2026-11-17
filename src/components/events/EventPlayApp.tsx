@@ -41,6 +41,8 @@ type Props = {
   landingHref: string;
 };
 
+const HISTORY_PAGE_SIZE = 10;
+
 export default function EventPlayApp({ slug, landingHref }: Props) {
   const { session, accessToken, loading: authLoading, signInWithGoogle, signOut, supabase } = useEventSession();
   const [me, setMe] = useState<MeResponse | null>(null);
@@ -59,8 +61,18 @@ export default function EventPlayApp({ slug, landingHref }: Props) {
   const [leaderboardOpen, setLeaderboardOpen] = useState(false);
   const [rankingLockOpen, setRankingLockOpen] = useState(false);
   const [profileMessage, setProfileMessage] = useState<string | null>(null);
+  const [historyPage, setHistoryPage] = useState(0);
 
   const api = eventApiBase(slug);
+
+  const submissionCount = me?.submissions.length ?? 0;
+  const historyPageCount = Math.ceil(submissionCount / HISTORY_PAGE_SIZE);
+  const historyHasPager = submissionCount > HISTORY_PAGE_SIZE;
+
+  useEffect(() => {
+    const maxPage = Math.max(0, historyPageCount - 1);
+    if (historyPage > maxPage) setHistoryPage(maxPage);
+  }, [historyPage, historyPageCount]);
 
   const refresh = useCallback(async () => {
     if (!accessToken) return;
@@ -422,23 +434,40 @@ export default function EventPlayApp({ slug, landingHref }: Props) {
         <div className="event-panel event-panel--wide">
           <h2 className="event-panel-title">提出履歴</h2>
           <ul className="event-history">
-            {me.submissions.map((s) => (
-              <li key={s.id}>
-                <time className="event-history-time" dateTime={s.created_at}>
-                  {formatSubmissionShort(s.created_at)}
-                </time>
-                <span className="event-history-kind">
-                  {missionKindSubmitLabel(s.kind as EventMissionKind, me.profile)}
-                </span>
-                <span
-                  className={`event-history-status ${statusClass(s.status as 'pending' | 'approved' | 'rejected')}`}
-                >
-                  {statusLabel(s.status as 'pending' | 'approved' | 'rejected')}
-                </span>
-                {s.rejection_reason && <span className="event-reject-reason">理由: {s.rejection_reason}</span>}
-              </li>
-            ))}
+            {me.submissions
+              .slice(historyPage * HISTORY_PAGE_SIZE, historyPage * HISTORY_PAGE_SIZE + HISTORY_PAGE_SIZE)
+              .map((s) => (
+                <li key={s.id}>
+                  <time className="event-history-time" dateTime={s.created_at}>
+                    {formatSubmissionShort(s.created_at)}
+                  </time>
+                  <span className="event-history-kind">
+                    {missionKindSubmitLabel(s.kind as EventMissionKind, me.profile)}
+                  </span>
+                  <span
+                    className={`event-history-status ${statusClass(s.status as 'pending' | 'approved' | 'rejected')}`}
+                  >
+                    {statusLabel(s.status as 'pending' | 'approved' | 'rejected')}
+                  </span>
+                  {s.rejection_reason && <span className="event-reject-reason">理由: {s.rejection_reason}</span>}
+                </li>
+              ))}
           </ul>
+          {historyHasPager && (
+            <nav className="wiki-side-guide-pager event-history-pager" aria-label="提出履歴のページ">
+              {Array.from({ length: historyPageCount }, (_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  className={`wiki-side-guide-pager-btn${i === historyPage ? ' is-active' : ''}`}
+                  aria-current={i === historyPage ? 'page' : undefined}
+                  onClick={() => setHistoryPage(i)}
+                >
+                  {i + 1}
+                </button>
+              ))}
+            </nav>
+          )}
         </div>
       )}
       </div>
