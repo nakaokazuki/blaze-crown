@@ -206,8 +206,8 @@
     @apply flex items-center gap-3 no-underline hover:no-underline;
   }
 
-  .game-header-icon {
-    @apply h-14 w-14 shrink-0 rounded border border-[var(--g8-border)] bg-white shadow-sm;
+  .game-header-logo {
+    @apply h-11 w-auto max-w-[min(42vw,11rem)] shrink-0 object-contain object-left sm:h-12 sm:max-w-[12.5rem];
   }
 
   .game-header-title {

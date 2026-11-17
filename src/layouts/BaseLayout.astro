@@ -18,7 +18,7 @@ const {
   noindex = false,
 } = Astro.props;
 const fullTitle = title === SITE_NAME ? title : `${title} | ${SITE_NAME}`;
-const iconSrc = `/games/${game}/icon.svg`;
+const gameLogoSrc = `/games/${game}/logo.png`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
 ---
@@ -56,7 +56,14 @@ const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
           <div class="game-header-top">
             <div class="wiki-header-inner">
               <a href="/" class="game-header-brand">
-                <img src={iconSrc} width="52" height="52" alt="" class="game-header-icon" decoding="async" />
+                <img
+                  src={gameLogoSrc}
+                  width={180}
+                  height={72}
+                  alt="BLAZE CROWN（ブレイズクラウン）"
+                  class="game-header-logo"
+                  decoding="async"
+                />
                 <span class="game-header-text">
                   <span class="game-header-title">{WIKI_BRAND_TITLE}</span>
                   <span class="game-header-sub">【非公式】ファンサイト</span>
