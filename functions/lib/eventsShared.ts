@@ -57,6 +57,38 @@ export function isEventAdmin(email: string | undefined, env: EventEnv): boolean 
   return allowed.includes(email.toLowerCase());
 }
 
+export async function requireEventAdmin(
+  request: Request,
+  env: EventEnv,
+): Promise<{ user: { id: string; email?: string } } | { error: Response }> {
+  const user = await getUserFromRequest(request, env);
+  if (!user) {
+    return { error: json({ error: 'ログインが必要です' }, 401) };
+  }
+  if (!env.EVENT_ADMIN_EMAILS?.trim()) {
+    return {
+      error: json(
+        {
+          error:
+            'EVENT_ADMIN_EMAILS が未設定です。.dev.vars（ローカル）または Cloudflare の環境変数に、Google ログインのメールをカンマ区切りで設定し、開発サーバーを再起動してください。',
+        },
+        403,
+      ),
+    };
+  }
+  if (!isEventAdmin(user.email, env)) {
+    return {
+      error: json(
+        {
+          error: `運営権限がありません（${user.email ?? 'メールなし'}）。EVENT_ADMIN_EMAILS にこのメールを追加してください。`,
+        },
+        403,
+      ),
+    };
+  }
+  return { user };
+}
+
 export function pickAssignedCharacters(userId: string): [string, string] {
   const pool = [...LAUNCH_CHARS];
   let seed = 0;

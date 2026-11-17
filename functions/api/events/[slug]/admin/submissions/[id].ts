@@ -1,4 +1,4 @@
-import { adminClient, getUserFromRequest, isEventAdmin, json, type EventEnv } from '../../../../../lib/eventsShared';
+import { adminClient, json, requireEventAdmin, type EventEnv } from '../../../../../lib/eventsShared';
 
 type Body = {
   action?: 'approve' | 'reject';
@@ -10,8 +10,9 @@ export async function onRequestPatch(context: {
   env: EventEnv;
   params: { slug: string; id: string };
 }) {
-  const user = await getUserFromRequest(context.request, context.env);
-  if (!user || !isEventAdmin(user.email, context.env)) return json({ error: 'forbidden' }, 403);
+  const auth = await requireEventAdmin(context.request, context.env);
+  if ('error' in auth) return auth.error;
+  const { user } = auth;
 
   const supabase = adminClient(context.env);
   if (!supabase) return json({ error: 'server not configured' }, 503);

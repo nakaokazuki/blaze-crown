@@ -1,8 +1,8 @@
-import { adminClient, getUserFromRequest, isEventAdmin, json, type EventEnv } from '../../../../lib/eventsShared';
+import { adminClient, json, requireEventAdmin, type EventEnv } from '../../../../lib/eventsShared';
 
 export async function onRequestGet(context: { request: Request; env: EventEnv; params: { slug: string } }) {
-  const user = await getUserFromRequest(context.request, context.env);
-  if (!user || !isEventAdmin(user.email, context.env)) return json({ error: 'forbidden' }, 403);
+  const auth = await requireEventAdmin(context.request, context.env);
+  if ('error' in auth) return auth.error;
 
   const supabase = adminClient(context.env);
   if (!supabase) return json({ error: 'server not configured' }, 503);
