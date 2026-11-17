@@ -10,11 +10,6 @@ export function getStaticPaths() {
 const { game, slug } = Astro.params;
 ---
 
-<EventLayout
-  title={`${EVENT_CONFIG.title} — 運営`}
-  description="参加者一覧・画像承認"
-  game={game!}
-  noindex={true}
->
+<EventLayout title={`${EVENT_CONFIG.title} — 運営（参加者一覧・画像承認）`} game={game!} noindex={true}>
   <EventAdminApp client:load slug={slug!} />
 </EventLayout>

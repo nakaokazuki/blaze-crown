@@ -8,6 +8,7 @@ import {
   type EventSubmissionStatus,
 } from '../../lib/events';
 import { statusClass, statusLabel } from './statusLabels';
+import EventLeaderboard from './EventLeaderboard';
 import { useEventSession } from './useEventSession';
 
 type MeResponse = {
@@ -50,6 +51,7 @@ export default function EventPlayApp({ slug }: Props) {
   const [file, setFile] = useState<File | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [leaderboardOpen, setLeaderboardOpen] = useState(false);
   const [profileMessage, setProfileMessage] = useState<string | null>(null);
 
   const api = eventApiBase(slug);
@@ -224,7 +226,11 @@ export default function EventPlayApp({ slug }: Props) {
   return (
     <div className="event-play-wrap">
       {profileDialog}
+      <EventLeaderboard slug={slug} open={leaderboardOpen} onClose={() => setLeaderboardOpen(false)} />
       <div className="event-play-topbar">
+        <button type="button" className="event-btn event-btn--secondary" onClick={() => setLeaderboardOpen(true)}>
+          ランキング
+        </button>
         <button type="button" className="event-btn event-btn--secondary" onClick={() => setProfileOpen(true)}>
           プロフィール
         </button>

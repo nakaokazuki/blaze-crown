@@ -159,15 +159,10 @@ export function allMissionsApproved(state: ReturnType<typeof missionStateFromSub
   );
 }
 
-/** ランキング用（ミッション承認勝利数を優先、全達成後は追加提出承認数） */
+/** ランキング用（全ミッション達成後の追加提出・承認済み枚数のみ） */
 export function eventLeaderboardScore(submissions: SubmissionRow[]): number {
-  const missions = ['mission_1', 'mission_2', 'mission_3'] as const;
-  const missionWins = missions.reduce((sum, m) => sum + approvedWinCount(submissions, m), 0);
-  const cleared = allMissionsApproved(missionStateFromSubmissions(submissions));
-  const bonusApproved = cleared
-    ? submissions.filter((s) => s.kind === 'bonus_battle' && s.status === 'approved').length
-    : 0;
-  return missionWins * 1_000_000 + bonusApproved;
+  if (!allMissionsApproved(missionStateFromSubmissions(submissions))) return 0;
+  return submissions.filter((s) => s.kind === 'bonus_battle' && s.status === 'approved').length;
 }
 
 export function lotteryWeight(approvedBonus: number, cleared: boolean): number {

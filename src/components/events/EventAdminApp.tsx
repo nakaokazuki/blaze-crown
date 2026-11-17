@@ -136,31 +136,33 @@ export default function EventAdminApp({ slug }: Props) {
           <ul className="event-review-list">
             {submissions.map((s) => (
               <li key={s.id} className="event-review-card">
-                <strong className="event-review-user">{s.profile?.display_name ?? s.user_id}</strong>
                 <div className="event-review-row">
-                  <div className="event-review-mission">
+                  <div className="event-review-meta-col">
+                    <strong className="event-review-user">{s.profile?.display_name ?? s.user_id}</strong>
                     <span className="event-review-kind">{missionKindLabel(s.kind as EventMissionKind)}</span>
                     <time>{new Date(s.created_at).toLocaleString('ja-JP')}</time>
                   </div>
-                  {s.image_url ? (
-                    <a
-                      href={s.image_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="event-review-thumb-link"
-                      title="原寸で開く"
-                    >
-                      <img
-                        src={s.image_url}
-                        alt=""
-                        className="event-review-thumb"
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    </a>
-                  ) : (
-                    <span className="event-muted event-review-thumb-missing">画像なし</span>
-                  )}
+                  <div className="event-review-thumb-col">
+                    {s.image_url ? (
+                      <a
+                        href={s.image_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="event-review-thumb-link"
+                        title="原寸で開く"
+                      >
+                        <img
+                          src={s.image_url}
+                          alt=""
+                          className="event-review-thumb"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </a>
+                    ) : (
+                      <span className="event-muted event-review-thumb-missing">画像なし</span>
+                    )}
+                  </div>
                 </div>
                 <div className="event-review-actions">
                   <button

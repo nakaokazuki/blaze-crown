@@ -12,7 +12,7 @@ const { game, slug } = Astro.params;
 const landingHref = eventPath(game!, slug!);
 ---
 
-<EventLayout title={`${EVENT_CONFIG.title} — 参加`} description="ミッション進捗・スクショ提出" game={game!}>
+<EventLayout title={`${EVENT_CONFIG.title} — 参加`} game={game!}>
   <p class="event-muted" style="margin:0 0 1rem">
     <a href={landingHref} style="color:#ffd86a">イベント概要に戻る</a>
   </p>
