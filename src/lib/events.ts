@@ -42,19 +42,34 @@ export function eventAdminPath(game: string, slug: string): string {
   return `/games/${game}/events/${slug}/admin/`;
 }
 
-export function missionKindLabel(kind: EventMissionKind): string {
+export type EventMissionLabelProfile = {
+  assigned_char_a?: string | null;
+  assigned_char_b?: string | null;
+};
+
+export function missionKindLabel(
+  kind: EventMissionKind,
+  profile?: EventMissionLabelProfile | null
+): string {
   switch (kind) {
     case 'mission_1':
       return 'ミッション1: 累計5勝';
     case 'mission_2':
-      return 'ミッション2: 指定キャラで2勝';
+      return `ミッション2: ${missionCharWinPhrase(profile?.assigned_char_a)}`;
     case 'mission_3':
-      return 'ミッション3: 指定キャラで2勝';
+      return `ミッション3: ${missionCharWinPhrase(profile?.assigned_char_b)}`;
     case 'bonus_battle':
       return '追加対戦結果（当選比重アップ）';
     default:
       return kind;
   }
+}
+
+/** ミッション2/3用（割当キャラ名入り） */
+export function missionCharWinPhrase(charName: string | null | undefined): string {
+  const name = charName?.trim();
+  if (!name) return '指定キャラを編成に含め2勝';
+  return `${name}を編成に含め2勝`;
 }
 
 export function pickAssignedCharacters(userId: string): [string, string] {

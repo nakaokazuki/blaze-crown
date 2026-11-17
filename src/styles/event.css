@@ -182,6 +182,47 @@ body:has(.event-page) {
   margin-bottom: 0;
 }
 
+.event-play-wrap {
+  position: relative;
+}
+
+.event-play-topbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.event-profile-dialog {
+  position: relative;
+  width: min(100%, 24rem);
+  max-height: min(90vh, 640px);
+  overflow: auto;
+  padding: 1.25rem 1.5rem 1.5rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 177, 27, 0.4);
+  background: #1a1a22;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.65);
+}
+
+.event-profile-dialog-close {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.65rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 8px;
+  border: 1px solid #444;
+  background: #2a2a32;
+  color: #e8e0d0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.event-panel-head--modal {
+  margin-top: 0.25rem;
+  padding-right: 4.5rem;
+}
+
 .event-play-grid {
   display: grid;
   gap: 1rem;

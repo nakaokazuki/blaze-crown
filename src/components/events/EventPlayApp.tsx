@@ -43,6 +43,8 @@ export default function EventPlayApp({ slug }: Props) {
   const [submitKind, setSubmitKind] = useState<EventMissionKind>('mission_1');
   const [file, setFile] = useState<File | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const [profileMessage, setProfileMessage] = useState<string | null>(null);
 
   const api = eventApiBase(slug);
 
@@ -69,9 +71,19 @@ export default function EventPlayApp({ slug }: Props) {
     if (accessToken) void refresh();
   }, [accessToken, refresh]);
 
+  useEffect(() => {
+    if (!profileOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setProfileOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [profileOpen]);
+
   async function saveProfile(e: React.FormEvent) {
     e.preventDefault();
     if (!accessToken) return;
+    setProfileMessage(null);
     try {
       await apiFetch(`${api}/profile`, {
         method: 'POST',
@@ -83,10 +95,10 @@ export default function EventPlayApp({ slug }: Props) {
           game_id: gameId.trim() || null,
         }),
       });
-      setMessage('プロフィールを保存しました');
+      setProfileMessage('プロフィールを保存しました');
       await refresh();
     } catch (err) {
-      setMessage(err instanceof Error ? err.message : '保存に失敗しました');
+      setProfileMessage(err instanceof Error ? err.message : '保存に失敗しました');
     }
   }
 
@@ -141,12 +153,37 @@ export default function EventPlayApp({ slug }: Props) {
     );
   }
 
-  return (
-    <div className="event-play-grid">
-      <div className="event-panel">
-        <div className="event-panel-head">
-          <h2 className="event-panel-title">マイプロフィール</h2>
-          <button type="button" className="event-btn event-btn--ghost" onClick={() => void signOut()}>
+  const profileDialog = profileOpen ? (
+    <div
+      className="event-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="event-profile-title"
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) setProfileOpen(false);
+      }}
+    >
+      <div className="event-profile-dialog">
+        <button
+          type="button"
+          className="event-profile-dialog-close"
+          aria-label="閉じる"
+          onClick={() => setProfileOpen(false)}
+        >
+          閉じる
+        </button>
+        <div className="event-panel-head event-panel-head--modal">
+          <h2 className="event-panel-title" id="event-profile-title">
+            マイプロフィール
+          </h2>
+          <button
+            type="button"
+            className="event-btn event-btn--ghost"
+            onClick={() => {
+              setProfileOpen(false);
+              void signOut();
+            }}
+          >
             ログアウト
           </button>
         </div>
@@ -173,8 +210,22 @@ export default function EventPlayApp({ slug }: Props) {
             <strong>{me.profile.assigned_char_b}</strong>（ミッション3）
           </p>
         )}
+        {profileMessage && <p className="event-message">{profileMessage}</p>}
+      </div>
+    </div>
+  ) : null;
+
+  return (
+    <div className="event-play-wrap">
+      {profileDialog}
+      <div className="event-play-topbar">
+        <button type="button" className="event-btn event-btn--secondary" onClick={() => setProfileOpen(true)}>
+          プロフィール
+          {me?.profile?.display_name ? `: ${me.profile.display_name}` : ''}
+        </button>
       </div>
 
+      <div className="event-play-grid">
       <div className="event-panel">
         <h2 className="event-panel-title">ミッション進捗</h2>
         {loading && !me ? <p className="event-muted">同期中…</p> : null}
@@ -182,19 +233,15 @@ export default function EventPlayApp({ slug }: Props) {
         {me && (
           <ul className="event-mission-list">
             <li>
-              <span>ミッション1: 累計5勝</span>
+              <span>{missionKindLabel('mission_1')}</span>
               <span className={statusClass(me.missionState.mission_1)}>{statusLabel(me.missionState.mission_1)}</span>
             </li>
             <li>
-              <span>
-                ミッション2: {me.profile?.assigned_char_a ?? '—'} で2勝
-              </span>
+              <span>{missionKindLabel('mission_2', me.profile)}</span>
               <span className={statusClass(me.missionState.mission_2)}>{statusLabel(me.missionState.mission_2)}</span>
             </li>
             <li>
-              <span>
-                ミッション3: {me.profile?.assigned_char_b ?? '—'} で2勝
-              </span>
+              <span>{missionKindLabel('mission_3', me.profile)}</span>
               <span className={statusClass(me.missionState.mission_3)}>{statusLabel(me.missionState.mission_3)}</span>
             </li>
           </ul>
@@ -211,15 +258,17 @@ export default function EventPlayApp({ slug }: Props) {
       <div className="event-panel event-panel--wide">
         <h2 className="event-panel-title">証拠画像の提出</h2>
         {!me?.profile ? (
-          <p className="event-muted">先にプロフィールを保存してください。</p>
+          <p className="event-muted">
+            右上の<strong>プロフィール</strong>から表示名を保存してください。
+          </p>
         ) : (
           <form className="event-form" onSubmit={(e) => void submitEvidence(e)}>
             <label>
               種別
               <select value={submitKind} onChange={(e) => setSubmitKind(e.target.value as EventMissionKind)}>
                 <option value="mission_1">{missionKindLabel('mission_1')}</option>
-                <option value="mission_2">{missionKindLabel('mission_2')}</option>
-                <option value="mission_3">{missionKindLabel('mission_3')}</option>
+                <option value="mission_2">{missionKindLabel('mission_2', me.profile)}</option>
+                <option value="mission_3">{missionKindLabel('mission_3', me.profile)}</option>
                 <option value="bonus_battle" disabled={!me.allMissionsCleared}>
                   {missionKindLabel('bonus_battle')}
                   {!me.allMissionsCleared ? '（全ミッション承認後）' : ''}
@@ -249,7 +298,7 @@ export default function EventPlayApp({ slug }: Props) {
           <ul className="event-history">
             {me.submissions.map((s) => (
               <li key={s.id}>
-                <span>{missionKindLabel(s.kind as EventMissionKind)}</span>
+                <span>{missionKindLabel(s.kind as EventMissionKind, me.profile)}</span>
                 <span className={statusClass(s.status as 'pending' | 'approved' | 'rejected')}>
                   {statusLabel(s.status as 'pending' | 'approved' | 'rejected')}
                 </span>
@@ -260,6 +309,7 @@ export default function EventPlayApp({ slug }: Props) {
           </ul>
         </div>
       )}
+      </div>
     </div>
   );
 }
