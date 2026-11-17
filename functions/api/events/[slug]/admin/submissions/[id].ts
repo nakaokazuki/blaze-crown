@@ -1,4 +1,4 @@
-import { adminClient, getUserFromRequest, isEventAdmin, json, type EventEnv } from '../../../../../../lib/eventsShared';
+import { adminClient, getUserFromRequest, isEventAdmin, json, type EventEnv } from '../../../../../lib/eventsShared';
 
 type Body = {
   action?: 'approve' | 'reject';

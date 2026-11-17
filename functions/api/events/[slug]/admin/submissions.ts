@@ -1,4 +1,4 @@
-import { adminClient, getUserFromRequest, isEventAdmin, json, type EventEnv } from '../../../../../lib/eventsShared';
+import { adminClient, getUserFromRequest, isEventAdmin, json, type EventEnv } from '../../../../lib/eventsShared';
 
 export async function onRequestGet(context: { request: Request; env: EventEnv; params: { slug: string } }) {
   const user = await getUserFromRequest(context.request, context.env);

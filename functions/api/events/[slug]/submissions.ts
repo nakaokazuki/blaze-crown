@@ -8,7 +8,7 @@ import {
   verifyTurnstile,
   type EventEnv,
   type EventSubmissionKind,
-} from '../../../../lib/eventsShared';
+} from '../../../lib/eventsShared';
 
 const VALID_KINDS = new Set<EventSubmissionKind>(['mission_1', 'mission_2', 'mission_3', 'bonus_battle']);
 const MAX_BYTES = 5 * 1024 * 1024;
