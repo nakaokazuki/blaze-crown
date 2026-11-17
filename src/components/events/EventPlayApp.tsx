@@ -4,7 +4,6 @@ import { apiFetch, eventApiBase } from '../../lib/eventApi';
 import {
   formatSubmissionShort,
   missionKindLabel,
-  missionKindShortLabel,
   missionKindSubmitLabel,
   missionWinProgressFromSubmissions,
   deriveMissionState,
@@ -428,7 +427,9 @@ export default function EventPlayApp({ slug, landingHref }: Props) {
                 <time className="event-history-time" dateTime={s.created_at}>
                   {formatSubmissionShort(s.created_at)}
                 </time>
-                <span className="event-history-kind">{missionKindShortLabel(s.kind as EventMissionKind)}</span>
+                <span className="event-history-kind">
+                  {missionKindSubmitLabel(s.kind as EventMissionKind, me.profile)}
+                </span>
                 <span
                   className={`event-history-status ${statusClass(s.status as 'pending' | 'approved' | 'rejected')}`}
                 >

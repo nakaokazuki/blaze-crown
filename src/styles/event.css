@@ -620,25 +620,35 @@ a.event-btn {
 
 .event-history li {
   display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-  align-items: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: baseline;
   padding: 0.5rem 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .event-history-time {
+  flex-shrink: 0;
   color: rgba(255, 255, 255, 0.55);
   font-size: 0.8rem;
   font-variant-numeric: tabular-nums;
 }
 
 .event-history-kind {
+  flex: 1 1 auto;
+  min-width: 0;
   font-weight: 600;
 }
 
+.event-history-status {
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
 .event-reject-reason {
-  margin-top: 0.25rem;
+  flex: 1 1 100%;
+  margin-top: 0.1rem;
   color: #ffaaaa;
   font-size: 0.8rem;
 }
