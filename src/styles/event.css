@@ -251,10 +251,34 @@ body:has(.event-page) {
   gap: 0.5rem;
 }
 
-.event-ranking-lock-msg {
-  margin: 0;
-  font-size: 0.8rem;
-  color: #ffaa66;
+.event-notice-dialog {
+  position: relative;
+  width: min(100%, 20rem);
+  padding: 1.5rem 1.35rem 1.25rem;
+  text-align: center;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 177, 27, 0.45);
+  background: #1a1a22;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.65);
+}
+
+.event-notice-kicker {
+  margin: 0.35rem 0 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #ffb11b;
+}
+
+.event-notice-body {
+  margin: 0 0 1.15rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: #f0ebe0;
+}
+
+.event-notice-ok {
+  min-width: 6rem;
 }
 
 .event-btn--locked {
@@ -300,6 +324,11 @@ body:has(.event-page) {
 
 .event-panel-head--modal {
   margin-top: 0.25rem;
+  padding-right: 4.5rem;
+}
+
+.event-profile-modal-title {
+  margin: 0.25rem 0 0.85rem;
   padding-right: 4.5rem;
 }
 
@@ -453,6 +482,55 @@ a.event-btn {
   font-variant-numeric: tabular-nums;
   color: #ffd86a;
   letter-spacing: 0.02em;
+}
+
+.event-mission-progress-track {
+  position: relative;
+  width: 100%;
+  min-height: 1.65rem;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.event-mission-progress-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  min-width: 0;
+  border-radius: 5px 0 0 5px;
+  transition: width 0.3s ease;
+  pointer-events: none;
+}
+
+.event-mission-progress-fill--in_progress {
+  background: linear-gradient(90deg, rgba(100, 165, 255, 0.55), rgba(100, 165, 255, 0.28));
+}
+
+.event-mission-progress-fill--approved {
+  background: linear-gradient(90deg, rgba(80, 200, 120, 0.5), rgba(80, 200, 120, 0.28));
+}
+
+.event-mission-progress-fill--pending {
+  background: linear-gradient(90deg, rgba(255, 177, 27, 0.45), rgba(255, 177, 27, 0.22));
+}
+
+.event-mission-progress-fill--rejected {
+  background: linear-gradient(90deg, rgba(200, 80, 80, 0.35), rgba(200, 80, 80, 0.15));
+}
+
+.event-mission-progress-fill--none {
+  width: 0 !important;
+  background: transparent;
+}
+
+.event-mission-status-label {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  margin: 0.22rem 0.55rem;
 }
 
 .event-badge {

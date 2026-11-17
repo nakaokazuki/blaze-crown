@@ -52,7 +52,7 @@ export default function EventPlayApp({ slug }: Props) {
   const [submitting, setSubmitting] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [leaderboardOpen, setLeaderboardOpen] = useState(false);
-  const [rankingLockMessage, setRankingLockMessage] = useState<string | null>(null);
+  const [rankingLockOpen, setRankingLockOpen] = useState(false);
   const [profileMessage, setProfileMessage] = useState<string | null>(null);
 
   const api = eventApiBase(slug);
@@ -81,8 +81,17 @@ export default function EventPlayApp({ slug }: Props) {
   }, [accessToken, refresh]);
 
   useEffect(() => {
-    if (me?.allMissionsCleared) setRankingLockMessage(null);
+    if (me?.allMissionsCleared) setRankingLockOpen(false);
   }, [me?.allMissionsCleared]);
+
+  useEffect(() => {
+    if (!rankingLockOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setRankingLockOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [rankingLockOpen]);
 
   useEffect(() => {
     if (!profileOpen) return;
@@ -170,12 +179,41 @@ export default function EventPlayApp({ slug }: Props) {
 
   function openRanking() {
     if (!rankingUnlocked) {
-      setRankingLockMessage('ミッション達成後に解放されます');
+      setRankingLockOpen(true);
       return;
     }
-    setRankingLockMessage(null);
     setLeaderboardOpen(true);
   }
+
+  const rankingLockDialog = rankingLockOpen ? (
+    <div
+      className="event-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="event-ranking-lock-title"
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) setRankingLockOpen(false);
+      }}
+    >
+      <div className="event-notice-dialog">
+        <button
+          type="button"
+          className="event-profile-dialog-close"
+          aria-label="閉じる"
+          onClick={() => setRankingLockOpen(false)}
+        >
+          閉じる
+        </button>
+        <p className="event-notice-kicker">お知らせ</p>
+        <p className="event-notice-body" id="event-ranking-lock-title">
+          ミッション達成後に解放されます
+        </p>
+        <button type="button" className="event-btn event-btn--secondary event-notice-ok" onClick={() => setRankingLockOpen(false)}>
+          OK
+        </button>
+      </div>
+    </div>
+  ) : null;
 
   const profileDialog = profileOpen ? (
     <div
@@ -196,21 +234,9 @@ export default function EventPlayApp({ slug }: Props) {
         >
           閉じる
         </button>
-        <div className="event-panel-head event-panel-head--modal">
-          <h2 className="event-panel-title" id="event-profile-title">
-            マイプロフィール
-          </h2>
-          <button
-            type="button"
-            className="event-btn event-btn--ghost"
-            onClick={() => {
-              setProfileOpen(false);
-              void signOut();
-            }}
-          >
-            ログアウト
-          </button>
-        </div>
+        <h2 className="event-panel-title event-profile-modal-title" id="event-profile-title">
+          マイプロフィール
+        </h2>
         <form className="event-form" onSubmit={(e) => void saveProfile(e)}>
           <label>
             表示名（必須）
@@ -228,12 +254,6 @@ export default function EventPlayApp({ slug }: Props) {
             保存
           </button>
         </form>
-        {me?.profile && (
-          <p className="event-muted event-assign">
-            割当キャラ: <strong>{me.profile.assigned_char_a}</strong>（ミッション2）／{' '}
-            <strong>{me.profile.assigned_char_b}</strong>（ミッション3）
-          </p>
-        )}
         {profileMessage && <p className="event-message">{profileMessage}</p>}
       </div>
     </div>
@@ -242,6 +262,7 @@ export default function EventPlayApp({ slug }: Props) {
   return (
     <div className="event-play-wrap">
       {profileDialog}
+      {rankingLockDialog}
       <EventLeaderboard slug={slug} open={leaderboardOpen} onClose={() => setLeaderboardOpen(false)} />
       <div className="event-play-topbar">
         <div className="event-play-topbar-actions">
@@ -256,8 +277,14 @@ export default function EventPlayApp({ slug }: Props) {
           <button type="button" className="event-btn event-btn--secondary" onClick={() => setProfileOpen(true)}>
             プロフィール
           </button>
+          <button
+            type="button"
+            className="event-btn event-btn--ghost"
+            onClick={() => void signOut()}
+          >
+            ログアウト
+          </button>
         </div>
-        {rankingLockMessage && <p className="event-ranking-lock-msg">{rankingLockMessage}</p>}
       </div>
 
       <div className="event-play-grid">
@@ -275,6 +302,7 @@ export default function EventPlayApp({ slug }: Props) {
             {(['mission_1', 'mission_2', 'mission_3'] as const).map((missionId) => {
               const state = me.missionState[missionId];
               const { current, target } = missionWinProgressFromSubmissions(submissionRows, missionId);
+              const fillPct = target > 0 ? Math.min(100, (current / target) * 100) : 0;
               return (
                 <li key={missionId} className="event-mission-card">
                   <div className="event-mission-card-head">
@@ -285,7 +313,20 @@ export default function EventPlayApp({ slug }: Props) {
                       {current}/{target}
                     </span>
                   </div>
-                  <span className={statusClass(state)}>{statusLabel(state)}</span>
+                  <div
+                    className="event-mission-progress-track"
+                    role="progressbar"
+                    aria-valuenow={current}
+                    aria-valuemin={0}
+                    aria-valuemax={target}
+                    aria-label={`${missionKindLabel(missionId, me.profile)} ${current}/${target}`}
+                  >
+                    <div
+                      className={`event-mission-progress-fill event-mission-progress-fill--${state}`}
+                      style={{ width: `${fillPct}%` }}
+                    />
+                    <span className={`event-mission-status-label ${statusClass(state)}`}>{statusLabel(state)}</span>
+                  </div>
                 </li>
               );
             })}
