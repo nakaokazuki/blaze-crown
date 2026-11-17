@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { apiFetch, eventApiBase } from '../../lib/eventApi';
 import {
   missionKindLabel,
@@ -281,11 +282,21 @@ export default function EventPlayApp({ slug, landingHref }: Props) {
     </div>
   ) : null;
 
+  const modalLayer =
+    typeof document !== 'undefined'
+      ? createPortal(
+          <>
+            {profileDialog}
+            {rankingLockDialog}
+            <EventLeaderboard slug={slug} open={leaderboardOpen} onClose={() => setLeaderboardOpen(false)} />
+          </>,
+          document.body,
+        )
+      : null;
+
   return (
     <div className="event-play-wrap">
-      {profileDialog}
-      {rankingLockDialog}
-      <EventLeaderboard slug={slug} open={leaderboardOpen} onClose={() => setLeaderboardOpen(false)} />
+      {modalLayer}
       {playToolbar}
 
       <div className="event-play-grid">

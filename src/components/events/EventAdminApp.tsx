@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { apiFetch, eventApiBase } from '../../lib/eventApi';
 import { deriveMissionState, missionKindLabel, type EventMissionKind } from '../../lib/events';
 import { statusClass, statusLabel } from './statusLabels';
@@ -49,7 +50,7 @@ export default function EventAdminApp({ slug }: Props) {
   const [filter, setFilter] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [rejectReason, setRejectReason] = useState<Record<string, string>>({});
-  const [contactUserId, setContactUserId] = useState<string | null>(null);
+  const [contactParticipant, setContactParticipant] = useState<Participant | null>(null);
 
   const api = eventApiBase(slug);
 
@@ -71,6 +72,15 @@ export default function EventAdminApp({ slug }: Props) {
   useEffect(() => {
     if (accessToken) void load();
   }, [accessToken, load]);
+
+  useEffect(() => {
+    if (!contactParticipant) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setContactParticipant(null);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [contactParticipant]);
 
   async function review(id: string, action: 'approve' | 'reject') {
     if (!accessToken) return;
@@ -129,8 +139,49 @@ export default function EventAdminApp({ slug }: Props) {
     filter ? p.display_name.toLowerCase().includes(filter.toLowerCase()) : true,
   );
 
+  const contactDialog = contactParticipant ? (
+    <div
+      className="event-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="event-admin-contact-title"
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) setContactParticipant(null);
+      }}
+    >
+      <div className="event-profile-dialog event-admin-contact-dialog">
+        <button
+          type="button"
+          className="event-profile-dialog-close"
+          aria-label="閉じる"
+          onClick={() => setContactParticipant(null)}
+        >
+          閉じる
+        </button>
+        <h2 className="event-panel-title event-profile-modal-title" id="event-admin-contact-title">
+          {contactParticipant.display_name}
+        </h2>
+        <dl className="event-participant-contact event-participant-contact--modal">
+          <div>
+            <dt>メール</dt>
+            <dd>{contactParticipant.email?.trim() ? contactParticipant.email : 'ー'}</dd>
+          </div>
+          <div>
+            <dt>X</dt>
+            <dd>{contactParticipant.x_handle?.trim() ? contactParticipant.x_handle : 'ー'}</dd>
+          </div>
+          <div>
+            <dt>ゲーム内 ID</dt>
+            <dd>{contactParticipant.game_id?.trim() ? contactParticipant.game_id : 'ー'}</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  ) : null;
+
   return (
     <div className="event-admin-stack">
+      {contactParticipant && typeof document !== 'undefined' ? createPortal(contactDialog, document.body) : null}
       {error && <p className="event-error">{error}</p>}
 
       <section className="event-panel event-panel--wide">
@@ -237,27 +288,10 @@ export default function EventAdminApp({ slug }: Props) {
                     <button
                       type="button"
                       className="event-table-name-btn"
-                      aria-expanded={contactUserId === p.user_id}
-                      onClick={() => setContactUserId((id) => (id === p.user_id ? null : p.user_id))}
+                      onClick={() => setContactParticipant(p)}
                     >
                       {p.display_name}
                     </button>
-                    {contactUserId === p.user_id ? (
-                      <dl className="event-participant-contact">
-                        <div>
-                          <dt>メール</dt>
-                          <dd>{p.email?.trim() ? p.email : 'ー'}</dd>
-                        </div>
-                        <div>
-                          <dt>X</dt>
-                          <dd>{p.x_handle?.trim() ? p.x_handle : 'ー'}</dd>
-                        </div>
-                        <div>
-                          <dt>ゲーム内 ID</dt>
-                          <dd>{p.game_id?.trim() ? p.game_id : 'ー'}</dd>
-                        </div>
-                      </dl>
-                    ) : null}
                   </td>
                   <td>
                     <span className={statusClass(p.missionState.mission_1)}>

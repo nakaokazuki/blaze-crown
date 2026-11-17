@@ -6,16 +6,19 @@ body:has(.event-page) #main.page-shell-wiki {
 
 body:has(.event-page) {
   background: #0a0a0c;
+  overflow-x: hidden;
 }
 
 .event-page {
   position: relative;
   margin: 0;
   width: 100%;
+  max-width: 100%;
   min-height: calc(100vh - 7.5rem);
   padding: 0 0 2rem;
   border-radius: 0;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: visible;
   background: radial-gradient(ellipse 120% 80% at 50% -20%, #3d2a0a 0%, #0f0f12 45%, #0a0a0c 100%);
   color: #f8f4e8;
 }
@@ -34,8 +37,11 @@ body:has(.event-page) {
   position: relative;
   z-index: 1;
   max-width: 56rem;
+  width: 100%;
+  min-width: 0;
   margin: 0 auto;
-  padding: 0 1rem 2rem;
+  padding: 0 max(1rem, env(safe-area-inset-right)) 2rem max(1rem, env(safe-area-inset-left));
+  box-sizing: border-box;
 }
 
 .event-page--no-hero {
@@ -200,6 +206,9 @@ body:has(.event-page) {
 }
 
 .event-panel {
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
   padding: 1.25rem 1.35rem;
   border-radius: 14px;
   background: rgba(22, 22, 28, 0.85);
@@ -237,6 +246,8 @@ body:has(.event-page) {
 
 .event-play-wrap {
   position: relative;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .event-play-toolbar {
@@ -626,11 +637,15 @@ a.event-btn {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .event-table-wrap {
   overflow-x: auto;
   margin-top: 0.75rem;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
 }
 
 .event-table {
@@ -705,6 +720,15 @@ a.event-btn {
   margin: 0;
   color: #e0d8cc;
   word-break: break-all;
+}
+
+.event-participant-contact--modal {
+  margin-top: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.event-admin-contact-dialog {
+  width: min(100%, 22rem);
 }
 
 .event-review-list {
@@ -829,7 +853,11 @@ a.event-btn {
   align-items: center;
   justify-content: center;
   background: rgba(0, 0, 0, 0.85);
-  padding: 1rem;
+  padding: max(0.75rem, env(safe-area-inset-top)) max(0.75rem, env(safe-area-inset-right))
+    max(0.75rem, env(safe-area-inset-bottom)) max(0.75rem, env(safe-area-inset-left));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 .event-modal-body {
@@ -870,6 +898,61 @@ a.event-btn {
   background: rgba(255, 255, 255, 0.12);
   color: #ffd86a;
   border: 1px solid rgba(255, 177, 27, 0.35);
+}
+
+.event-profile-dialog,
+.event-notice-dialog,
+.event-leaderboard-dialog,
+.event-admin-contact-dialog {
+  max-height: min(85vh, 640px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 520px) {
+  .event-panel {
+    padding: 1rem 0.85rem;
+  }
+
+  .event-play-toolbar {
+    align-items: stretch;
+  }
+
+  .event-play-topbar-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .event-play-topbar-actions .event-btn {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding-left: 0.65rem;
+    padding-right: 0.65rem;
+    font-size: 0.82rem;
+  }
+
+  .event-mission-card-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .event-review-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .event-review-actions input {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .event-review-actions .event-btn {
+    width: 100%;
+  }
+
+  .event-hero {
+    padding: 1.75rem 0.85rem 1.5rem;
+  }
 }
 
 /* BaseLayout footer on event pages */

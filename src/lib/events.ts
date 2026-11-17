@@ -29,7 +29,9 @@ export const EVENT_CONFIG = {
   /** トップ告知など（イベントヒーローには出さない） */
   teaserBody: 'PayPay 1,500円 × 2名 — ミッション達成者を抽選',
   periodLabel: '2026年11月17日（火）〜12月1日（火）予定',
-  prizeLabel: 'PayPay 1,500円 × 2名（達成者から抽選）',
+  prizeLabel: 'PayPay 1,500円 × 2名',
+  /** 景品直下の注釈（期間と同じサイズ） */
+  prizeFootnote: '※達成者から抽選',
 } as const;
 
 export function eventPath(game: string, slug: string): string {
