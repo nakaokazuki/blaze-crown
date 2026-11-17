@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { apiFetch, eventApiBase } from '../../lib/eventApi';
 import {
@@ -50,7 +50,8 @@ export default function EventPlayApp({ slug, landingHref }: Props) {
   const [xHandle, setXHandle] = useState('');
   const [gameId, setGameId] = useState('');
   const [submitKind, setSubmitKind] = useState<EventMissionKind>('mission_1');
-  const [file, setFile] = useState<File | null>(null);
+  const [files, setFiles] = useState<File[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [submitting, setSubmitting] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [leaderboardOpen, setLeaderboardOpen] = useState(false);
@@ -126,28 +127,48 @@ export default function EventPlayApp({ slug, landingHref }: Props) {
     }
   }
 
+  async function postOneScreenshot(file: File): Promise<void> {
+    if (!accessToken) throw new Error('ログインが必要です');
+    const fd = new FormData();
+    fd.append('kind', submitKind);
+    fd.append('image', file);
+    fd.append('turnstile_token', import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ? 'dev-bypass' : 'dev-bypass');
+    const res = await fetch(`${api}/submissions`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${accessToken}` },
+      body: fd,
+    });
+    const data = (await res.json()) as { ok?: boolean; message?: string; error?: string };
+    if (!res.ok) throw new Error(data.error ?? '提出に失敗しました');
+  }
+
   async function submitEvidence(e: React.FormEvent) {
     e.preventDefault();
-    if (!accessToken || !file) return;
+    if (!accessToken || files.length === 0) return;
     setSubmitting(true);
     setMessage(null);
+    let okCount = 0;
+    const errors: string[] = [];
     try {
-      const fd = new FormData();
-      fd.append('kind', submitKind);
-      fd.append('image', file);
-      fd.append('turnstile_token', import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ? 'dev-bypass' : 'dev-bypass');
-      const res = await fetch(`${api}/submissions`, {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${accessToken}` },
-        body: fd,
-      });
-      const data = (await res.json()) as { ok?: boolean; message?: string; error?: string };
-      if (!res.ok) throw new Error(data.error ?? '提出に失敗しました');
-      setMessage(data.message ?? '提出しました');
-      setFile(null);
+      for (const file of files) {
+        try {
+          await postOneScreenshot(file);
+          okCount += 1;
+        } catch (err) {
+          const label = file.name || '画像';
+          errors.push(`${label}: ${err instanceof Error ? err.message : '失敗'}`);
+        }
+      }
+      setFiles([]);
+      if (fileInputRef.current) fileInputRef.current.value = '';
       await refresh();
-    } catch (err) {
-      setMessage(err instanceof Error ? err.message : '提出に失敗しました');
+      if (errors.length === 0) {
+        setMessage(okCount === 1 ? '提出しました。' : `${okCount}枚提出しました。運営の承認をお待ちください。`);
+      } else if (okCount > 0) {
+        setMessage(`${okCount}枚提出、${errors.length}枚失敗しました。${errors[0]}`);
+      } else {
+        setMessage(errors[0] ?? '提出に失敗しました');
+      }
     } finally {
       setSubmitting(false);
     }
@@ -374,16 +395,21 @@ export default function EventPlayApp({ slug, landingHref }: Props) {
               </select>
             </label>
             <label>
-              スクショ（5MB以下）
+              スクショ（5MB以下・複数選択可）
               <input
+                ref={fileInputRef}
                 type="file"
                 accept="image/jpeg,image/png,image/webp"
-                onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+                multiple
+                onChange={(e) => setFiles(Array.from(e.target.files ?? []))}
                 required
               />
             </label>
-            <button type="submit" className="event-btn event-btn--primary" disabled={submitting || !file}>
-              {submitting ? '送信中…' : '提出する'}
+            {files.length > 1 ? (
+              <p className="event-muted">{files.length}枚を選択中</p>
+            ) : null}
+            <button type="submit" className="event-btn event-btn--primary" disabled={submitting || files.length === 0}>
+              {submitting ? '送信中…' : files.length > 1 ? `${files.length}枚を提出する` : '提出する'}
             </button>
           </form>
         )}
