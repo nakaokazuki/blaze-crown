@@ -32,6 +32,7 @@ const gameInfoParagraphs = (meta.gameInfo ?? '')
     <section id="section-top" class="wiki-stack-block wiki-hub-section">
       <p class="lead">{meta.description}</p>
       <aside class="wiki-event-teaser mt-4">
+        <p class="wiki-event-teaser-kicker">{EVENT_CONFIG.seriesLabel}</p>
         <p class="wiki-event-teaser-title">{EVENT_CONFIG.title}</p>
         <p class="wiki-event-teaser-body">{EVENT_CONFIG.teaserBody}</p>
         <a href={eventHref} class="wiki-event-teaser-link">イベント詳細を見る</a>

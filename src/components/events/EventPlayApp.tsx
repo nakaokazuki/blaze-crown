@@ -35,9 +35,10 @@ type MeResponse = {
 
 type Props = {
   slug: string;
+  landingHref: string;
 };
 
-export default function EventPlayApp({ slug }: Props) {
+export default function EventPlayApp({ slug, landingHref }: Props) {
   const { session, accessToken, loading: authLoading, signInWithGoogle, signOut, supabase } = useEventSession();
   const [me, setMe] = useState<MeResponse | null>(null);
   const [loading, setLoading] = useState(false);
@@ -163,26 +164,50 @@ export default function EventPlayApp({ slug }: Props) {
     return <p className="event-muted">読み込み中…</p>;
   }
 
-  if (!session) {
-    return (
-      <div className="event-panel event-panel--hero">
-        <h2 className="event-panel-title">参加者ログイン</h2>
-        <p className="event-lead">Google アカウントでログインしてミッションに参加できます。</p>
-        <button type="button" className="event-btn event-btn--primary" onClick={() => void signInWithGoogle()}>
-          Google でログイン
-        </button>
-      </div>
-    );
-  }
-
   const rankingUnlocked = Boolean(me?.allMissionsCleared);
 
-  function openRanking() {
-    if (!rankingUnlocked) {
-      setRankingLockOpen(true);
-      return;
-    }
-    setLeaderboardOpen(true);
+  const playToolbar = (
+    <div className="event-play-toolbar">
+      <a href={landingHref} className="event-back-link">
+        イベント概要に戻る
+      </a>
+      {session ? (
+        <div className="event-play-topbar-actions">
+          <button
+            type="button"
+            className={`event-btn event-btn--secondary${rankingUnlocked ? '' : ' event-btn--locked'}`}
+            onClick={() => {
+              if (rankingUnlocked) setLeaderboardOpen(true);
+              else setRankingLockOpen(true);
+            }}
+            aria-disabled={!rankingUnlocked}
+          >
+            ランキング
+          </button>
+          <button type="button" className="event-btn event-btn--secondary" onClick={() => setProfileOpen(true)}>
+            プロフィール
+          </button>
+          <button type="button" className="event-btn event-btn--ghost" onClick={() => void signOut()}>
+            ログアウト
+          </button>
+        </div>
+      ) : null}
+    </div>
+  );
+
+  if (!session) {
+    return (
+      <div className="event-play-wrap">
+        {playToolbar}
+        <div className="event-panel event-panel--hero">
+          <h2 className="event-panel-title">参加者ログイン</h2>
+          <p className="event-lead">Google アカウントでログインしてミッションに参加できます。</p>
+          <button type="button" className="event-btn event-btn--primary" onClick={() => void signInWithGoogle()}>
+            Google でログイン
+          </button>
+        </div>
+      </div>
+    );
   }
 
   const rankingLockDialog = rankingLockOpen ? (
@@ -261,28 +286,7 @@ export default function EventPlayApp({ slug }: Props) {
       {profileDialog}
       {rankingLockDialog}
       <EventLeaderboard slug={slug} open={leaderboardOpen} onClose={() => setLeaderboardOpen(false)} />
-      <div className="event-play-topbar">
-        <div className="event-play-topbar-actions">
-          <button
-            type="button"
-            className={`event-btn event-btn--secondary${rankingUnlocked ? '' : ' event-btn--locked'}`}
-            onClick={openRanking}
-            aria-disabled={!rankingUnlocked}
-          >
-            ランキング
-          </button>
-          <button type="button" className="event-btn event-btn--secondary" onClick={() => setProfileOpen(true)}>
-            プロフィール
-          </button>
-          <button
-            type="button"
-            className="event-btn event-btn--ghost"
-            onClick={() => void signOut()}
-          >
-            ログアウト
-          </button>
-        </div>
-      </div>
+      {playToolbar}
 
       <div className="event-play-grid">
       <div className="event-panel event-panel--wide">

@@ -49,6 +49,7 @@ export default function EventAdminApp({ slug }: Props) {
   const [filter, setFilter] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [rejectReason, setRejectReason] = useState<Record<string, string>>({});
+  const [contactUserId, setContactUserId] = useState<string | null>(null);
 
   const api = eventApiBase(slug);
 
@@ -222,20 +223,42 @@ export default function EventAdminApp({ slug }: Props) {
             <thead>
               <tr>
                 <th>表示名</th>
-                <th>メール</th>
                 <th>M1</th>
                 <th>M2</th>
                 <th>M3</th>
                 <th>達成</th>
                 <th>比重</th>
-                <th>待ち</th>
               </tr>
             </thead>
             <tbody>
               {filtered.map((p) => (
                 <tr key={p.user_id}>
-                  <td>{p.display_name}</td>
-                  <td className="event-table-email">{p.email ?? '—'}</td>
+                  <td className="event-table-name-cell">
+                    <button
+                      type="button"
+                      className="event-table-name-btn"
+                      aria-expanded={contactUserId === p.user_id}
+                      onClick={() => setContactUserId((id) => (id === p.user_id ? null : p.user_id))}
+                    >
+                      {p.display_name}
+                    </button>
+                    {contactUserId === p.user_id ? (
+                      <dl className="event-participant-contact">
+                        <div>
+                          <dt>メール</dt>
+                          <dd>{p.email?.trim() ? p.email : 'ー'}</dd>
+                        </div>
+                        <div>
+                          <dt>X</dt>
+                          <dd>{p.x_handle?.trim() ? p.x_handle : 'ー'}</dd>
+                        </div>
+                        <div>
+                          <dt>ゲーム内 ID</dt>
+                          <dd>{p.game_id?.trim() ? p.game_id : 'ー'}</dd>
+                        </div>
+                      </dl>
+                    ) : null}
+                  </td>
                   <td>
                     <span className={statusClass(p.missionState.mission_1)}>
                       {statusLabel(p.missionState.mission_1)}
@@ -253,7 +276,6 @@ export default function EventAdminApp({ slug }: Props) {
                   </td>
                   <td>{p.allMissionsCleared ? '◎' : '—'}</td>
                   <td>{p.lotteryWeight.toFixed(2)}</td>
-                  <td>{p.pendingSubmissions > 0 ? p.pendingSubmissions : '—'}</td>
                 </tr>
               ))}
             </tbody>

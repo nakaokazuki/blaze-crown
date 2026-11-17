@@ -4,13 +4,15 @@ import BaseLayout from './BaseLayout.astro';
 interface Props {
   title: string;
   description?: string;
+  /** ヒーロー見出しの上に小さく表示（例: 第１回非公式イベント） */
+  kicker?: string;
   game: string;
   noindex?: boolean;
   /** 画面上のイベントヒーロー（h1）を出さない（ブラウザタブの title は維持） */
   hideHero?: boolean;
 }
 
-const { title, description, game, noindex = false, hideHero = false } = Astro.props;
+const { title, description, kicker, game, noindex = false, hideHero = false } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description} wikiChrome={true} game={game} noindex={noindex}>
@@ -19,13 +21,22 @@ const { title, description, game, noindex = false, hideHero = false } = Astro.pr
   {
       !hideHero && (
         <header class="event-hero">
+          {kicker ? <p class="event-hero-kicker">{kicker}</p> : null}
           {description && description !== title ? (
             <>
-              <h1 class="event-hero-title">{title}</h1>
+              <h1 class:list={['event-hero-title', kicker && 'event-hero-title--with-kicker']}>{title}</h1>
               <p class="event-hero-desc">{description}</p>
             </>
           ) : (
-            <h1 class="event-hero-title event-hero-title--solo">{title}</h1>
+            <h1
+              class:list={[
+                'event-hero-title',
+                !kicker && 'event-hero-title--solo',
+                kicker && 'event-hero-title--with-kicker',
+              ]}
+            >
+              {title}
+            </h1>
           )}
         </header>
       )

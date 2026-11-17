@@ -11,7 +11,7 @@ const { game, slug } = Astro.params;
 const playHref = eventPlayPath(game!, slug!);
 ---
 
-<EventLayout title={EVENT_CONFIG.title} game={game!}>
+<EventLayout title={EVENT_CONFIG.title} kicker={EVENT_CONFIG.seriesLabel} game={game!}>
   <div class="event-prize-card">
     <p class="event-prize-card-heading">景品</p>
     <p class="event-prize-card-amount">
@@ -41,7 +41,6 @@ const playHref = eventPlayPath(game!, slug!);
     <ul>
       <li>当サイト主催の<strong>非公式</strong>イベントです。ゲーム公式・運営会社とは関係ありません</li>
       <li>達成確認はスクショ提出と運営の目視審査です</li>
-      <li>ルールの最終解釈は主催者（当サイト運営）に帰属します</li>
     </ul>
   </section>
 </EventLayout>

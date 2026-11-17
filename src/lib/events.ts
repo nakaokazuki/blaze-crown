@@ -23,7 +23,9 @@ export type EventSubmissionStatus = 'pending' | 'approved' | 'rejected';
 
 export const EVENT_CONFIG = {
   slug: DEFAULT_EVENT_SLUG,
-  title: 'βテスト非公式イベント',
+  /** ヒーロー上の小さな見出し */
+  seriesLabel: '第１回非公式イベント',
+  title: 'βテスト開始記念',
   /** トップ告知など（イベントヒーローには出さない） */
   teaserBody: 'PayPay 1,500円 × 2名 — ミッション達成者を抽選',
   periodLabel: '2026年11月17日（火）〜12月1日（火）予定',

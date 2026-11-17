@@ -55,11 +55,14 @@ body:has(.event-page) {
 
 .event-hero-kicker {
   margin: 0;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+  letter-spacing: 0.06em;
   color: #ffb11b;
+}
+
+.event-hero-title--with-kicker {
+  margin: 0.4rem 0 0;
 }
 
 .event-hero-title {
@@ -236,12 +239,23 @@ body:has(.event-page) {
   position: relative;
 }
 
-.event-play-topbar {
+.event-play-toolbar {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.35rem;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
   margin-bottom: 1rem;
+}
+
+.event-back-link {
+  font-size: 0.85rem;
+  color: #ffd86a;
+  text-decoration: none;
+}
+
+.event-back-link:hover {
+  text-decoration: underline;
 }
 
 .event-play-topbar-actions {
@@ -249,6 +263,7 @@ body:has(.event-page) {
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 0.5rem;
+  margin-left: auto;
 }
 
 .event-notice-dialog {
@@ -636,10 +651,60 @@ a.event-btn {
   font-weight: 700;
 }
 
-.event-table-email {
-  max-width: 10rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.event-table-name-cell {
+  vertical-align: top;
+  min-width: 7rem;
+}
+
+.event-table-name-btn {
+  padding: 0;
+  border: none;
+  background: none;
+  color: #ffd86a;
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 216, 106, 0.35);
+  text-underline-offset: 2px;
+}
+
+.event-table-name-btn:hover {
+  color: #ffe9a0;
+}
+
+.event-participant-contact {
+  margin: 0.5rem 0 0;
+  padding: 0.5rem 0.6rem;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.event-participant-contact div {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr;
+  gap: 0.25rem 0.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.event-participant-contact div:last-child {
+  margin-bottom: 0;
+}
+
+.event-participant-contact dt {
+  margin: 0;
+  color: #9a9488;
+  font-weight: 600;
+}
+
+.event-participant-contact dd {
+  margin: 0;
+  color: #e0d8cc;
+  word-break: break-all;
 }
 
 .event-review-list {
