@@ -1,5 +1,6 @@
 ---
 import EventLayout from '../../../../../layouts/EventLayout.astro';
+import EventLeaderboard from '../../../../../components/events/EventLeaderboard';
 import { DEFAULT_EVENT_SLUG, DEFAULT_GAME_FOR_EVENTS, EVENT_CONFIG } from '../../../../../lib/events';
 import { eventPlayPath } from '../../../../../lib/paths';
 
@@ -23,6 +24,8 @@ const playHref = eventPlayPath(game!, slug!);
   <div class="event-cta-row">
     <a class="event-btn event-btn--primary" href={playHref}>参加する（プレイヤーページ）</a>
   </div>
+
+  <EventLeaderboard client:load slug={slug!} />
 
   <section class="event-rules">
     <h2>ルール</h2>

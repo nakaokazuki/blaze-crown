@@ -1,6 +1,6 @@
-import type { EventSubmissionStatus } from '../../lib/events';
+import type { MissionUiStatus } from '../../lib/events';
 
-export function statusLabel(status: EventSubmissionStatus | 'none'): string {
+export function statusLabel(status: MissionUiStatus): string {
   switch (status) {
     case 'approved':
       return '承認済み';
@@ -8,12 +8,14 @@ export function statusLabel(status: EventSubmissionStatus | 'none'): string {
       return '審査中';
     case 'rejected':
       return '差し戻し';
+    case 'in_progress':
+      return '進行中';
     default:
       return '未提出';
   }
 }
 
-export function statusClass(status: EventSubmissionStatus | 'none'): string {
+export function statusClass(status: MissionUiStatus): string {
   switch (status) {
     case 'approved':
       return 'event-badge event-badge--ok';
@@ -21,6 +23,8 @@ export function statusClass(status: EventSubmissionStatus | 'none'): string {
       return 'event-badge event-badge--wait';
     case 'rejected':
       return 'event-badge event-badge--ng';
+    case 'in_progress':
+      return 'event-badge event-badge--prog';
     default:
       return 'event-badge event-badge--none';
   }

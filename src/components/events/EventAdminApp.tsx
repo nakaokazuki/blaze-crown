@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { apiFetch, eventApiBase } from '../../lib/eventApi';
-import { missionKindLabel, type EventMissionKind } from '../../lib/events';
+import { deriveMissionState, missionKindLabel, type EventMissionKind } from '../../lib/events';
 import { statusClass, statusLabel } from './statusLabels';
 import { useEventSession } from './useEventSession';
 
@@ -13,7 +13,7 @@ type Participant = {
   assigned_char_a: string;
   assigned_char_b: string;
   created_at: string;
-  missionState: Record<string, string>;
+  missionState: ReturnType<typeof deriveMissionState>;
   allMissionsCleared: boolean;
   approvedBonusCount: number;
   lotteryWeight: number;
@@ -136,16 +136,32 @@ export default function EventAdminApp({ slug }: Props) {
           <ul className="event-review-list">
             {submissions.map((s) => (
               <li key={s.id} className="event-review-card">
-                <div className="event-review-meta">
-                  <strong>{s.profile?.display_name ?? s.user_id}</strong>
-                  <span>{missionKindLabel(s.kind as EventMissionKind)}</span>
-                  <time>{new Date(s.created_at).toLocaleString('ja-JP')}</time>
+                <strong className="event-review-user">{s.profile?.display_name ?? s.user_id}</strong>
+                <div className="event-review-row">
+                  <div className="event-review-mission">
+                    <span className="event-review-kind">{missionKindLabel(s.kind as EventMissionKind)}</span>
+                    <time>{new Date(s.created_at).toLocaleString('ja-JP')}</time>
+                  </div>
+                  {s.image_url ? (
+                    <a
+                      href={s.image_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="event-review-thumb-link"
+                      title="原寸で開く"
+                    >
+                      <img
+                        src={s.image_url}
+                        alt=""
+                        className="event-review-thumb"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
+                  ) : (
+                    <span className="event-muted event-review-thumb-missing">画像なし</span>
+                  )}
                 </div>
-                {s.image_url ? (
-                  <img src={s.image_url} alt="" className="event-review-image" loading="lazy" decoding="async" />
-                ) : (
-                  <p className="event-muted">画像を読み込めませんでした（更新してください）</p>
-                )}
                 <div className="event-review-actions">
                   <button
                     type="button"
@@ -206,18 +222,18 @@ export default function EventAdminApp({ slug }: Props) {
                   <td>{p.display_name}</td>
                   <td className="event-table-email">{p.email ?? '—'}</td>
                   <td>
-                    <span className={statusClass(p.missionState.mission_1 as 'none' | 'pending' | 'approved' | 'rejected')}>
-                      {statusLabel(p.missionState.mission_1 as 'none' | 'pending' | 'approved' | 'rejected')}
+                    <span className={statusClass(p.missionState.mission_1)}>
+                      {statusLabel(p.missionState.mission_1)}
                     </span>
                   </td>
                   <td>
-                    <span className={statusClass(p.missionState.mission_2 as 'none' | 'pending' | 'approved' | 'rejected')}>
-                      {statusLabel(p.missionState.mission_2 as 'none' | 'pending' | 'approved' | 'rejected')}
+                    <span className={statusClass(p.missionState.mission_2)}>
+                      {statusLabel(p.missionState.mission_2)}
                     </span>
                   </td>
                   <td>
-                    <span className={statusClass(p.missionState.mission_3 as 'none' | 'pending' | 'approved' | 'rejected')}>
-                      {statusLabel(p.missionState.mission_3 as 'none' | 'pending' | 'approved' | 'rejected')}
+                    <span className={statusClass(p.missionState.mission_3)}>
+                      {statusLabel(p.missionState.mission_3)}
                     </span>
                   </td>
                   <td>{p.allMissionsCleared ? '◎' : '—'}</td>

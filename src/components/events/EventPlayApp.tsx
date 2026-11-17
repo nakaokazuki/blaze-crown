@@ -1,6 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import { apiFetch, eventApiBase } from '../../lib/eventApi';
-import { missionKindLabel, missionWinProgress, type EventMissionKind } from '../../lib/events';
+import {
+  missionKindLabel,
+  missionWinProgressFromSubmissions,
+  deriveMissionState,
+  type EventMissionKind,
+  type EventSubmissionStatus,
+} from '../../lib/events';
 import { statusClass, statusLabel } from './statusLabels';
 import { useEventSession } from './useEventSession';
 
@@ -12,7 +18,7 @@ type MeResponse = {
     assigned_char_a: string;
     assigned_char_b: string;
   } | null;
-  missionState: Record<'mission_1' | 'mission_2' | 'mission_3', 'pending' | 'approved' | 'rejected' | 'none'>;
+  missionState: ReturnType<typeof deriveMissionState>;
   allMissionsCleared: boolean;
   lotteryWeight: number;
   approvedBonusCount: number;
@@ -221,7 +227,6 @@ export default function EventPlayApp({ slug }: Props) {
       <div className="event-play-topbar">
         <button type="button" className="event-btn event-btn--secondary" onClick={() => setProfileOpen(true)}>
           プロフィール
-          {me?.profile?.display_name ? `: ${me.profile.display_name}` : ''}
         </button>
       </div>
 
@@ -230,11 +235,16 @@ export default function EventPlayApp({ slug }: Props) {
         <h2 className="event-panel-title">ミッション進捗</h2>
         {loading && !me ? <p className="event-muted">同期中…</p> : null}
         {error && <p className="event-error">{error}</p>}
-        {me && (
+        {me && (() => {
+          const submissionRows = me.submissions.map((s) => ({
+            kind: s.kind as EventMissionKind,
+            status: s.status as EventSubmissionStatus,
+          }));
+          return (
           <ul className="event-mission-list">
             {(['mission_1', 'mission_2', 'mission_3'] as const).map((missionId) => {
               const state = me.missionState[missionId];
-              const { current, target } = missionWinProgress(missionId, state);
+              const { current, target } = missionWinProgressFromSubmissions(submissionRows, missionId);
               return (
                 <li key={missionId} className="event-mission-card">
                   <div className="event-mission-card-head">
@@ -250,7 +260,8 @@ export default function EventPlayApp({ slug }: Props) {
               );
             })}
           </ul>
-        )}
+          );
+        })()}
         {me?.allMissionsCleared && (
           <div className="event-weight-box">
             <p className="event-weight-label">抽選当選比重</p>
@@ -261,7 +272,7 @@ export default function EventPlayApp({ slug }: Props) {
       </div>
 
       <div className="event-panel event-panel--wide">
-        <h2 className="event-panel-title">証拠画像の提出</h2>
+        <h2 className="event-panel-title">スクショの提出</h2>
         {!me?.profile ? (
           <p className="event-muted">
             右上の<strong>プロフィール</strong>から表示名を保存してください。

@@ -65,8 +65,7 @@ export function missionKindLabel(
   }
 }
 
-/** ミッション2/3用（割当キャラ名入り） */
-/** ミッションごとの勝利数目標（証拠画像で申告・運営が目視確認） */
+/** ミッションごとの勝利数目標（証拠画像1枚＝1勝、運営承認でカウント） */
 export const MISSION_WIN_TARGETS = {
   mission_1: 5,
   mission_2: 2,
@@ -75,14 +74,25 @@ export const MISSION_WIN_TARGETS = {
 
 export type EventMissionId = keyof typeof MISSION_WIN_TARGETS;
 
-/** 表示用の勝利数（未提出・差し戻しは 0、審査中・承認済みは目標到達として表示） */
-export function missionWinProgress(
-  mission: EventMissionId,
-  state: EventSubmissionStatus | 'none',
-): { current: number; target: number } {
+export type MissionUiStatus = EventSubmissionStatus | 'none' | 'in_progress';
+
+type MissionSubmissionRow = { kind: EventMissionKind; status: EventSubmissionStatus };
+
+/** 承認済み提出の枚数（審査中・差し戻しは含めない） */
+export function approvedWinCount(submissions: MissionSubmissionRow[], mission: EventMissionId): number {
   const target = MISSION_WIN_TARGETS[mission];
-  const current = state === 'approved' || state === 'pending' ? target : 0;
-  return { current, target };
+  const n = submissions.filter((s) => s.kind === mission && s.status === 'approved').length;
+  return Math.min(n, target);
+}
+
+export function missionWinProgressFromSubmissions(
+  submissions: MissionSubmissionRow[],
+  mission: EventMissionId,
+): { current: number; target: number } {
+  return {
+    current: approvedWinCount(submissions, mission),
+    target: MISSION_WIN_TARGETS[mission],
+  };
 }
 
 export function missionCharWinPhrase(charName: string | null | undefined): string {
@@ -114,20 +124,26 @@ export function lotteryWeight(approvedBonusCount: number, allMissionsCleared: bo
 }
 
 export function deriveMissionState(
-  submissions: { kind: EventMissionKind; status: EventSubmissionStatus }[],
-): Record<'mission_1' | 'mission_2' | 'mission_3', EventSubmissionStatus | 'none'> {
+  submissions: MissionSubmissionRow[],
+): Record<EventMissionId, MissionUiStatus> {
   const missions = ['mission_1', 'mission_2', 'mission_3'] as const;
-  const out: Record<'mission_1' | 'mission_2' | 'mission_3', EventSubmissionStatus | 'none'> = {
+  const out: Record<EventMissionId, MissionUiStatus> = {
     mission_1: 'none',
     mission_2: 'none',
     mission_3: 'none',
   };
   for (const m of missions) {
     const related = submissions.filter((s) => s.kind === m);
-    if (related.some((s) => s.status === 'approved')) {
+    const wins = approvedWinCount(submissions, m);
+    const target = MISSION_WIN_TARGETS[m];
+    const hasPending = related.some((s) => s.status === 'pending');
+
+    if (wins >= target) {
       out[m] = 'approved';
-    } else if (related.some((s) => s.status === 'pending')) {
+    } else if (hasPending) {
       out[m] = 'pending';
+    } else if (wins > 0) {
+      out[m] = 'in_progress';
     } else if (related.some((s) => s.status === 'rejected')) {
       out[m] = 'rejected';
     }

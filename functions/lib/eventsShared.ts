@@ -113,21 +113,39 @@ export async function sha256Hex(buffer: ArrayBuffer): Promise<string> {
     .join('');
 }
 
+const MISSION_WIN_TARGETS = {
+  mission_1: 5,
+  mission_2: 2,
+  mission_3: 2,
+} as const;
+
+type MissionId = keyof typeof MISSION_WIN_TARGETS;
 type SubmissionRow = { kind: EventSubmissionKind; status: EventSubmissionStatus };
+
+function approvedWinCount(submissions: SubmissionRow[], mission: MissionId): number {
+  const target = MISSION_WIN_TARGETS[mission];
+  const n = submissions.filter((s) => s.kind === mission && s.status === 'approved').length;
+  return Math.min(n, target);
+}
 
 export function missionStateFromSubmissions(
   submissions: SubmissionRow[],
-): Record<'mission_1' | 'mission_2' | 'mission_3', EventSubmissionStatus | 'none'> {
+): Record<MissionId, EventSubmissionStatus | 'none' | 'in_progress'> {
   const missions = ['mission_1', 'mission_2', 'mission_3'] as const;
-  const out: Record<'mission_1' | 'mission_2' | 'mission_3', EventSubmissionStatus | 'none'> = {
+  const out: Record<MissionId, EventSubmissionStatus | 'none' | 'in_progress'> = {
     mission_1: 'none',
     mission_2: 'none',
     mission_3: 'none',
   };
   for (const m of missions) {
     const related = submissions.filter((s) => s.kind === m);
-    if (related.some((s) => s.status === 'approved')) out[m] = 'approved';
-    else if (related.some((s) => s.status === 'pending')) out[m] = 'pending';
+    const wins = approvedWinCount(submissions, m);
+    const target = MISSION_WIN_TARGETS[m];
+    const hasPending = related.some((s) => s.status === 'pending');
+
+    if (wins >= target) out[m] = 'approved';
+    else if (hasPending) out[m] = 'pending';
+    else if (wins > 0) out[m] = 'in_progress';
     else if (related.some((s) => s.status === 'rejected')) out[m] = 'rejected';
   }
   return out;
@@ -139,6 +157,17 @@ export function allMissionsApproved(state: ReturnType<typeof missionStateFromSub
     state.mission_2 === 'approved' &&
     state.mission_3 === 'approved'
   );
+}
+
+/** ランキング用（ミッション承認勝利数を優先、全達成後は追加提出承認数） */
+export function eventLeaderboardScore(submissions: SubmissionRow[]): number {
+  const missions = ['mission_1', 'mission_2', 'mission_3'] as const;
+  const missionWins = missions.reduce((sum, m) => sum + approvedWinCount(submissions, m), 0);
+  const cleared = allMissionsApproved(missionStateFromSubmissions(submissions));
+  const bonusApproved = cleared
+    ? submissions.filter((s) => s.kind === 'bonus_battle' && s.status === 'approved').length
+    : 0;
+  return missionWins * 1_000_000 + bonusApproved;
 }
 
 export function lotteryWeight(approvedBonus: number, cleared: boolean): number {
