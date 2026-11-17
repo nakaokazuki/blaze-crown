@@ -619,16 +619,26 @@ a.event-btn {
 }
 
 .event-history li {
-  display: grid;
-  grid-template-columns: 1fr auto auto;
-  gap: 0.5rem;
-  align-items: baseline;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  align-items: flex-start;
   padding: 0.5rem 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
+.event-history-time {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.event-history-kind {
+  font-weight: 600;
+}
+
 .event-reject-reason {
-  grid-column: 1 / -1;
+  margin-top: 0.25rem;
   color: #ffaaaa;
   font-size: 0.8rem;
 }

@@ -1,7 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { apiFetch, eventApiBase } from '../../lib/eventApi';
-import { deriveMissionState, missionKindLabel, type EventMissionKind } from '../../lib/events';
+import {
+  deriveMissionState,
+  formatSubmissionShort,
+  missionKindLabel,
+  type EventMissionKind,
+} from '../../lib/events';
 import { statusClass, statusLabel } from './statusLabels';
 import { useEventSession } from './useEventSession';
 
@@ -33,15 +38,6 @@ type Submission = {
 };
 
 type Props = { slug: string };
-
-function formatSubmissionShort(iso: string): string {
-  const d = new Date(iso);
-  const m = d.getMonth() + 1;
-  const day = d.getDate();
-  const h = d.getHours();
-  const min = String(d.getMinutes()).padStart(2, '0');
-  return `${m}/${day} ${h}:${min}`;
-}
 
 export default function EventAdminApp({ slug }: Props) {
   const { session, accessToken, loading: authLoading, signInWithGoogle, supabase } = useEventSession();

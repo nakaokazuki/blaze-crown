@@ -2,7 +2,10 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { apiFetch, eventApiBase } from '../../lib/eventApi';
 import {
+  formatSubmissionShort,
   missionKindLabel,
+  missionKindShortLabel,
+  missionKindSubmitLabel,
   missionWinProgressFromSubmissions,
   deriveMissionState,
   type EventMissionKind,
@@ -385,11 +388,11 @@ export default function EventPlayApp({ slug, landingHref }: Props) {
             <label>
               種別
               <select value={submitKind} onChange={(e) => setSubmitKind(e.target.value as EventMissionKind)}>
-                <option value="mission_1">{missionKindLabel('mission_1')}</option>
-                <option value="mission_2">{missionKindLabel('mission_2', me.profile)}</option>
-                <option value="mission_3">{missionKindLabel('mission_3', me.profile)}</option>
+                <option value="mission_1">{missionKindSubmitLabel('mission_1')}</option>
+                <option value="mission_2">{missionKindSubmitLabel('mission_2', me.profile)}</option>
+                <option value="mission_3">{missionKindSubmitLabel('mission_3', me.profile)}</option>
                 <option value="bonus_battle" disabled={!me.allMissionsCleared}>
-                  {missionKindLabel('bonus_battle')}
+                  {missionKindSubmitLabel('bonus_battle')}
                   {!me.allMissionsCleared ? '（全ミッション承認後）' : ''}
                 </option>
               </select>
@@ -422,11 +425,15 @@ export default function EventPlayApp({ slug, landingHref }: Props) {
           <ul className="event-history">
             {me.submissions.map((s) => (
               <li key={s.id}>
-                <span>{missionKindLabel(s.kind as EventMissionKind, me.profile)}</span>
-                <span className={statusClass(s.status as 'pending' | 'approved' | 'rejected')}>
+                <time className="event-history-time" dateTime={s.created_at}>
+                  {formatSubmissionShort(s.created_at)}
+                </time>
+                <span className="event-history-kind">{missionKindShortLabel(s.kind as EventMissionKind)}</span>
+                <span
+                  className={`event-history-status ${statusClass(s.status as 'pending' | 'approved' | 'rejected')}`}
+                >
                   {statusLabel(s.status as 'pending' | 'approved' | 'rejected')}
                 </span>
-                <time>{new Date(s.created_at).toLocaleString('ja-JP')}</time>
                 {s.rejection_reason && <span className="event-reject-reason">理由: {s.rejection_reason}</span>}
               </li>
             ))}

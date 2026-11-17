@@ -69,6 +69,50 @@ export function missionKindLabel(
   }
 }
 
+/** 提出フォームの種別プルダウン用（「ミッションN:」なしの内容のみ） */
+export function missionKindSubmitLabel(
+  kind: EventMissionKind,
+  profile?: EventMissionLabelProfile | null,
+): string {
+  switch (kind) {
+    case 'mission_1':
+      return '累計5勝';
+    case 'mission_2':
+      return missionCharWinPhrase(profile?.assigned_char_a);
+    case 'mission_3':
+      return missionCharWinPhrase(profile?.assigned_char_b);
+    case 'bonus_battle':
+      return '追加対戦結果（当選比重アップ）';
+    default:
+      return kind;
+  }
+}
+
+/** 提出履歴など用の短いミッション名 */
+export function missionKindShortLabel(kind: EventMissionKind): string {
+  switch (kind) {
+    case 'mission_1':
+      return 'ミッション１';
+    case 'mission_2':
+      return 'ミッション２';
+    case 'mission_3':
+      return 'ミッション３';
+    case 'bonus_battle':
+      return '追加対戦';
+    default:
+      return kind;
+  }
+}
+
+export function formatSubmissionShort(iso: string): string {
+  const d = new Date(iso);
+  const m = d.getMonth() + 1;
+  const day = d.getDate();
+  const h = d.getHours();
+  const min = String(d.getMinutes()).padStart(2, '0');
+  return `${m}/${day} ${h}:${min}`;
+}
+
 /** ミッションごとの勝利数目標（証拠画像1枚＝1勝、運営承認でカウント） */
 export const MISSION_WIN_TARGETS = {
   mission_1: 5,
