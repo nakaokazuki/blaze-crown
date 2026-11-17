@@ -7,9 +7,14 @@ import CharacterSkillBlock from './CharacterSkillBlock.astro';
 interface Props {
   wiki: CharacterWikiEntry;
   characterName: string;
+  /** スペシャルスキル枠用（公式カットイン） */
+  specialImageSrc?: string;
 }
 
-const { wiki, characterName } = Astro.props;
+const { wiki, characterName, specialImageSrc } = Astro.props;
+const specialSkill = wiki.special
+  ? { ...wiki.special, imageSrc: wiki.special.imageSrc ?? specialImageSrc }
+  : undefined;
 const statsHeading = `${characterName}の性能`;
 
 const classLabel =
@@ -94,10 +99,10 @@ const classLabel =
   }
 
   {
-    wiki.special && (
+    specialSkill && (
       <section id="section-special" class="wiki-char-section mt-6 not-prose">
         <h3 class="section-title">スペシャルスキル</h3>
-        <CharacterSkillBlock skill={wiki.special} />
+        <CharacterSkillBlock skill={specialSkill} />
       </section>
     )
   }

@@ -1,6 +1,5 @@
 ---
 import WikiLayout from '../../layouts/WikiLayout.astro';
-import MediaPlaceholder from '../media/MediaPlaceholder.astro';
 import { loadGameMeta } from '../../lib/games';
 import { getGuidesSortedByUpdate, getPopularGuides } from '../../lib/guides';
 import { getLatestNews } from '../../lib/latestNews';
@@ -42,7 +41,15 @@ const gameInfoParagraphs = (meta.gameInfo ?? '')
 
     <section id="section-game-info" class="wiki-stack-block wiki-hub-section">
       <h2 class="section-title">ゲーム情報</h2>
-      <MediaPlaceholder variant="banner" class="mb-4" />
+      <img
+        src={`/games/${game}/banner.png`}
+        alt="ブレイズクラウンのキービジュアル"
+        width={1200}
+        height={675}
+        class="wiki-hub-banner mb-4"
+        loading="lazy"
+        decoding="async"
+      />
       {
         gameInfoParagraphs.length > 0 ? (
           gameInfoParagraphs.map((text) => <p class="lead">{text}</p>)

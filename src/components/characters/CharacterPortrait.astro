@@ -15,7 +15,7 @@ const { name, imageSrc, class: className = '' } = Astro.props;
     imageSrc ? (
       <img
         src={imageSrc}
-        alt=""
+        alt={`${name}のイラスト`}
         width={160}
         height={160}
         class="wiki-char-portrait-img"

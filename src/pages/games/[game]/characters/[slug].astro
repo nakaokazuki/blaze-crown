@@ -69,7 +69,11 @@ const pageUpdatedAt = getCharacterPageUpdatedAt(character, wiki?.syncedAt);
 
       {
         wiki ? (
-          <CharacterWikiBody wiki={wiki} characterName={character.name} />
+          <CharacterWikiBody
+            wiki={wiki}
+            characterName={character.name}
+            specialImageSrc={character.cutinSrc}
+          />
         ) : (
           <p class="mt-6 text-sm text-[#666]">公式Wikiのデータ取得前です。</p>
         )

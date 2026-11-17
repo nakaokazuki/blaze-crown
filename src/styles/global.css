@@ -508,6 +508,11 @@
     @apply text-[11px] font-bold leading-snug text-[#888];
   }
 
+  .wiki-hub-banner {
+    @apply w-full rounded border border-[var(--g8-border)] object-cover;
+    aspect-ratio: 16 / 9;
+  }
+
   .media-placeholder--banner {
     @apply min-h-[120px] sm:min-h-[160px];
   }
@@ -597,7 +602,7 @@
   }
 
   .wiki-char-portrait-img {
-    @apply aspect-square w-full max-w-[160px] rounded border border-[var(--g8-border)] object-cover;
+    @apply aspect-square w-full max-w-[160px] rounded border border-[var(--g8-border)] bg-[#fafafa] object-contain object-bottom;
   }
 
   .wiki-char-detail {
