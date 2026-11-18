@@ -1,0 +1,25 @@
+---
+import {
+  characterPassiveHref,
+  characterSkillHref,
+} from '../../lib/characterSkillAnchor';
+
+interface Props {
+  /** キャラ slug（characters.yaml） */
+  char: string;
+  /** スキル名またはパッシブ名（Wiki 表記どおり） */
+  name: string;
+  kind?: 'skill' | 'passive';
+  game?: string;
+}
+
+const { char, name, kind = 'skill', game = 'blaze-crown' } = Astro.props;
+const href =
+  kind === 'passive'
+    ? characterPassiveHref(game, char, name)
+    : characterSkillHref(game, char, name);
+---
+
+<a href={href} class="wiki-skill-link">
+  <strong>{name}</strong>
+</a>

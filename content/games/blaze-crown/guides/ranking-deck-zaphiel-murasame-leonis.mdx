@@ -1,0 +1,88 @@
+---
+title: ザフィール・ムラサメ・レオニス｜ランキングマッチ上位デッキの評価・立ち回り
+game: blaze-crown
+category: guide
+tags: [beta, deck, zaphiel, murasame, leonis]
+publishedAt: 2026-11-18
+updatedAt: 2026-11-18T14:10:00+09:00
+description: BLAZE CROWN ランキングマッチ向け。ザフィール・ムラサメ・レオニスの3人編成について、配置・エナジー妨害と連打の役割・序盤〜終盤の立ち回りを解説（非公式・β時点の編成考察）。
+featured: false
+related: [beta-test-guide, beta-rank3-deck-report]
+---
+
+import BetaDeckRankBlock from '../../../../src/components/guides/BetaDeckRankBlock.astro';
+import SkillLink from '../../../../src/components/guides/SkillLink.astro';
+
+BLAZE CROWN（ブレイズクラウン）のランキングマッチ向けに、**ザフィール・ムラサメ・レオニス** の3人編成をまとめたページです。
+
+## 編成の概要
+
+<div class="wiki-deck-top5-detail wiki-deck-top5-detail--plain">
+
+<div class="not-prose">
+
+<BetaDeckRankBlock
+  rank={3}
+  hideRankHeader
+  formation={[
+    [null, null, null],
+    ['leonis', 'zaphiel', null],
+    ['murasame', null, null],
+  ]}
+/>
+
+</div>
+
+### 配置の理由
+
+- **レオニスを左中央** に置くのは、<SkillLink char="leonis" name="ロイヤルヒール" /> で味方ユニットを全員回復させるためです。
+- **ザフィールを中央** に置くのは、<SkillLink char="zaphiel" name="ボディガード" /> で「自身の正面と左右」に召喚する枠を最大限使うためです。
+
+### ザフィール（中央・妨害／エナジー操作）
+
+序盤は <SkillLink char="zaphiel" name="サンドバイパー" /> でエナジーを削り、相手のスペシャルや高コスト技の予定を狂わせます。中盤以降は <SkillLink char="zaphiel" name="ボディガード" /> を召喚して受けるダメージを調整し、<SkillLink char="zaphiel" name="スコーピオンテイル" /> で厄介なキャラの撃破を狙います。
+
+### ムラサメ（左下・テンポ／陣形無視火力）
+
+<SkillLink char="murasame" name="鬼哭" />・<SkillLink char="murasame" name="神断" /> の低コスト連打で、前列だけでなく **後列にも届く陣形無視** が売りです。  
+<SkillLink char="murasame" name="乱刃" />・<SkillLink char="murasame" name="舞花" /> で先に削りを入れつつ、計算して被弾を受け、SPの <SkillLink char="murasame" name="鬼神乱舞" /> で一気に畳みかける動きが定石です。**迅速**が付くため、多くの局面で最速行動を取りやすくなります。
+
+### レオニス（左中央・感電／横列決着）
+
+<SkillLink char="leonis" name="セイクリッドピアース" />・<SkillLink char="leonis" name="エクスカリバー" /> で横一列が重なる局面を決めに行く。**左中央** に置き、左下のムラサメが削っているあいだ <SkillLink char="leonis" name="ライトニングスラッシュ" /> で感電を付けたり、<SkillLink char="leonis" name="ロイヤルヒール" /> でHPを整えたりできます。  
+パッシブの **3ターンごとのエナジー+1** は終盤で効きやすく、ザフィールで相手のエナジーを止めているあいだにこちらだけ高コストを通せる場面が狙いです。
+
+</div>
+
+## 立ち回り方
+
+### 序盤
+
+ザフィールの <SkillLink char="zaphiel" name="サンドバイパー" /> でエナジーを削りつつ、ムラサメが <SkillLink char="murasame" name="鬼哭" /> で単体＋背後のダメージを取る。レオニスは <SkillLink char="leonis" name="ライトニングスラッシュ" /> で感電を付けたり、<SkillLink char="leonis" name="パリィングソード" /> で単体を削りながら受け流しながらダメージを与える。
+
+### 中盤
+
+ザフィールは <SkillLink char="zaphiel" name="ボディガード" /> で受けるダメージを抑えつつ、終盤に向けてエナジーを貯める。<SkillLink char="zaphiel" name="スコーピオンテイル" /> で単体を仕留められるラインが見えたら、どの相手に打つか見極めながらダメージを調整する。
+
+### 終盤
+
+終盤の決着は3つの切り札で使い分ける。厄介な単体を落とすのはザフィールの <SkillLink char="zaphiel" name="スコーピオンテイル" />、敵が横一列に並んだらレオニスの <SkillLink char="leonis" name="エクスカリバー" /> で一気に崩す。削り切れない・時間が押している局面は、ムラサメの <SkillLink char="murasame" name="鬼神乱舞" /> で迅速に一連攻撃を通して締める。
+
+## デッキの評価
+
+### デッキの強み
+
+- レオニスの <SkillLink char="leonis" name="セイクリッドピアース" /> やザフィールの <SkillLink char="zaphiel" name="ゴールドシャワー" /> など範囲攻撃が揃っており、召喚で頭数を増やす編成に強い。
+- ザフィールの <SkillLink char="zaphiel" name="サンドバイパー" /> とレオニスの固有パッシブ <SkillLink char="leonis" name="覚醒" kind="passive" /> の組み合わせで、後半にエナジーの優位を作りやすい。
+
+### デッキの弱点
+
+- ムラサメとレオニスが縦に並んでいるので、相手の範囲攻撃で **2体同時** に削られるリスクがある。
+
+## 参考リンク
+
+- [βテストガイド（理論TOP5・ルール）](/games/blaze-crown/guides/beta-test-guide/)
+- [ツバキ・レオニス・ダン｜ランキングマッチ上位デッキの評価・立ち回り](/games/blaze-crown/guides/beta-rank3-deck-report/)
+- キャラ詳細：[ザフィール](/games/blaze-crown/characters/zaphiel/) / [ムラサメ](/games/blaze-crown/characters/murasame/) / [レオニス](/games/blaze-crown/characters/leonis/)
+
+編成やスキル優先が違う場合は、[コメント](/games/blaze-crown/guides/ranking-deck-zaphiel-murasame-leonis/#comments) で共有いただけると追記しやすくなります。

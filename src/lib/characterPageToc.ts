@@ -9,10 +9,6 @@ export function buildCharacterPageToc(characterName: string, wiki?: CharacterWik
       label: `${characterName}の基本情報`,
       href: '#section-basic-info',
     },
-    {
-      label: `${characterName}の評価`,
-      href: '#section-review',
-    },
   ];
 
   if (wiki) {

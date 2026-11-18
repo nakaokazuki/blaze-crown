@@ -629,6 +629,22 @@
     @apply mb-0 mt-0;
   }
 
+  .wiki-char-deck-rec-list {
+    @apply m-0 list-none space-y-4 p-0;
+  }
+
+  .wiki-char-deck-rec {
+    @apply list-none;
+  }
+
+  .wiki-char-deck-rec .wiki-formation-wrap {
+    @apply m-0;
+  }
+
+  .wiki-char-deck-rec-guide {
+    @apply m-0 mt-2 text-sm leading-relaxed text-[#555];
+  }
+
   .wiki-char-stats {
     @apply mt-3 w-full max-w-lg border-b border-[#e5e5e5] p-0;
   }
@@ -972,6 +988,14 @@
 
   .wiki-deck-top5-char-link:hover .wiki-char-card-name {
     @apply text-[var(--g8-link)] underline;
+  }
+
+  .wiki-skill-link {
+    @apply font-bold text-[var(--g8-link)] no-underline hover:text-[var(--g8-link-hover)] hover:underline;
+  }
+
+  .wiki-skill-link strong {
+    @apply font-bold;
   }
 
   .wiki-deck-top5-credit {

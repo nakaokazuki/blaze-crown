@@ -1,6 +1,7 @@
 ---
 import type { CharacterWikiEntry, WikiSkill } from '../../lib/characterWiki';
 import { formatProfileValue } from '../../lib/characterWiki';
+import { characterPassiveAnchorId } from '../../lib/characterSkillAnchor';
 import { OFFICIAL_GUIDE_WIKI_NAME } from '../../lib/constants';
 import CharacterSkillBlock from './CharacterSkillBlock.astro';
 
@@ -71,7 +72,10 @@ const classLabel =
       <section id="section-passive" class="wiki-char-section mt-6">
         <h3 class="section-title">固有パッシブ</h3>
         <div class="wiki-char-wiki-passive">
-          <p class="font-bold text-[var(--g8-text)]">
+          <p
+            id={wiki.passive.name ? characterPassiveAnchorId(wiki.passive.name) : undefined}
+            class="wiki-char-passive-name font-bold text-[var(--g8-text)] scroll-mt-24"
+          >
             {wiki.passive.name}
             {wiki.passive.level && (
               <span class="ml-2 text-sm font-normal text-[#666]">{wiki.passive.level}</span>

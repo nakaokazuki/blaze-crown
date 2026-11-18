@@ -1,26 +1,50 @@
 ---
+import DeckFormationGrid from '../guides/DeckFormationGrid.astro';
+import {
+  CHARACTER_DECK_GUIDE_LEAD,
+  getCharacterDeckRecommendations,
+  getDeckGuideLinkLabel,
+} from '../../lib/characterDeckRecommendations';
+import { getCharacterPlayTips } from '../../lib/characterPlayTips';
+import { guidePath } from '../../lib/paths';
+
 interface Props {
-  characterName: string;
+  game: string;
+  slug: string;
 }
 
-const { characterName } = Astro.props;
-const reviewHeading = `${characterName}の評価`;
+const { game, slug } = Astro.props;
 const placeholder = '今後追記予定';
+const deckRecommendations = getCharacterDeckRecommendations(slug);
+const playTips = getCharacterPlayTips(slug);
 ---
 
 <div class="wiki-char-wiki wiki-char-wiki-full mt-8">
-  <section id="section-review" class="wiki-char-section">
-    <h2 class="section-title">{reviewHeading}</h2>
-    <p>{placeholder}</p>
-  </section>
-
-  <section id="section-deck" class="wiki-char-section mt-6">
+  <section id="section-deck" class="wiki-char-section">
     <h3 class="section-title">おすすめデッキ</h3>
-    <p>{placeholder}</p>
+    {
+      deckRecommendations.length > 0 ? (
+        <ul class="wiki-char-deck-rec-list">
+          {deckRecommendations.map((deck) => (
+            <li class="wiki-char-deck-rec">
+              <DeckFormationGrid rows={deck.formation} />
+              {deck.guideSlug ? (
+                <p class="wiki-char-deck-rec-guide">
+                  {deck.guideLead ?? CHARACTER_DECK_GUIDE_LEAD}{' '}
+                  <a href={guidePath(game, deck.guideSlug)}>{getDeckGuideLinkLabel(deck)}</a>
+                </p>
+              ) : null}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>{placeholder}</p>
+      )
+    }
   </section>
 
   <section id="section-tips" class="wiki-char-section mt-6">
     <h3 class="section-title">使い方のコツ</h3>
-    <p>{placeholder}</p>
+    {playTips ? <p set:html={playTips} /> : <p>{placeholder}</p>}
   </section>
 </div>

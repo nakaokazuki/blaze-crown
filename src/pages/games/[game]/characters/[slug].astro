@@ -13,6 +13,7 @@ import WikiInPageToc from '../../../../components/layout/WikiInPageToc.astro';
 import Box26 from '../../../../components/article/Box26.astro';
 import LastUpdated from '../../../../components/article/LastUpdated.astro';
 import { buildCharacterPageToc } from '../../../../lib/characterPageToc';
+import { getCharacterPageIntro } from '../../../../lib/characterPageIntro';
 import { WIKI_BRAND_TITLE } from '../../../../lib/constants';
 
 export async function getStaticPaths() {
@@ -41,6 +42,9 @@ const metaDescription =
   wiki?.lead ?? `${character.name}のタイプ・向け・スキル情報（非公式・公式Wikiより）`;
 const tocItems = buildCharacterPageToc(character.name, wiki);
 const pageUpdatedAt = getCharacterPageUpdatedAt(character, wiki?.syncedAt);
+const pageIntro =
+  getCharacterPageIntro(character.slug) ??
+  `${WIKI_BRAND_TITLE}の${character.name}の評価と性能です。${character.name}の基本情報と実際にプレイして分かった情報をまとめています。最新情報は随時更新していきます。`;
 ---
 
 <GameHubLayout title={pageTitle} description={metaDescription}>
@@ -57,15 +61,13 @@ const pageUpdatedAt = getCharacterPageUpdatedAt(character, wiki?.syncedAt);
         <Box26 game={game!} />
       </header>
 
-      <p class="lead wiki-char-page-intro">
-        {WIKI_BRAND_TITLE}の{character.name}の評価と性能です。{character.name}の基本情報と実際にプレイして分かった情報をまとめています。最新情報は随時更新していきます。
-      </p>
+      <p class="lead wiki-char-page-intro">{pageIntro}</p>
 
       <WikiInPageToc items={tocItems} />
 
       <CharacterBasicInfoSection character={character} wiki={wiki} />
 
-      <CharacterEvaluationSections characterName={character.name} />
+      <CharacterEvaluationSections game={game!} slug={character.slug} />
 
       {
         wiki ? (
