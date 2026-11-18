@@ -1,0 +1,64 @@
+---
+import { loadCharacters } from '../../lib/characters';
+import { characterPath } from '../../lib/paths';
+
+interface Props {
+  /** 上から 後列 → 中列 → 前列。各要素は [左, 中央, 右] の slug または null */
+  rows: [(string | null)[], (string | null)[], (string | null)[]];
+  game?: string;
+  caption?: string;
+}
+
+const { rows, game = 'blaze-crown', caption } = Astro.props;
+const bySlug = new Map(loadCharacters(game).map((c) => [c.slug, c]));
+---
+
+<figure class="wiki-formation-wrap not-prose">
+  {caption && <figcaption class="wiki-formation-caption">{caption}</figcaption>}
+  <div class="wiki-formation-grid" role="img" aria-label="編成陣形（3×3）">
+    <div class="wiki-formation-board">
+      {
+        rows.flatMap((row) =>
+          row.map((slug) => {
+            const character = slug ? bySlug.get(slug) : undefined;
+            const name = character?.name ?? slug;
+            /** 配置図用サムネ（原画5MB級を避けて表示を軽くする） */
+            const imageSrc = slug ? `/games/${game}/characters/${slug}/standing-thumb.png` : undefined;
+            const filled = Boolean(slug && name);
+            const href =
+              slug && character?.published ? characterPath(game, slug) : undefined;
+            return (
+              <div
+                class:list={['wiki-formation-cell', filled && 'wiki-formation-cell--filled']}
+                aria-label={filled ? name : '空きマス'}
+              >
+                {
+                  filled && imageSrc ? (
+                    <img
+                      src={imageSrc}
+                      alt=""
+                      width={160}
+                      height={160}
+                      class="wiki-formation-cell-img"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  ) : null
+                }
+                {
+                  filled && href ? (
+                    <a href={href} class="wiki-formation-char-link">
+                      {name}
+                    </a>
+                  ) : filled ? (
+                    <span class="wiki-formation-char">{name}</span>
+                  ) : null
+                }
+              </div>
+            );
+          }),
+        )
+      }
+    </div>
+  </div>
+</figure>

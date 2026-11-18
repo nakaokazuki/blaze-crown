@@ -1,16 +1,29 @@
 ---
 import CharacterPortrait from '../characters/CharacterPortrait.astro';
 import { loadCharacters } from '../../lib/characters';
-import { BETA_DECK_TOP5 } from '../../lib/betaDeckTop5';
+import { BETA_DECK_TOP5, type BetaDeckFormationRows } from '../../lib/betaDeckTop5';
 import { BETA_DECK_HONORABLE } from '../../lib/betaDeckHonorable';
 import { characterPath } from '../../lib/paths';
+import DeckFormationGrid from './DeckFormationGrid.astro';
 
 interface Props {
   rank?: number;
   honorable?: number;
+  /** 実戦レポートなど、TOP5 定義と異なる 3×3 配置 */
+  formation?: BetaDeckFormationRows;
+  /** 想定レベル（実戦編成で上書き） */
+  targetLevel?: string;
+  /** バッジ見出し（3位・レベル等）を出さない */
+  hideRankHeader?: boolean;
 }
 
-const { rank, honorable } = Astro.props;
+const {
+  rank,
+  honorable,
+  formation: formationOverride,
+  targetLevel,
+  hideRankHeader = false,
+} = Astro.props;
 const game = 'blaze-crown';
 
 const deck =
@@ -29,31 +42,57 @@ if (!deck) {
 const rankBadge = rank != null ? `${rank}位` : '有力';
 
 const bySlug = new Map(loadCharacters(game).map((c) => [c.slug, c]));
+const formationGrid = formationOverride ?? deck.formation;
+const displayTargetLevel = targetLevel ?? deck.targetLevel;
+/** 3×3 陣形があるデッキ、または3位は下の3キャラカードを出さない */
+const showCharacterRoster = !formationGrid && rank !== 3;
 ---
 
-<section class="wiki-deck-top5-rank" aria-labelledby={deck.detailAnchor}>
-  <h3 id={deck.detailAnchor} class="wiki-deck-top5-rank-title">
-    <span class="wiki-deck-top5-rank-num">{rankBadge}</span>
-    <span class="wiki-deck-top5-rank-name">{deck.deckName}</span>
-    <span class="wiki-deck-top5-rank-level">{deck.targetLevel}</span>
-  </h3>
-  <ul class="wiki-char-grid wiki-deck-top5-roster">
-    {
-      deck.slugs.map((slug) => {
-        const c = bySlug.get(slug);
-        const name = c?.name ?? slug;
-        const roleType = c?.roleType ?? '—';
-        const href = c?.published ? characterPath(game, slug) : undefined;
-        return (
-          <li class="wiki-char-card wiki-deck-top5-char">
-            <a href={href ?? `#${deck.detailAnchor}`} class="wiki-char-card-inner wiki-deck-top5-char-link no-underline hover:no-underline">
-              <CharacterPortrait name={name} imageSrc={c?.imageSrc} class="wiki-char-card-visual" />
-              <p class="wiki-char-card-name">{name}</p>
-              <p class="wiki-char-card-type">{roleType}</p>
-            </a>
-          </li>
-        );
-      })
-    }
-  </ul>
+<section
+  class="wiki-deck-top5-rank"
+  aria-labelledby={hideRankHeader ? undefined : deck.detailAnchor}
+  aria-label={hideRankHeader ? `${rankBadge}` : undefined}
+>
+  {
+    !hideRankHeader && (
+      <h3 id={deck.detailAnchor} class="wiki-deck-top5-rank-title">
+        <span class="wiki-deck-top5-rank-num">{rankBadge}</span>
+        <span class="wiki-deck-top5-rank-level">{displayTargetLevel}</span>
+      </h3>
+    )
+  }
+  {
+    formationGrid && (
+      <DeckFormationGrid
+        rows={formationGrid}
+        caption="初期配置（3×3マス・各キャラの立ち位置）"
+      />
+    )
+  }
+  {
+    showCharacterRoster && (
+      <ul class="wiki-char-grid wiki-deck-top5-roster">
+        {
+          deck.slugs.map((slug) => {
+            const c = bySlug.get(slug);
+            const name = c?.name ?? slug;
+            const roleType = c?.roleType ?? '—';
+            const href = c?.published ? characterPath(game, slug) : undefined;
+            return (
+              <li class="wiki-char-card wiki-deck-top5-char">
+                <a
+                  href={href ?? `#${deck.detailAnchor}`}
+                  class="wiki-char-card-inner wiki-deck-top5-char-link no-underline hover:no-underline"
+                >
+                  <CharacterPortrait name={name} imageSrc={c?.imageSrc} class="wiki-char-card-visual" />
+                  <p class="wiki-char-card-name">{name}</p>
+                  <p class="wiki-char-card-type">{roleType}</p>
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    )
+  }
 </section>

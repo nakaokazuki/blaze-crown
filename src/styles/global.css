@@ -938,6 +938,14 @@
     @apply mb-2;
   }
 
+  .wiki-deck-top5-detail--plain .wiki-deck-top5-rank {
+    @apply border-0 bg-transparent p-0 shadow-none;
+  }
+
+  .wiki-deck-top5-detail--plain .section-title {
+    @apply mb-2 mt-0;
+  }
+
   .wiki-deck-top5-rank {
     @apply border border-[var(--g8-border)] bg-[#fafcfe] p-4;
     scroll-margin-top: 7rem;
@@ -951,10 +959,6 @@
   .wiki-deck-top5-rank-num {
     @apply inline-flex min-w-[3rem] shrink-0 items-center justify-center bg-[var(--g8-brand)] px-2 py-0.5 text-base text-[#222];
     @apply max-sm:min-w-[2.5rem] max-sm:px-1.5 max-sm:text-sm;
-  }
-
-  .wiki-deck-top5-rank-name {
-    @apply min-w-0 text-[var(--g8-text)];
   }
 
   .wiki-deck-top5-rank-level {
@@ -980,6 +984,49 @@
 
   .wiki-deck-top5-credit {
     @apply mt-2 border-t border-[var(--g8-border-light)] pt-3;
+  }
+
+  .wiki-formation-wrap {
+    @apply my-3;
+  }
+
+  .wiki-formation-caption {
+    @apply mb-2 text-[13px] font-bold leading-snug text-[var(--g8-text)];
+  }
+
+  .wiki-formation-board {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(5.75rem, 7.75rem));
+    gap: 8px;
+    width: fit-content;
+    max-width: 100%;
+  }
+
+  @media (min-width: 640px) {
+    .wiki-formation-board {
+      grid-template-columns: repeat(3, minmax(7rem, 9.5rem));
+      gap: 10px;
+    }
+  }
+
+  .wiki-formation-cell {
+    @apply flex aspect-square flex-col items-center justify-end gap-1 overflow-hidden rounded-sm border border-dashed border-[var(--g8-border)] bg-[#f5f5f5] p-1.5 text-center;
+  }
+
+  .wiki-formation-cell--filled {
+    @apply border-solid border-[#c45c00] bg-[#fff9e8];
+  }
+
+  .wiki-formation-cell-img {
+    @apply h-auto max-h-[82%] w-full min-h-0 flex-1 object-contain object-bottom;
+  }
+
+  .wiki-formation-char {
+    @apply w-full shrink-0 truncate text-xs font-bold leading-tight text-[var(--g8-text)];
+  }
+
+  .wiki-formation-char-link {
+    @apply w-full shrink-0 truncate text-xs font-bold leading-tight text-[var(--g8-link)] no-underline hover:text-[var(--g8-link-hover)] hover:underline;
   }
 
   .article-prose table {

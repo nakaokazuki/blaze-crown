@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { apiFetch, eventApiBase } from '../../lib/eventApi';
 import {
+  DEFAULT_GAME_FOR_EVENTS,
   formatSubmissionShort,
   missionKindLabel,
   missionKindSubmitLabel,
@@ -64,6 +65,7 @@ export default function EventPlayApp({ slug, landingHref }: Props) {
   const [historyPage, setHistoryPage] = useState(0);
 
   const api = eventApiBase(slug);
+  const screenshotExampleSrc = `/games/${DEFAULT_GAME_FOR_EVENTS}/events/${slug}/battle-result-screenshot-example.jpg`;
 
   const submissionCount = me?.submissions.length ?? 0;
   const historyPageCount = Math.ceil(submissionCount / HISTORY_PAGE_SIZE);
@@ -393,6 +395,18 @@ export default function EventPlayApp({ slug, landingHref }: Props) {
 
       <div className="event-panel event-panel--wide">
         <h2 className="event-panel-title">スクショの提出</h2>
+        <div className="event-screenshot-hint">
+          <p className="event-screenshot-hint-label">※この画面をスクショしてください</p>
+          <img
+            className="event-screenshot-example"
+            src={screenshotExampleSrc}
+            alt="対戦結果画面の例。順位・トロフィー・ミッションが表示されたゲーム内の画面"
+            width={1280}
+            height={720}
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
         {!me?.profile ? (
           <p className="event-muted">
             右上の<strong>プロフィール</strong>から表示名を保存してください。

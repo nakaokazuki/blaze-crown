@@ -1,53 +1,56 @@
+/** 3×3 陣形（上から後列・中列・前列、各3マス） */
+export type BetaDeckFormationRows = [
+  [string | null, string | null, string | null],
+  [string | null, string | null, string | null],
+  [string | null, string | null, string | null],
+];
+
 export type BetaDeckTop5Entry = {
   rank: number;
-  deckName: string;
   /** 当サイト characters.yaml の slug */
   slugs: [string, string, string];
   /** キャラ一覧の rating と同系（見出し横の小さなラベル） */
   targetLevel: string;
   summaryAnchor: string;
   detailAnchor: string;
+  /** 任意。3×3 の初期配置（実戦レポート等で使用） */
+  formation?: BetaDeckFormationRows;
 };
 
 export const BETA_DECK_TOP5: BetaDeckTop5Entry[] = [
   {
     rank: 1,
-    deckName: '王女護衛',
     slugs: ['lumina', 'dan', 'noel'],
     targetLevel: '初心者向け',
     summaryAnchor: 'deck-summary-rank-1',
-    detailAnchor: '1位王女護衛エナジー循環ルミナ--ダン--ノエル',
+    detailAnchor: '1位ルミナ--ダン--ノエル',
   },
   {
     rank: 2,
-    deckName: 'シンエン先制',
     slugs: ['tsubaki', 'murasame', 'kagetra'],
     targetLevel: '中級者向け',
     summaryAnchor: 'deck-summary-rank-2',
-    detailAnchor: '2位シンエン先制コンボツバキ--ムラサメ--カゲトラ',
+    detailAnchor: '2位ツバキ--ムラサメ--カゲトラ',
   },
   {
     rank: 3,
-    deckName: '背水リベンジ',
     slugs: ['frei', 'dan', 'noel'],
     targetLevel: '中級者向け',
     summaryAnchor: 'deck-summary-rank-3',
-    detailAnchor: '3位背水リベンジフレイ--ダン--ノエル',
+    detailAnchor: '3位フレイ--ダン--ノエル',
   },
   {
     rank: 4,
-    deckName: '傭兵頭数',
     slugs: ['alfard', 'zaphiel', 'dan'],
     targetLevel: '上級者向け',
     summaryAnchor: 'deck-summary-rank-4',
-    detailAnchor: '4位傭兵団頭数オーバーロードアルファルド--ザフィール--ダン',
+    detailAnchor: '4位アルファルド--ザフィール--ダン',
   },
   {
     rank: 5,
-    deckName: '斬鉄カウンター',
     slugs: ['kagetra', 'noel', 'dan'],
     targetLevel: '中級者向け',
     summaryAnchor: 'deck-summary-rank-5',
-    detailAnchor: '5位斬鉄カウンターカゲトラ--ノエル--ダン',
+    detailAnchor: '5位カゲトラ--ノエル--ダン',
   },
 ];

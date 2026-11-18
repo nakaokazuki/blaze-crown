@@ -460,6 +460,28 @@ a.event-btn {
   font-size: 0.85rem;
 }
 
+.event-screenshot-hint {
+  margin: 0 0 1.25rem;
+}
+
+.event-screenshot-hint-label {
+  margin: 0 0 0.65rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffd27a;
+}
+
+.event-screenshot-example {
+  display: block;
+  width: 100%;
+  max-width: 28rem;
+  height: auto;
+  margin: 0 auto;
+  border: 1px solid #5a5040;
+  border-radius: 6px;
+  box-shadow: 0 6px 24px rgb(0 0 0 / 35%);
+}
+
 .event-error {
   color: #ff8a8a;
 }
