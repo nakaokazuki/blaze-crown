@@ -7,14 +7,6 @@ interface Props {
 
 const { items } = Astro.props;
 
-function formatPublishedAt(date: Date): string {
-  return date.toLocaleDateString('ja-JP', {
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric',
-  });
-}
-
 const PAGE_SIZE = 10;
 const pageCount = Math.ceil(items.length / PAGE_SIZE);
 const hasPager = items.length > PAGE_SIZE;
@@ -43,15 +35,7 @@ const hasPager = items.length > PAGE_SIZE;
                     hidden={hasPager && page !== 0}
                   >
                     <a href={item.href} class="wiki-side-guide-link">
-                      <span class="wiki-side-guide-row">
-                        <span class="wiki-side-guide-title">{item.title}</span>
-                        <time
-                          class="wiki-side-guide-date"
-                          datetime={item.publishedAt.toISOString()}
-                        >
-                          {formatPublishedAt(item.publishedAt)}
-                        </time>
-                      </span>
+                      <span class="wiki-side-guide-title">{item.title}</span>
                     </a>
                   </li>
                 );

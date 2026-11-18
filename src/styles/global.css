@@ -259,16 +259,8 @@
     @apply block px-3 py-2.5 text-[13px] no-underline hover:bg-[#fff9e8];
   }
 
-  .wiki-side-guide-row {
-    @apply flex items-baseline justify-between gap-2;
-  }
-
   .wiki-side-guide-title {
-    @apply min-w-0 flex-1 font-bold leading-snug text-[var(--g8-link)];
-  }
-
-  .wiki-side-guide-date {
-    @apply shrink-0 text-[10px] font-normal leading-none text-[#888];
+    @apply block min-w-0 font-bold leading-snug text-[var(--g8-link)];
   }
 
   .wiki-side-guide-pager {

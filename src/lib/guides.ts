@@ -41,13 +41,13 @@ function publishedCharacterItems(game: string): GuideListItem[] {
     .map((c) => characterToListItem(game, c));
 }
 
-/** 攻略記事一覧用：攻略 MDX ＋ 公開キャラ個別ページ（更新日の新しい順） */
+/** 攻略記事一覧用：攻略 MDX ＋ 公開キャラ個別ページ（公開日の新しい順。更新日は並びに使わない） */
 export async function getGuidesSortedByUpdate(game?: string): Promise<GuideListItem[]> {
   const guides = await getCollection('guides');
   const guideItems = guides.filter((g) => !game || g.data.game === game).map(toListItem);
   const charItems = game ? publishedCharacterItems(game) : [];
   return [...guideItems, ...charItems].sort(
-    (a, b) => b.updatedAt.valueOf() - a.updatedAt.valueOf(),
+    (a, b) => b.publishedAt.valueOf() - a.publishedAt.valueOf(),
   );
 }
 
