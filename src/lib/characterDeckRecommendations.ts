@@ -20,6 +20,9 @@ export const BETA_RANK3_DECK_REPORT_LINK_LABEL =
 export const RANKING_DECK_ZAPHIEL_MURASAME_LEONIS_LINK_LABEL =
   'ザフィール・ムラサメ・レオニス｜ランキングマッチ上位デッキの評価・立ち回り';
 
+export const RANKING_DECK_NOEL_ZAPHIEL_ALFARD_LINK_LABEL =
+  'ノエル・ザフィール・アルファルド｜ランキングマッチ上位デッキの評価・立ち回り';
+
 const RANK3_DAY1_FORMATION: BetaDeckFormationRows = [
   ['tsubaki', null, null],
   [null, null, null],
@@ -45,6 +48,19 @@ const ZAPHIEL_MURASAME_LEONIS_DECK: CharacterDeckRecommendation = {
   guideLinkLabel: RANKING_DECK_ZAPHIEL_MURASAME_LEONIS_LINK_LABEL,
 };
 
+const NOEL_ZAPHIEL_ALFARD_FORMATION: BetaDeckFormationRows = [
+  [null, null, 'alfard'],
+  ['zaphiel', null, null],
+  [null, 'noel', null],
+];
+
+const NOEL_ZAPHIEL_ALFARD_DECK: CharacterDeckRecommendation = {
+  formation: NOEL_ZAPHIEL_ALFARD_FORMATION,
+  guideSlug: 'ranking-deck-noel-zaphiel-alfard',
+  guideLead: 'ランキング向け編成考察 →',
+  guideLinkLabel: RANKING_DECK_NOEL_ZAPHIEL_ALFARD_LINK_LABEL,
+};
+
 /** キャラごとのおすすめデッキ（3×3 配置のみ） */
 const BY_SLUG: Record<string, CharacterDeckRecommendation[]> = {
   tsubaki: [RANK3_DAY1_DECK],
@@ -52,11 +68,14 @@ const BY_SLUG: Record<string, CharacterDeckRecommendation[]> = {
   murasame: [ZAPHIEL_MURASAME_LEONIS_DECK],
   leonis: [RANK3_DAY1_DECK],
   dan: [RANK3_DAY1_DECK],
+  noel: [NOEL_ZAPHIEL_ALFARD_DECK],
+  alfard: [NOEL_ZAPHIEL_ALFARD_DECK],
 };
 
 const GUIDE_LINK_LABEL_BY_SLUG: Record<string, string> = {
   'beta-rank3-deck-report': BETA_RANK3_DECK_REPORT_LINK_LABEL,
   'ranking-deck-zaphiel-murasame-leonis': RANKING_DECK_ZAPHIEL_MURASAME_LEONIS_LINK_LABEL,
+  'ranking-deck-noel-zaphiel-alfard': RANKING_DECK_NOEL_ZAPHIEL_ALFARD_LINK_LABEL,
 };
 
 export function getDeckGuideLinkLabel(deck: CharacterDeckRecommendation): string {

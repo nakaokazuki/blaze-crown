@@ -4,7 +4,7 @@ export type BetaDeckHonorableEntry = {
   detailAnchor: string;
 };
 
-/** TOP5外の有力編成（βガイド・候補枠） */
+/** 有力編成（BetaDeckRankBlock の honorable 用・データのみ） */
 export const BETA_DECK_HONORABLE: BetaDeckHonorableEntry[] = [
   {
     slugs: ['leonis', 'noel', 'dan'],

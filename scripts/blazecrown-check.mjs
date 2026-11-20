@@ -121,7 +121,7 @@ function suggestArticles({ newSlugs, betaSnippets, localNews, xPosts, xKeywords 
 
   if (newSlugs.length > 0) {
     picks.push(
-      `[P1] 新キャラ速報: ${newSlugs.join(', ')} — キャラページ・βガイド・TOP5の見直し`,
+      `[P1] 新キャラ速報: ${newSlugs.join(', ')} — キャラページ・デッキ記事の見直し`,
     );
   }
 

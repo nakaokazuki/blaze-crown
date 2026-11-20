@@ -1,0 +1,90 @@
+---
+title: ノエル・ザフィール・アルファルド｜ランキングマッチ上位デッキの評価・立ち回り
+game: blaze-crown
+category: guide
+tags: [beta, deck, noel, zaphiel, alfard]
+publishedAt: 2026-11-19
+updatedAt: 2026-11-19T11:45:00+09:00
+description: BLAZE CROWN ランキングマッチ向け。ザフィール×アルファルドの召喚・妨害にノエルで全体シールドを足した3人編成の配置・立ち回り（非公式・β時点の編成考察）。
+featured: false
+related: [beta-test-guide, ranking-deck-zaphiel-murasame-leonis]
+---
+
+import BetaDeckRankBlock from '../../../../src/components/guides/BetaDeckRankBlock.astro';
+import SkillLink from '../../../../src/components/guides/SkillLink.astro';
+
+BLAZE CROWN（ブレイズクラウン）のランキングマッチ向けに、**ノエル・ザフィール・アルファルド** の3人編成をまとめたページです。公式Wikiの相性どおり **ザフィール×アルファルド** で盤面の頭数とエナジー妨害を狙い、ノエルで **全体シールドとバフ解除** を重ねて殴り合いを伸ばす編成です。
+
+## 編成の概要
+
+<div class="wiki-deck-top5-detail wiki-deck-top5-detail--plain">
+
+<div class="not-prose">
+
+<BetaDeckRankBlock
+  rank={4}
+  hideRankHeader
+  formation={[
+    [null, null, 'alfard'],
+    ['zaphiel', null, null],
+    [null, 'noel', null],
+  ]}
+/>
+
+</div>
+
+### 配置の理由
+
+- **ザフィールを左中央**：<SkillLink char="zaphiel" name="ボディガード" /> の召喚数を最大化するため。
+- **アルファルドを右上**：<SkillLink char="alfard" name="ボーディングパーティ" /> の召喚数を最大化するため。
+- **ノエルを真ん中下**：ザフィールとアルファルドの召喚を邪魔しないため。
+
+### ザフィール（左中央・妨害／エナジー操作）
+
+序盤は <SkillLink char="zaphiel" name="サンドバイパー" /> でエナジーを削り、相手の高コスト技やスペシャルの予定を狂わせます。中盤以降は <SkillLink char="zaphiel" name="ボディガード" /> で前線のダメージを受けつつ、<SkillLink char="zaphiel" name="ゴールドシャワー" /> で味方の火力を底上げ。終盤の単体決着は <SkillLink char="zaphiel" name="スコーピオンテイル" />、相手がスペシャルを揃えたタイミングでは <SkillLink char="zaphiel" name="グランドバジェット" /> でエナジーを逆転させる動きが軸です。
+
+### アルファルド（右上・召喚／人数火力）
+
+<SkillLink char="alfard" name="ボーディングパーティ" /> と <SkillLink char="alfard" name="パイレーツホイッスル" /> で場にいる味方の数を増やし、<SkillLink char="alfard" name="オールハンズレイド" /> で大ダメージを狙います。縦列に並んだ相手には <SkillLink char="alfard" name="ダーティスラッシュ" /> でスタンを付けつつ列ダメージを入れ、ザフィールが増やした味方数と <SkillLink char="alfard" name="ラム・ブースト" /> の与ダメ上昇を重ねて押し切るのが定石です。
+
+### ノエル（真ん中下・全体シールド／バフ解除）
+
+全体攻撃が来そうなタイミングを読んで、<SkillLink char="noel" name="プロテクトコート" /> や <SkillLink char="noel" name="ビッグドーム" /> を張り、HPの低い召喚キャラが一掃されないようにします（シールドは基本的に「このターン」のため、来るターンに合わせて足し直す）。相手にバフが乗ったタイミングでは <SkillLink char="noel" name="ホーリークロス" />・<SkillLink char="noel" name="ディバインフラッシュ" /> で剥がし、ザフィールの <SkillLink char="zaphiel" name="ゴールドシャワー" /> やアルファルドの召喚ダメージが素の火力で通りやすくします。
+
+</div>
+
+## 立ち回り方
+
+### 序盤
+
+ザフィールの <SkillLink char="zaphiel" name="サンドバイパー" /> でエナジーを削りつつ、ノエルは <SkillLink char="noel" name="プロテクトコート" /> で全体の耐久を底上げ。アルファルドは無理に前に出さず、<SkillLink char="alfard" name="パイレーツホイッスル" /> で1体ずつ頭数を増やし、相手の単体狙いをザフィールの召喚側にずらします。
+
+### 中盤
+
+<SkillLink char="zaphiel" name="ボディガード" /> と <SkillLink char="alfard" name="ボーディングパーティ" /> を同じターンに近いタイミングで重ね、自陣6体を目指します。ノエルは範囲削りが来るターンの直前に <SkillLink char="noel" name="ビッグドーム" /> を張り、召喚が一掃されないようにする。相手の火力バフが見えたら先にホーリー系で解除してから、<SkillLink char="alfard" name="ラム・ブースト" /> → <SkillLink char="zaphiel" name="ゴールドシャワー" /> の順で殴り合いを有利にします。
+
+### 終盤
+
+自陣が6体に達しそうなターンで <SkillLink char="alfard" name="オールハンズレイド" /> を最優先。残りHPの厚い単体は <SkillLink char="zaphiel" name="スコーピオンテイル" /> で陣形を無視して落とし、エナジーが逆転しそうなときは <SkillLink char="zaphiel" name="グランドバジェット" />。時間切れ前に削り切れないときは、ノエルの <SkillLink char="noel" name="ホーリードーム" /> で殴り合いを延ばしつつ、もう一度人数を揃えてレイドを通す動きになります。
+
+## デッキの評価
+
+### デッキの強み
+
+- 公式相性どおり **ザフィール×アルファルド** で盤面の頭数とエナジー妨害を同時に狙える。
+- 前衛のかばう役の代わりにノエルが入るため、かばう固定がなくても **全体シールド** で召喚ユニットと本体を長く保てる。
+- ノエルのバフ解除とザフィールのエナジー削りの組み合わせで、バフ依存・高コスト依存の編成に読み合いを取りやすい。
+
+### デッキの弱点
+
+- ダン編成より **単体攻撃の集火（マグネットアーマー相当）** がなく、相手の単体バーストでザフィールやアルファルド本体を落とされると一気に崩れやすい。
+- **ルミナ縦**・**フレイ全体** など範囲一掃に弱く、召喚が消されると <SkillLink char="alfard" name="オールハンズレイド" /> の条件が遠のく。
+- ザフィールのコスト6 <SkillLink char="zaphiel" name="スコーピオンテイル" /> と人数形成を同時に回すため、**エナジー管理** の難易度は高め。
+
+## 参考リンク
+
+- [βテストガイド（日程・ルール）](/games/blaze-crown/guides/beta-test-guide/)
+- [ザフィール・ムラサメ・レオニス｜ランキングマッチ上位デッキの評価・立ち回り](/games/blaze-crown/guides/ranking-deck-zaphiel-murasame-leonis/)
+- キャラ詳細：[ノエル](/games/blaze-crown/characters/noel/) / [ザフィール](/games/blaze-crown/characters/zaphiel/) / [アルファルド](/games/blaze-crown/characters/alfard/)
+
+編成やスキル優先が違う場合は、[コメント](/games/blaze-crown/guides/ranking-deck-noel-zaphiel-alfard/#comments) で共有いただけると追記しやすくなります。

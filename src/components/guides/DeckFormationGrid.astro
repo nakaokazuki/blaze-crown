@@ -3,7 +3,7 @@ import { loadCharacters } from '../../lib/characters';
 import { characterPath } from '../../lib/paths';
 
 interface Props {
-  /** 上から 後列 → 中列 → 前列。各要素は [左, 中央, 右] の slug または null */
+  /** 3 行×3 列。左→右が 後列・中列・前列（前列＝敵側の右縦列）。上→下が 上中下段。 */
   rows: [(string | null)[], (string | null)[], (string | null)[]];
   game?: string;
   caption?: string;

@@ -1,4 +1,4 @@
-/** 3×3 陣形（上から後列・中列・前列、各3マス） */
+/** 3×3 陣形（行＝上中下、列＝後列・中列・前列。敵陣は右） */
 export type BetaDeckFormationRows = [
   [string | null, string | null, string | null],
   [string | null, string | null, string | null],
