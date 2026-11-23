@@ -18,16 +18,29 @@ interface Props {
   updatedAt: Date;
   publishedAt: Date;
   inPageToc?: InPageTocItem[];
+  /** 下書きプレビュー: noindex・コメント非表示・帯表示 */
+  draftPreview?: boolean;
+  showLead?: boolean;
 }
 
-const { title, description, game, slug, updatedAt, publishedAt, inPageToc } = Astro.props;
+const {
+  title,
+  description,
+  game,
+  slug,
+  updatedAt,
+  publishedAt,
+  inPageToc,
+  draftPreview = false,
+  showLead = true,
+} = Astro.props;
 const id = articleId(game, slug);
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const rankItems = await getPopularGuides(game, 10);
 const guideItems = await getGuidesSortedByUpdate(game);
 ---
 
-<BaseLayout title={title} description={description} game={game}>
+<BaseLayout title={title} description={description} game={game} noindex={draftPreview}>
   <JsonLd
     title={title}
     description={description}
@@ -39,15 +52,22 @@ const guideItems = await getGuidesSortedByUpdate(game);
     <div class="wiki-stack">
       <article class="content-panel wiki-stack-block">
         <header class="mb-6 border-b border-[#ccc] pb-4">
+          {
+            draftPreview && (
+              <p class="mb-3 rounded border border-amber-400 bg-amber-50 px-3 py-2 text-sm font-medium text-amber-950">
+                下書きプレビュー（未公開・検索対象外）
+              </p>
+            )
+          }
           <nav class="breadcrumb mb-2" aria-label="パンくず">
             <a href={guidesIndexPath(game)}>攻略記事</a>
             <span class="breadcrumb-sep" aria-hidden="true">&gt;</span>
             <span class="breadcrumb-current">{title}</span>
           </nav>
           <h1 class="page-title">{title}</h1>
-          <LastUpdated date={updatedAt} />
+          <LastUpdated date={updatedAt} publishedAt={publishedAt} />
           <Box26 game={game} />
-          <p class="lead">{description}</p>
+          {showLead && <p class="lead">{description}</p>}
         </header>
 
         <div class="article-prose mt-4">
@@ -57,9 +77,13 @@ const guideItems = await getGuidesSortedByUpdate(game);
 
       </article>
 
-      <section class="content-panel wiki-stack-block" aria-label="コメント">
-        <CommentsSection client:load articleId={id} />
-      </section>
+      {
+        !draftPreview && (
+          <section class="content-panel wiki-stack-block" aria-label="コメント">
+            <CommentsSection client:load articleId={id} />
+          </section>
+        )
+      }
     </div>
   </WikiLayout>
 </BaseLayout>

@@ -1,0 +1,144 @@
+# BLAZE CROWN 非公式サイト — 編集ルール（必読）
+
+最終更新: 2026-11-23
+対象: blaze-crown.com（Astro SSG）および本リポジトリ一式
+
+【重要】このファイルを編集・記事追加・デプロイ前に必ず読むこと。
+AI・人間とも、作業開始時に本ファイルを開き、該当セクションを確認してから手を動かす。
+
+────────────────────────────────────
+§0 絶対ルール（短く）
+────────────────────────────────────
+
+1. 変更は最小範囲。依頼と無関係なファイルを触らない。
+2. 新規攻略はまず下書き。確認後だけ guides/ に置く（§2）。
+3. 公開済み URL（slug）を削除・リネームしない。必要ならユーザーに確認。
+4. 公式 Wiki・公式サイトと矛盾する記述を断定で書かない。一次ソースは docs/ゲームルール.txt。
+5. push 前に git status / git diff を見る。npm run push は全体ステージになる（§6）。
+6. 記事・レイアウト変更後は npm run build で確認（可能なら npm run seo:verify）。
+
+────────────────────────────────────
+§1 何をどこに書くか
+────────────────────────────────────
+
+| 種類 | パス | 備考 |
+|------|------|------|
+| 攻略記事（公開） | content/games/blaze-crown/guides/<slug>.mdx | 置いた瞬間 URL になる |
+| 攻略下書き | content/drafts/guides/<slug>.mdx | サイトマップ・ページ対象外 |
+| サイト共通 | content/site/*.mdx | about / privacy |
+| ゲームメタ | content/games/blaze-crown/_meta.yaml | TOP 説明など |
+| キャラ一覧定義 | content/games/blaze-crown/data/characters.yaml | |
+| Wiki 同期データ | content/games/blaze-crown/data/character-wiki.json | scripts 経由で更新 |
+| 静的画像 | public/games/blaze-crown/ | 本番配信パス |
+| フロント | src/ | 記事1本追加だけでは通常触らない（§5） |
+
+詳細: docs/FOLDER_STRUCTURE.md
+
+────────────────────────────────────
+§2 記事（MDX）の作り方
+────────────────────────────────────
+
+■ フロントマター（必須）
+
+  title, game, category, tags, publishedAt, updatedAt, description
+  featured, related は任意（スキーマ: src/content.config.ts）
+
+■ title / description
+
+  - showLead: false … description は meta のみ。本文ヘッダーのリード（.lead）を出さない。
+  - 検索用は description 先頭に「ブレイズクラウン（BLAZE CROWN）」を含めてよい。
+  - title が長すぎる場合も、タブには「| BLAZE CROWN」が付く（BaseLayout）。
+  - 非公式であることは description または本文で明示。
+
+■ 日付
+
+  - publishedAt: 初回公開日。updatedAt: 本文を実質変更した日（虚偽更新しない）。
+
+■ コンテンツ方針（β期間）
+
+  - 新規は「デッキ最強・性能評価の断定」を増やさない（調整後に無効になりやすい）。
+  - 既存デッキ記事を残す場合は β 時点の記録である旨を書く。
+  - 1位体験記・プレイメモ・β制度まとめ・イベントなど体験・事実系を優先。
+  - 公式の言い換えだけの用語辞典・初心者ガイドは優先度低（公式 Wiki あり）。
+
+■ 下書き → 公開の手順
+
+  1. content/drafts/guides/ に .mdx を作成
+  2. npm run build（下書きはビルド対象外のためエラー源にならない）
+  3. ローカルプレビュー: npm run dev → http://localhost:4321/drafts/<slug>/
+     （noindex・サイトマップ除外。本番にも /drafts/ は出るが検索非推奨）
+  4. 内容・frontmatter を確認
+  5. content/games/blaze-crown/guides/ にコピー（slug 確定）
+  6. 再度 npm run build
+  6. 本番後は GSC URL 検査（未登録時のみインデックス登録をリクエスト）
+
+────────────────────────────────────
+§3 AI・自動生成で触ってよい範囲
+────────────────────────────────────
+
+■ 1タスク = 原則1ファイル（またはユーザーが指定したファイルだけ）
+
+■ 触らない（明示指示がない限り）
+
+  - 他の guides/*.mdx
+  - package.json / astro.config / CI 設定
+  - supabase/migrations（スキーマ変更は別タスク）
+  - .env（秘密情報）
+
+■ 記事追加で時々触る src（必要時のみ）
+
+  - src/pages/games/[game]/guides/[slug].astro … 記事専用目次
+  - src/lib/betaTestGuideToc.ts / betaRank3DeckToc.ts … 目次定義
+  - src/lib/characterDeckRecommendations.ts … キャラ→記事リンク
+
+  新記事で目次・キャラリンクが不要なら src は変更不要。
+
+────────────────────────────────────
+§4 Git / デプロイ
+────────────────────────────────────
+
+- コミットはユーザーが依頼したときのみ。
+- npm run push は scripts/push.sh（git add -A）→ 関係ない変更が混ざるので push 前に必ず確認。
+- force push・git config 変更は禁止（ユーザールール）。
+
+コマンド一覧: docs/コマンド.md
+
+────────────────────────────────────
+§5 品質チェック（最低限）
+────────────────────────────────────
+
+| 操作 | コマンド |
+|------|----------|
+| ビルド | npm run build |
+| SEO 簡易 | npm run seo:verify または --local |
+| Wiki 同期 | npm run wiki:sync-characters（キャラデータ更新時） |
+
+SEO 施策リスト: docs/SEO優先順位.md（進捗は手動更新）
+
+────────────────────────────────────
+§6 困ったときの優先参照
+────────────────────────────────────
+
+1. docs/サイト編集ルール.txt（本ファイル）
+2. docs/ゲームルール.txt（ゲーム事実）
+3. docs/FOLDER_STRUCTURE.md
+4. docs/SEO優先順位.md
+5. README.md
+
+────────────────────────────────────
+§2.1 記事内スクショ枠（共通）
+
+  ランキング結果・証拠画像は次の枠だけ使う（画像ファイルは記事ごと）:
+
+  <figure class="wiki-proof-figure not-prose">
+    <img class="wiki-proof-shot" src="/path/to/image.png" alt="..." width="390" height="520" />
+  </figure>
+
+  スタイル: src/styles/global.css（.wiki-proof-figure / .wiki-proof-shot）
+
+────────────────────────────────────
+§7 変更履歴
+────────────────────────────────────
+
+2026-11-23  wiki-proof 枠クラスを明文化
+2026-11-23 初版（下書きフォルダ・β方針・AI範囲・push 注意を明文化）

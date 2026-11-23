@@ -1,17 +1,36 @@
 ---
 interface Props {
+  /** 最終更新日（キャラページなど更新のみのときもこれ） */
   date: Date;
+  /** 攻略記事の初回公開日。省略時は最終更新のみ表示 */
+  publishedAt?: Date;
 }
 
-const { date } = Astro.props;
-const formatted = date.toLocaleDateString('ja-JP', {
+const { date, publishedAt } = Astro.props;
+
+const dateFormat: Intl.DateTimeFormatOptions = {
   year: 'numeric',
   month: 'long',
   day: 'numeric',
-});
+  timeZone: 'Asia/Tokyo',
+};
+
+const formatJa = (d: Date) => d.toLocaleDateString('ja-JP', dateFormat);
 ---
 
-<p class="article-last-updated">
-  最終更新:
-  <time datetime={date.toISOString()}>{formatted}</time>
-</p>
+{
+  publishedAt ? (
+    <p class="article-last-updated">
+      <span class="article-date-label">公開:</span>{' '}
+      <time datetime={publishedAt.toISOString()}>{formatJa(publishedAt)}</time>
+      <span class="article-date-sep" aria-hidden="true">　</span>
+      <span class="article-date-label">最終更新:</span>{' '}
+      <time datetime={date.toISOString()}>{formatJa(date)}</time>
+    </p>
+  ) : (
+    <p class="article-last-updated">
+      <span class="article-date-label">最終更新:</span>{' '}
+      <time datetime={date.toISOString()}>{formatJa(date)}</time>
+    </p>
+  )
+}

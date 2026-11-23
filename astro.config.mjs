@@ -15,6 +15,7 @@ export default defineConfig({
     sitemap({
       filter: (page) => {
         if (page.includes('/search')) return false;
+        if (page.includes('/drafts/')) return false;
         if (page.includes('/events/') && page.includes('/admin')) return false;
         return true;
       },

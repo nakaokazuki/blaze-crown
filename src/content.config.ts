@@ -9,6 +9,8 @@ const guideSchema = z.object({
   publishedAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
   description: z.string(),
+  /** false のとき本文ヘッダーに description を出さない（meta 用にだけ残す） */
+  showLead: z.boolean().default(true),
   featured: z.boolean().default(false),
   related: z.array(z.string()).default([]),
 });
@@ -21,6 +23,11 @@ const siteSchema = z.object({
 export const collections = {
   guides: defineCollection({
     loader: glob({ pattern: '**/*.mdx', base: './content/games/blaze-crown/guides' }),
+    schema: guideSchema,
+  }),
+  /** ローカル・下書きプレビュー用（/drafts/・noindex・サイトマップ除外） */
+  draftGuides: defineCollection({
+    loader: glob({ pattern: '**/*.mdx', base: './content/drafts/guides' }),
     schema: guideSchema,
   }),
   site: defineCollection({

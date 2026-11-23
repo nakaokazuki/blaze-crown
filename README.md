@@ -26,7 +26,9 @@ npx wrangler pages dev dist
 
 ## 記事の追加
 
-`content/games/blaze-crown/guides/` に `.mdx` を追加します（フロントマターは [docs/FOLDER_STRUCTURE.md](./docs/FOLDER_STRUCTURE.md) 参照）。
+**編集前に [docs/サイト編集ルール.txt](./docs/サイト編集ルール.txt) を読む。**
+
+下書きは `content/drafts/guides/` → 確認後 `content/games/blaze-crown/guides/` に `.mdx` を置く（フロントマターは [docs/FOLDER_STRUCTURE.md](./docs/FOLDER_STRUCTURE.md) 参照）。
 
 ## DB
 
@@ -38,6 +40,7 @@ supabase db push
 
 ## ドキュメント
 
+- [docs/サイト編集ルール.txt](./docs/サイト編集ルール.txt) — 編集・記事・AI 作業の必読
 - [docs/TECH_STACK.md](./docs/TECH_STACK.md)
 - [docs/FOLDER_STRUCTURE.md](./docs/FOLDER_STRUCTURE.md)
 - [docs/SEO優先順位.md](./docs/SEO優先順位.md) — 施策一覧・進捗チェック

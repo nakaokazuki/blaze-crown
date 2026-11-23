@@ -185,6 +185,10 @@
     @apply mb-0 mt-1 text-xs leading-snug text-[var(--g8-text-muted)];
   }
 
+  .article-date-label {
+    @apply font-medium text-[var(--g8-text-muted)];
+  }
+
   .article-last-updated time {
     @apply font-semibold text-[#555];
   }
@@ -494,6 +498,16 @@
 
   .wiki-game-info-links a {
     @apply text-[var(--g8-link)] no-underline hover:underline;
+  }
+
+  /* 記事内：ランキング証拠・結果スクショ（MDX で figure.wiki-proof-figure + img.wiki-proof-shot） */
+  .wiki-proof-figure {
+    @apply my-4 mx-auto max-w-[390px] text-center;
+  }
+
+  .wiki-proof-shot {
+    @apply mx-auto max-w-full rounded border border-[#ccc] bg-white shadow-sm;
+    height: auto;
   }
 
   .media-placeholder {
